@@ -1,0 +1,31 @@
+/* phpcs:ignore */
+
+.kleingarten-admin-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.kleingarten-admin-main-section {
+    flex: 1;
+    margin-right: 30px;
+}
+
+.kleingarten-admin-meter-readings, .kleingarten-active-tokens {
+    width: 100%;
+}
+
+.kleingarten-admin-meter-readings th, .kleingarten-admin-meter-readings td,
+.kleingarten-active-tokens th, .kleingarten-active-tokens td {
+    padding: 15px;
+    text-align: left;
+}
+
+.kleingarten-admin-meter-readings tr:nth-child(even), .kleingarten-active-tokens tbody tr:nth-child(odd) {
+    background-color: #f0f0f1;
+}
+
+.kleingarten_meters_list {
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
+}

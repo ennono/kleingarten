@@ -1,0 +1,15 @@
+/* phpcs:ignore */
+
+.kleingarten-member-profile-section {
+    font-weight: bold;
+}
+
+.kleingarten-submit-meter-reading-messages, .kleingarten-inline-submit-meter-reading-messages {
+    list-style-type: none !important;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+}
+
+.kleingarten-inline-submit-meter-reading-messages li {
+    font-weight: bold;
+}
