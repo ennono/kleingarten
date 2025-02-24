@@ -53,9 +53,6 @@ class Kleingarten_Userfields {
 		$available_positions = explode( "\r\n",
 			get_option( 'kleingarten_available_positions' ) );
 
-		$send_email_notifications
-			= get_the_author_meta( 'send_email_notifications', $user->ID );
-
 		?>
 
         <h3><?php echo esc_html( __( 'Garden', 'kleingarten' ) ); ?></h3>

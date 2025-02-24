@@ -6,7 +6,7 @@
  * @package Kleingarten/Includes
  */
 
-use JetBrains\PhpStorm\NoReturn;
+//use JetBrains\PhpStorm\NoReturn;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,6 +17,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Shortcodes {
 
+	/**
+     * A handle for all our plots
+     *
+	 * @var Kleingarten_Plots
+	 */
 	private $plots;
 
 	/**
@@ -144,7 +149,6 @@ class Kleingarten_Shortcodes {
 
 			case true:
 				$user_profile_page_id = get_option( 'kleingarten_login_page' );
-				//$user_profile_url     = get_permalink( $user_profile_page_id );
 				$args = array( 'loggedout' => '1' );
 				if ( $user_profile_page_id == 0 ) {
 					// translators: Placeholder is replaced by username.
@@ -156,7 +160,7 @@ class Kleingarten_Shortcodes {
 					     . esc_url( get_permalink( $user_profile_page_id ) )
 					     . '">' . esc_html( $user->user_login ) . '</a>';
 				}
-				echo '.&nbsp;&nbsp;<a href="'
+				echo '.&nbsp;<a href="'
 				     . esc_url( wp_logout_url( add_query_arg( $args,
 						$atts['logged_out_page'] ) ) ) . '">'
 				     . esc_html( __( 'Logout', 'kleingarten' ) ) . '</a></p>';
@@ -209,9 +213,13 @@ class Kleingarten_Shortcodes {
 
 			case true:
 
-				$user = get_user_by( 'ID', get_current_user_id() );
-				$positions = get_the_author_meta( 'positions', $user->ID );
-				$plot      = get_the_author_meta( 'plot', $user->ID );
+				$gardener = new Kleingarten_Gardener( get_current_user_id() );
+
+				//$user = get_user_by( 'ID', get_current_user_id() );
+				//$positions = get_the_author_meta( 'positions', $gardener->user_ID );
+                //$positions = $gardener->positions;
+				//$plot = get_the_author_meta( 'plot', $user->ID );
+                //$plot = $gardener->plot;
 
 				?>
 
@@ -226,7 +234,7 @@ class Kleingarten_Shortcodes {
 								'kleingarten' ) ); ?>
                         </th>
                         <td>
-							<?php echo esc_html( $user->user_login ); ?>
+							<?php echo esc_html( $gardener->user_login ); ?>
                         </td>
                     </tr>
                     <tr>
@@ -235,7 +243,7 @@ class Kleingarten_Shortcodes {
 								'kleingarten' ) ); ?>
                         </th>
                         <td>
-							<?php echo esc_html( $user->user_email ); ?>
+							<?php echo esc_html( $gardener->email ); ?>
                         </td>
                     </tr>
                     <tr>
@@ -244,7 +252,7 @@ class Kleingarten_Shortcodes {
 								'kleingarten' ) ); ?>
                         </th>
                         <td>
-							<?php echo esc_html( $user->user_firstname ); ?>
+							<?php echo esc_html( $gardener->first_name ); ?>
                         </td>
                     </tr>
                     <tr>
@@ -253,7 +261,7 @@ class Kleingarten_Shortcodes {
 								'kleingarten' ) ); ?>
                         </th>
                         <td>
-							<?php echo esc_html( $user->user_lastname ); ?>
+							<?php echo esc_html( $gardener->last_name ); ?>
                         </td>
                     </tr>
 					<?php
@@ -262,12 +270,12 @@ class Kleingarten_Shortcodes {
                         <th><?php echo esc_html( __( 'Positions',
 								'kleingarten' ) ) ?></th>
                         <td><?php
-							if ( is_array( $positions ) ) {
+							if ( is_array( $gardener->positions ) ) {
 
-								foreach ( $positions as $i => $position ) {
+								foreach ( $gardener->positions as $i => $position ) {
 									echo esc_html( $position );
-									if ( count( $positions ) > 1
-									     && $i < count( $positions ) - 1
+									if ( count( $gardener->positions ) > 1
+									     && $i < count( $gardener->positions ) - 1
 									) {
 										echo ', ';
 									}
@@ -286,8 +294,8 @@ class Kleingarten_Shortcodes {
                         <th><?php echo esc_html( __( 'Plot',
 								'kleingarten' ) ) ?></th>
                         <td><?php
-							if ( $plot ) {
-								echo esc_html( get_the_title( $plot ) );
+							if ( $gardener->plot ) {
+								echo esc_html( get_the_title( $gardener->plot ) );
 							} else {
 								echo esc_html( __( 'No plot is assign to you.',
 									'kleingarten' ) );
@@ -322,10 +330,12 @@ class Kleingarten_Shortcodes {
 
 		if ( is_user_logged_in() ) {
 
-			$user_id = get_current_user_id();
+			//$user_id = get_current_user_id();
 
-			$send_email_notifications = get_user_meta( $user_id,
-				'send_email_notifications', true );
+			$gardener = new Kleingarten_Gardener( get_current_user_id() );
+
+			//$send_email_notifications = get_user_meta( $user_id,
+			//	'send_email_notifications', true );
 
 			ob_start();
 
@@ -343,7 +353,8 @@ class Kleingarten_Shortcodes {
                 <p>
                     <label for="send-email-notifications" class="checkbox">
 						<?php
-						if ( $send_email_notifications == 1 ) {
+						//if ( $send_email_notifications == 1 ) {
+                        if ( $gardener->receives_notification_mails() ) {
 							?>
                             <input
                                     type="checkbox"
@@ -371,7 +382,7 @@ class Kleingarten_Shortcodes {
                     </label>
                 </p>
                 <input type="hidden"
-                       value="<?php echo esc_url( get_permalink() ); /* echo esc_url( home_url( add_query_arg( array(), $wp->request ) ) ); */ ?>"
+                       value="<?php echo esc_url( get_permalink() ); ?>"
                        name="redirect_url">
                 <input
                         type="hidden"
@@ -411,15 +422,18 @@ class Kleingarten_Shortcodes {
 
 		if ( is_user_logged_in() ) {
 
-			$user_id = get_current_user_id();
+			//$user_id = get_current_user_id();
+			$gardener = new Kleingarten_Gardener( get_current_user_id() );
 
 			if ( isset( $_POST['send_email_notifications'] )
 			     && $_POST['send_email_notifications'] == 1 ) {
 
-				update_user_meta( $user_id, 'send_email_notifications', 1 );
+				//update_user_meta( $user_id, 'send_email_notifications', 1 );
+				$gardener->set_notification_mail_receival();
 
 			} else {
-				update_user_meta( $user_id, 'send_email_notifications', 0 );
+				//update_user_meta( $user_id, 'send_email_notifications', 0 );
+				$gardener->unset_notification_mail_receival();
 			}
 
 		}
@@ -500,7 +514,8 @@ class Kleingarten_Shortcodes {
 				$user_data_validation
 					= $this->validate_user_data( $new_user_data );
 				if ( ! is_wp_error( $user_data_validation ) ) {
-					$this->add_gardener( $new_user_data );
+					//$this->add_gardener( $new_user_data );
+                    $gardeners = new Kleingarten_Gardeners( );
 				}
 
 			} else {
@@ -606,18 +621,19 @@ class Kleingarten_Shortcodes {
                             required="">
 						<?php
 						global $wpdb;
-						$available_plots
-							= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'publish'",
-							'kleingarten_plot' ), ARRAY_A );
+						//$available_plots
+						//	= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'publish'",
+						//	'kleingarten_plot' ), ARRAY_A );
+                        $available_plot_IDs = $this->plots->get_plot_IDs();
 						echo '<option value="">' . esc_html__( 'None',
 								'kleingarten' ) . '</option>';
 						foreach (
-							$available_plots as $available_plot
+							$available_plot_IDs as $available_plot
 						) {
 							//if ( $available_plot['ID'] != $plot ) {
 							echo '<option value="'
-							     . esc_attr( $available_plot['ID'] ) . '">'
-							     . esc_html( $available_plot['post_title'] )
+							     . esc_attr( $available_plot ) . '">'
+							     . esc_html( get_the_title( $available_plot ) )
 							     . '</option>';
 							//}
 						}

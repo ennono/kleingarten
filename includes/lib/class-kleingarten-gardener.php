@@ -14,7 +14,41 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Gardener {
 
+
+	/**
+	 * User ID
+	 *
+	 * @var
+	 */
 	private $user_ID;
+
+	/**
+	 * User login name
+	 *
+	 * @var
+	 */
+	public $user_login;
+
+	/**
+	 * User email
+	 *
+	 * @var
+	 */
+	public $email;
+
+	/**
+	 * First name
+	 *
+	 * @var
+	 */
+	public $first_name;
+
+	/**
+	 * Last name
+	 *
+	 * @var
+	 */
+	public $last_name;
 
 	/**
 	 * ID of assigned plot
@@ -45,6 +79,13 @@ class Kleingarten_Gardener {
 	public function __construct( $user_ID ) {
 
 		$this->user_ID = $user_ID;
+
+		$user = get_user_by( 'ID', $user_ID );
+
+		$this->user_login = $user->user_login;
+		$this->email = $user->user_email;
+		$this->first_name = $user->first_name;
+		$this->last_name = $user->last_name;
 
 		// Try to get the  assigned plot:
 		$this->plot = absint( get_the_author_meta( 'plot', absint( $user_ID ) ) );
