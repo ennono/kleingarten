@@ -104,4 +104,60 @@ class Kleingarten_Plots {
 
 	}
 
+	/**
+	 * Returns a list of IDs of all published plots.
+	 *
+	 * @return array|false
+	 */
+	public function get_plot_IDs() {
+
+		// Initialize as empty array to return an empty list if there are no plots:
+		$plot_IDs = array();
+
+		// Put every available plot on the list:
+		foreach( $this->plots as $plot ) {
+			$plot_IDs[] = $plot->ID;
+		}
+
+		// Finally return the list we built:
+		return $plot_IDs;
+
+	}
+
+	/**
+	 * Little helper that returns true if given plot is assigned to given
+	 * member and false if not.
+	 *
+	 * @return bool
+	 */
+	public function plot_is_assigned_to_user( $plot_ID, $user_ID ) {
+
+		// If user ID is invalid, stop right here:
+		if ( ! is_int( $user_ID ) || $user_ID <= 0 ) {
+			return false;
+		}
+
+		// If plot ID is invalid, stop right here:
+		if ( ! is_int( $plot_ID ) ||  $plot_ID <= 0 ) {
+			return false;
+		}
+
+		// Try to get the the assigned plot:
+		$plot = get_the_author_meta( 'plot', absint( $user_ID ) );
+
+		// If user hast not plot assigned, stop here:
+		if ( empty( $plot ) ) {
+			return false;
+		}
+
+		// If assigned plot matches the given one, return true...
+		if ( $plot == $plot_ID ) {
+			return true;
+		// ... or false they don't match:
+		} else {
+			return false;
+		}
+
+	}
+
 }

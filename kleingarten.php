@@ -34,6 +34,7 @@ require_once 'includes/lib/class-kleingarten-user-roles.php';
 require_once 'includes/lib/class-kleingarten-shortcodes.php';
 require_once 'includes/lib/class-kleingarten-post-meta.php';
 require_once 'includes/lib/class-kleingarten-plots.php';
+require_once 'includes/lib/class-kleingarten-gardener.php';
 
 /**
  * Returns the main instance of Kleingarten to prevent the need to use globals.

@@ -14,11 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Userfields {
 
+    private $plots;
+
 	/**
 	 * Userfields constructor.
 	 *
 	 */
 	public function __construct() {
+
+        $this->plots = new Kleingarten_Plots();
 
 		// Add fields to user profile page
 		add_action( 'show_user_profile',
@@ -42,24 +46,12 @@ class Kleingarten_Userfields {
 	 */
 	public function display_kleingarten_user_fields( $user ) {
 
-		global $wpdb;
+        // Represents the gardner we are dealing with:
+        $gardener = new Kleingarten_Gardener( $user->ID );
 
-		if ( is_object( $user ) ) {
-			//$garden_no = esc_attr( get_the_author_meta( 'garden-no', $user->ID ) );
-			$plot = get_the_author_meta( 'plot', $user->ID );
-		} else {
-			//$garden_no = null;
-			$plot = null;
-		}
-
-		$positions           = get_the_author_meta( 'positions', $user->ID );
+        // Get a list of all available positions:
 		$available_positions = explode( "\r\n",
 			get_option( 'kleingarten_available_positions' ) );
-
-		//$plot = get_the_author_meta( 'plot', $user->ID );
-		$available_plots
-			= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'publish'",
-			'kleingarten_plot' ), ARRAY_A );
 
 		$send_email_notifications
 			= get_the_author_meta( 'send_email_notifications', $user->ID );
@@ -75,25 +67,23 @@ class Kleingarten_Userfields {
                 <td>
                     <select name="plot" id="plot">
 						<?php
-						if ( $plot ) {
-							echo '<option value="' . esc_attr( $plot ) . '">'
-							     . esc_html( get_the_title( $plot ) )
+						if ( $gardener->plot != 0 ) {
+							echo '<option value="' . esc_attr( $gardener->plot ) . '">'
+							     . esc_html( get_the_title( $gardener->plot ) )
 							     . '</option>';
 						} else {
 							echo '<option value="">' . esc_html( __( 'None',
 									'kleingarten' ) ) . '</option>';
 						}
-						foreach (
-							$available_plots as $available_plot
-						) {
-							if ( $available_plot['ID'] != $plot ) {
-								echo '<option value="'
-								     . esc_attr( $available_plot['ID'] ) . '">'
-								     . esc_html( $available_plot['post_title'] )
-								     . '</option>';
-							}
-						}
-						if ( $plot ) {
+                        foreach ( $this->plots->get_plot_IDs() as $plot_ID ) {
+                            if ( ! $this->plots->plot_is_assigned_to_user( $plot_ID, $user->ID ) ) {
+		                        echo '<option value="'
+		                             . esc_attr( $plot_ID ) . '">'
+		                             . esc_html( get_the_title( $plot_ID ) )
+		                             . '</option>';
+	                        }
+                        }
+						if ( $gardener->has_assigned_plot() ) {
 							echo '<option value="">' . esc_html__( 'None',
 									'kleingarten' ) . '</option>';
 						}
@@ -118,7 +108,7 @@ class Kleingarten_Userfields {
 
 						foreach ( $available_positions as $k => $v ) {
 							$checked = false;
-							if ( in_array( $v, (array) $positions, true ) ) {
+							if ( in_array( $v, (array) $gardener->positions, true ) ) {
 								$checked = true;
 							}
 							echo '<p><label for="positions_' . esc_attr( $k )
@@ -138,8 +128,8 @@ class Kleingarten_Userfields {
 					}
 
 					// Build and display checkboxes for positions that are set for this user but no longer available in settings area
-					if ( is_array( $positions ) ) {
-						foreach ( $positions as $position ) {
+					if ( is_array( $gardener->positions ) ) {
+						foreach ( $gardener->positions as $position ) {
 
 							if ( ! in_array( $position,
 								$available_positions )
@@ -175,7 +165,7 @@ class Kleingarten_Userfields {
                         <label for="send-email-notifications" class="checkbox">
 							<?php
 
-							if ( $send_email_notifications == 1 ) {
+                            if ( $gardener->receives_notification_mails() ) {
 								?>
                                 <input
                                         type="checkbox"
@@ -227,94 +217,33 @@ class Kleingarten_Userfields {
 			return;
 		}
 
+		// Represents the gardner we are dealing with:
+		$gardener = new Kleingarten_Gardener( $user_id );
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 
 		if ( isset( $_POST['positions'] ) ) {
-
-			$positions           = array();
-			$available_positions = explode( "\r\n",
-				get_option( 'kleingarten_available_positions' ) );
-			$formdata
-			                     = array_unique( array_map( 'sanitize_text_field',
-				wp_unslash( $_POST['positions'] ) ) );
-			foreach ( $formdata as $position ) {
-				// Commented out because checking for unavailable positions is
-				// unwanted behavior. It shall be possible to keep unavailable
-				// positions.
-				//if ( in_array( $position, $available_positions ) ) {
-				$positions[] = $position;
-				//}
-			}
-
-			// Save Positions
-			update_user_meta( $user_id, 'positions', $positions );
-
+			$gardener->set_positions( $_POST['positions'] );
 		} else {
 			// If $_POST['positions'] does not exist that means, that no position
 			// was selected => Delete corresponding user meta.
-			delete_user_meta( $user_id, 'positions' );
+            $gardener->remove_all_positions();
 		}
 
-		// Save Plot
+		// Assign or remove plot
 		if ( isset( $_POST['plot'] ) ) {
-			update_user_meta( $user_id, 'plot', absint( $_POST['plot'] ) );
+            $gardener->assign_plot( $_POST['plot'] );
 		}
 
 		if ( isset( $_POST['send-email-notifications'] )
 		     && $_POST['send-email-notifications'] >= 1 ) {
-
-			// Save Notifications
-			//update_user_meta( $user_id, 'send_email_notifications',
-			//    absint( $_POST['send-email-notifications'] ) );
-
-			update_user_meta( $user_id, 'send_email_notifications', 1 );
-
+            $gardener->set_notification_mail_receival();
 		} else {
-
-			update_user_meta( $user_id, 'send_email_notifications', 0 );
-
+            $gardener->unset_notification_mail_receival();
 		}
 
-	}
-
-	/**
-	 * Print allotment plots as options
-	 *
-	 * @return string HTML options
-	 */
-	private function print_allotment_plots_as_options() {
-
-		global $wpdb;
-
-		$output = '';
-
-		$custom_post_type
-			= 'kleingarten_plot'; // define your custom post type slug here
-
-		// A sql query to return all post titles
-		$results
-			= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'publish'",
-			$custom_post_type ), ARRAY_A );
-
-		// Return null if we found no results
-		if ( ! $results ) {
-			return null;
-		}
-
-		// HTML for our select printing post titles as loop
-		//$output = '<select name="project" id="project">';
-
-		foreach ( $results as $post ) {
-			$output .= '<option value="' . $post['ID'] . '">'
-			           . $post['post_title'] . '</option>';
-		}
-
-		//$output .= '</select>'; // end of select element
-
-		// get the html
-		return $output;
 	}
 
 }
