@@ -2,9 +2,12 @@
 wp-cli.local.yml
 node_modules/
 vendor/
+idea/
 *.zip
 *.tar.gz
 composer.lock
+composer.json
+composer.phar
 *.log
 phpunit.xml
 phpcs.xml

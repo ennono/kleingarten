@@ -17,13 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Shortcodes {
 
-	// --Commented out by Inspection (31.10.24, 09:32): private $user;
+	private $plots;
 
 	/**
 	 * Shortcodes constructor.
 	 *
 	 */
 	public function __construct() {
+
+        $this->plots = new Kleingarten_Plots();
 
 		add_shortcode( 'kleingarten_member_profile',
 			array( $this, 'kleingarten_member_profile_callback' ) );
@@ -1723,9 +1725,19 @@ class Kleingarten_Shortcodes {
 
 				$user = get_user_by( 'ID', get_current_user_id() );
 				$plot = get_the_author_meta( 'plot', $user->ID );
-				$assigned_meters = $this->get_assigned_meters( $plot );
-				$error_messages = 0;
-				$error_data = 0;
+
+                // If user has plot assigned get its meters...
+                if ( $plot > 0 ) {
+	                //$assigned_meters = $this->get_assigned_meters( $plot );
+	                $assigned_meters = $this->plots->get_assigned_meters( intval( $plot ) );
+                // ... but if user has no plot assigned, set an empty array
+                // to prevent our loops from throwing warnings later:
+                } else {
+                    $assigned_meters = array();
+                }
+
+				//$error_messages = 0;
+				//$error_data = 0;
 				$save_reading_result = 0;
                 $submitted = false;
 
@@ -1967,40 +1979,19 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Returns a list meters assigned to a plot.
+	 * Returns a list of meters assigned to a plot.
 	 *
 	 * @param $plot_ID
 	 *
 	 * @return array
 	 *@since 1.1.3
 	 */
-	private function get_assigned_meters( $plot_ID, $return_meta_IDs = false ) {
-
-		require_once ABSPATH . 'wp-admin/includes/post.php';
-
-		// Get all post meta for the given plot:
-		$post_meta = has_meta( $plot_ID );
-
-		// Extract meter assignments:
-		$assigned_meters = array();
-		if ( is_array( $post_meta ) && $post_meta ) {
-			foreach ( $post_meta as $j => $single_post_meta ) {
-
-				if ( $single_post_meta['meta_key'] == 'kleingarten_meter_assignment' ) {
-					if ( ! $return_meta_IDs ) {
-						$assigned_meters[] = $single_post_meta['meta_value'];
-					} else {
-						$assigned_meters[] = $single_post_meta['meta_id'];
-					}
-				}
-
-			}
-		}
-
-		// Finally return the list of assigned meters:
-		return $assigned_meters;
-
+    /*
+	private function get_assigned_meters( $plot_ID ) {/*
+		return $this->plots->get_assigned_meters( intval( $plot_ID ) );
 	}
+
+    */
 
     private function save_meter_reading_from_inline_form( $meter_id, $reading_date, $reading_value, $user_id, $reading_data_checked = true ) {
 
@@ -2088,20 +2079,13 @@ class Kleingarten_Shortcodes {
 
 	    $user_meta = get_user_meta( $user_id );
         $assigned_plot = $user_meta['plot'][0];
-        $assigned_meters = $this->get_assigned_meters( $assigned_plot );
-
-        /*
-        echo $meter_id;
-        echo '<pre>';
-        echo var_dump($assigned_meters) ;
-	    echo '</pre>';
-        */
+        //$assigned_meters = $this->get_assigned_meters( $assigned_plot );
+	    $assigned_meters = $this->plots->get_assigned_meters( intval( $assigned_plot ) );
 
         if ( in_array( $meter_id, $assigned_meters ) ) {
             return true;
         }
 
-        //echo 'coco';
         return false;
 
     }
