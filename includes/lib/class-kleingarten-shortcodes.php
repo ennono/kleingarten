@@ -476,6 +476,7 @@ class Kleingarten_Shortcodes {
 
 				// Nonce is matched and valid. Go!
 
+                // Sanitize form input:
 				if ( isset( $_POST["user_email"] ) ) {
 					$new_user_data["email"]
 						= sanitize_email( wp_unslash( $_POST["user_email"] ) );
@@ -501,7 +502,6 @@ class Kleingarten_Shortcodes {
 					$new_user_data["pw"]         = $_POST["user_pw"];
 					$new_user_data["pw_confirm"] = $_POST["user_pw_confirm"];
 				}
-
 				if ( isset ( $_POST["user_notifications"] ) ) {
 					$new_user_data["user_notifications"] = 1;
 				}
@@ -511,11 +511,13 @@ class Kleingarten_Shortcodes {
 					$new_user_data["user_terms_of_use_accepted"] = 0;
 				}
 
+                // Validate user data and get error messages:
 				$user_data_validation
 					= $this->validate_user_data( $new_user_data );
+
+                // If we got here without errors, create the new gardener:
 				if ( ! is_wp_error( $user_data_validation ) ) {
-					//$this->add_gardener( $new_user_data );
-                    $gardeners = new Kleingarten_Gardeners( );
+                    Kleingarten_Gardener::add_gardener( $new_user_data );
 				}
 
 			} else {
@@ -620,22 +622,16 @@ class Kleingarten_Shortcodes {
                     <select name="user_plot" id="user_plot" autocomplete=""
                             required="">
 						<?php
-						global $wpdb;
-						//$available_plots
-						//	= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'publish'",
-						//	'kleingarten_plot' ), ARRAY_A );
                         $available_plot_IDs = $this->plots->get_plot_IDs();
 						echo '<option value="">' . esc_html__( 'None',
 								'kleingarten' ) . '</option>';
 						foreach (
 							$available_plot_IDs as $available_plot
 						) {
-							//if ( $available_plot['ID'] != $plot ) {
 							echo '<option value="'
 							     . esc_attr( $available_plot ) . '">'
 							     . esc_html( get_the_title( $available_plot ) )
 							     . '</option>';
-							//}
 						}
 						?>
                     </select>
@@ -719,7 +715,8 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Vadilate user data of new gardener on registration
+	 * Validates user data and creates fitting error messages to be shown
+	 * with user registration form.
 	 *
 	 * @param   array  $user_data  User Data
 	 *
@@ -817,70 +814,6 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Add gardeners as WordPress user
-	 *
-	 * @param   array  $user_data  User Data
-	 *
-	 * @return void  void
-	 */
-	private function add_gardener( $user_data ) {
-
-		$user_id = wp_insert_user( array(
-				'user_login'      => $user_data["login"],
-				'user_pass'       => $user_data["pw"],
-				'user_email'      => $user_data["email"],
-				'first_name'      => $user_data["firstname"],
-				'last_name'       => $user_data["lastname"],
-				'user_registered' => gmdate( 'Y-m-d H:i:s' ),
-				'role'            => 'kleingarten_pending'
-			)
-		);
-
-		if ( ! is_wp_error( $user_id ) ) {
-			add_user_meta( $user_id, 'plot', $user_data["plot"] );
-			add_user_meta( $user_id, 'send_email_notifications',
-				$user_data["user_notifications"] );
-		}
-
-		$this->send_welcome_email( $user_id );
-
-	}
-
-	/**
-	 * Send welcome email
-	 *
-	 * @param   int  $user_id  User ID
-	 *
-	 * @return void
-	 */
-	private function send_welcome_email( $user_id ) {
-
-		if ( get_option( 'kleingarten_send_account_registration_notification' ) ) {
-
-			$site_name   = get_bloginfo( 'name' );
-			$admin_email = get_bloginfo( 'admin_email' );
-			$user_info   = get_userdata( $user_id );
-
-			$to = $user_info->user_email;
-
-			$headers[] = 'From: ' . $site_name . ' <' . $admin_email . '>';
-			$headers[] = 'Content-Type: text/html';
-			$headers[] = 'charset=UTF-8';
-
-			$subject
-				= sprintf( get_option( 'kleingarten_account_registration_notification_subject' ),
-				$site_name );
-			$message
-				= sprintf( get_option( 'kleingarten_account_registration_notification_message' ),
-				$site_name );
-
-			wp_mail( $to, $subject, $message, $headers );
-
-		}
-
-	}
-
-	/**
 	 * Callback for shortcode kleingarten_like_link
 	 *
 	 * @return string HTML output
@@ -961,7 +894,9 @@ class Kleingarten_Shortcodes {
 			$label = $label_like;
 		}
 
-		if ( $this->current_user_is_allowed_to_like() ) {
+		//if ( $this->current_user_is_allowed_to_like() ) {
+		$gardener = new Kleingarten_Gardener( get_current_user_id() );
+		if ( $gardener->is_allowed_to_like() ) {
 			$html .= '&emsp;<span class="kleingarten-like-link"><a class="kleingarten-like" id="kleingartenlike">'
 			         . esc_html( $label ) . '</a></span>';
 		} else {
@@ -973,7 +908,9 @@ class Kleingarten_Shortcodes {
 
 		$html .= '</p>';
 
-		if ( $this->current_user_is_allowed_to_like() ) {
+		//if ( $this->current_user_is_allowed_to_like() ) {
+		$gardener = new Kleingarten_Gardener( get_current_user_id() );
+		if ( $gardener->is_allowed_to_like() ) {
 
 			ob_start();
 			?>
@@ -1015,21 +952,6 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Check if current user is allowed to like
-	 *
-	 * @return bool
-	 */
-	private function current_user_is_allowed_to_like() {
-
-		if ( ! is_user_logged_in() ) {
-			return false;
-		}
-
-		return true;
-
-	}
-
-	/**
 	 * Callback for like post (AJAX)
 	 *
 	 * @return void
@@ -1044,7 +966,9 @@ class Kleingarten_Shortcodes {
 				'kleingarten' ) );
 		}
 
-		if ( $this->current_user_is_allowed_to_like() ) {
+		//if ( $this->current_user_is_allowed_to_like() ) {
+		$gardener = new Kleingarten_Gardener( get_current_user_id() );
+		if ( $gardener->is_allowed_to_like() ) {
 
 			$user_id = get_current_user_id();
 			$url     = wp_get_referer();
@@ -1157,7 +1081,9 @@ class Kleingarten_Shortcodes {
 				'kleingarten' ) );
 		}
 
-		if ( $this->current_user_is_allowed_to_like() ) {
+		//if ( $this->current_user_is_allowed_to_like() ) {
+		$gardener = new Kleingarten_Gardener( get_current_user_id() );
+		if ( $gardener->is_allowed_to_like() ) {
 
 			$url     = wp_get_referer();
 			$post_id = url_to_postid( $url );
