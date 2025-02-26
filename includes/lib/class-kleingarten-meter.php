@@ -17,16 +17,23 @@ class Kleingarten_Meter {
 	/**
 	 * Post ID
 	 *
-	 * @var
+	 * @var int
 	 */
 	private $post_ID;
 
 	/**
 	 * Post
 	 *
-	 * @var
+	 * @obj WP_Post
 	 */
 	private $post;
+
+	/**
+	 * Readings
+	 *
+	 * @obj array
+	 */
+	private $readings;
 
 	/**
 	 * Meter handler constructor.
@@ -44,6 +51,24 @@ class Kleingarten_Meter {
 		// If getting the post succeeded initialize more:
 		if ( $this->post != null ) {
 
+			// Get readings:
+			// (Initially $readings contains all meta data. We will remove any
+			// other entries.)
+			$readings = has_meta( $this->post_ID, 'kleingarten_meter_reading' );
+			foreach ( $readings as $j => $reading ) {
+
+				if ( $reading['meta_key'] == 'kleingarten_meter_reading' ) {
+
+					$reading_data_set = unserialize( $reading['meta_value'] );
+
+					$this->readings[] = array(
+						'value' => $reading_data_set['value'],
+						'date' => $reading_data_set['date'],
+					);
+
+				}
+
+			}
 
 		}
 
@@ -295,6 +320,61 @@ class Kleingarten_Meter {
 			return true;
 		}
 
+	}
+
+	/**
+	 * Returns the number of readings.
+	 *
+	 * @return array
+	 */
+	public function count_readings() {
+		return count( $this->readings );
+	}
+
+	/**
+	 * Return the most recent reading.
+	 *
+	 * @return array
+	 */
+	public function get_most_recent_reading() {
+
+		$most_recent = 0;                       // Helper for comparing
+		$most_recent_reading_value = null;      // Latest value
+		$most_recent_reading_date  = '';        // Latest date
+		foreach ( $this->readings as $reading ) {
+
+			$current_date = $reading['date'];
+			if ( $current_date > $most_recent ) {
+				$most_recent = $current_date;
+				$most_recent_reading_value = $reading['value'];
+				$most_recent_reading_date  = $reading['date'];
+			}
+
+		}
+
+		return array(
+			'reading' => $most_recent_reading_value,
+			'date'    => $most_recent_reading_date,
+		);
+
+	}
+
+	/**
+	 * Return the meter's title.
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		return get_the_title( $this->post_ID );
+	}
+
+	/**
+	 * Return the meter's title.
+	 *
+	 * @return string
+	 */
+	public function get_unit() {
+		return get_post_meta( $this->post_ID, 'kleingarten_meter_unit', true );
 	}
 
 }
