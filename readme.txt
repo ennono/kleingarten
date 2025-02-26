@@ -19,8 +19,6 @@ What if you could enjoy your free time in your garden instead of sacrificing it 
 
 With Kleingarten, you can turn your WordPress website into a valuable digital gardening tool.
 
-For more information and documentation visit [www.wp-kleingarten.de](www.wp-kleingarten.de) (German only).
-
 == Installation ==
 
 Installing "Kleingarten" can be done either by searching for "Kleingarten" via the "Plugins > Add New" screen in your WordPress dashboard, or by using the following steps:
