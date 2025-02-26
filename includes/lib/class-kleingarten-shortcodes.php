@@ -1300,7 +1300,8 @@ class Kleingarten_Shortcodes {
 
 				// ... and finally try to save it:
 				$save_reading_result
-					= $this->save_meter_reading_by_token( $submitted_token,
+					//= $this->save_meter_reading_by_token( $submitted_token,
+					= Kleingarten_Meter::save_meter_reading_by_token( $submitted_token,
 					$submitted_reading, $submitted_date );
 				if ( is_wp_error( $save_reading_result ) ) {
 					$messages = $save_reading_result->get_error_messages();
@@ -1396,6 +1397,7 @@ class Kleingarten_Shortcodes {
 	 *
 	 * @return bool|WP_Error
 	 */
+    /*
 	private function save_meter_reading_by_token(
 		$token, $value_read, $date = '', $meter_no = ''
 	) {
@@ -1477,12 +1479,14 @@ class Kleingarten_Shortcodes {
 		}
 
 	}
+    */
 
 	/**
 	 * Returns the given token's meta ID if it is usable and an WP_Error object if it is not.
 	 *
 	 * @return object|integer
 	 */
+    /*
 	private function token_is_usable( $token ) {
 
 		$errors = new WP_Error();
@@ -1553,12 +1557,14 @@ class Kleingarten_Shortcodes {
 		}
 
 	}
+    */
 
 	/**
 	 * Returns true if a reading is valid and an WP_Error object if it is not.
 	 *
 	 * @return object|bool
 	 */
+    /*
 	private function reading_is_valid( $reading ) {
 
 		$errors = new WP_Error();
@@ -1582,12 +1588,14 @@ class Kleingarten_Shortcodes {
 		}
 
 	}
+    */
 
 	/**
 	 * Returns true if a reading date is valid and an WP_Error object if it is not.
 	 *
 	 * @return object|bool
 	 */
+    /*
 	private function reading_date_is_valid( $timestamp, $token_id = 0 ) {
 
 		$errors = new WP_Error();
@@ -1640,6 +1648,7 @@ class Kleingarten_Shortcodes {
 		}
 
 	}
+    */
 
 	/**
 	 * Callback for shortcode kleingarten_my_plot. Displays member profile.
