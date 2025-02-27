@@ -1417,23 +1417,17 @@ class Kleingarten_Shortcodes {
 			case true:
 
                 $gardener = new Kleingarten_Gardener( get_current_user_id() );
-
-				$user = get_user_by( 'ID', get_current_user_id() );
-				$plot = get_the_author_meta( 'plot', $user->ID );
+                $plot = new Kleingarten_Plot( $gardener->plot );
 
                 // If user has plot assigned get its meters...
-				//if ( $plot > 0 ) {
 				if ( $gardener->plot > 0 ) {
-	                //$assigned_meters = $this->get_assigned_meters( $plot );
-	                $assigned_meters = $this->plots->get_assigned_meters( intval( $plot ) );
+                    $assigned_meters = $plot->get_assigned_meters();
                 // ... but if user has no plot assigned, set an empty array
                 // to prevent our loops from throwing warnings later:
                 } else {
                     $assigned_meters = array();
                 }
 
-				//$error_messages = 0;
-				//$error_data = 0;
 				$save_reading_result = 0;
                 $submitted = false;
 
@@ -1547,8 +1541,8 @@ class Kleingarten_Shortcodes {
                             </th>
                             <td>
                                 <?php
-                                if ( isset( $plot) && $plot != 0 ) {
-                                    echo esc_html( get_the_title( $plot ) );
+                                if ( isset( $gardener->plot) && $gardener->plot != 0 ) {
+                                    echo esc_html( $plot->get_title() );
                                 } else {
                                     esc_html_e( 'There is no plot assigned to you.', 'kleingarten' );
                                 }
@@ -1646,14 +1640,25 @@ class Kleingarten_Shortcodes {
 
 	}
 
-    private function save_meter_reading_from_inline_form( $meter_id, $reading_date, $reading_value, $user_id, $reading_data_checked = true ) {
+	/**
+     * Processes reading data from inline form.
+     *
+	 * @param $meter_id
+	 * @param $reading_date
+	 * @param $reading_value
+	 * @param $user_id
+	 * @param $reading_data_checked
+	 *
+	 * @return string|WP_Error
+	 */
+	private function save_meter_reading_from_inline_form( $meter_id, $reading_date, $reading_value, $user_id, $reading_data_checked = true ) {
 
         $errors = new WP_Error();
+        $meter = new Kleingarten_Meter( $meter_id );
 
         // If meter is not assigned to user by plot, stop right away:
-        if ( ! $this->meter_is_assigned_to_user( $meter_id, $user_id ) ) {
+	    if ( ! $meter->may_be_updated_by_user( $user_id ) ) {
 	        $errors->add( 'kleingarten_inline_meter_reading_not_your_plot', __( 'You may not send readings for plots that are not assigned to you.', 'kleingarten' ) );
-	        //echo 'coco';
             return $errors;
         }
 
@@ -1665,58 +1670,20 @@ class Kleingarten_Shortcodes {
 	        if ( isset( $meter_id ) && $meter_id > 0 && isset( $reading_date ) && isset( $reading_value ) && isset( $user_id ) && $user_id > 0 ) {
 
 		        // Sanitize data:
+                /*
 		        $sanitized_data['date'] = strtotime( sanitize_text_field( wp_unslash( $reading_date ) ) );
 		        $sanitized_data['value'] = absint( wp_unslash( $reading_value ) );
 		        $sanitized_data['by'] = absint( wp_unslash( $user_id ) );
-		        /*
-				if ( isset( $_POST['new_kleingarten_meter_reading']['meter-no'] ) ) {
-					$sanitized_data['meter-no'] = sanitize_text_field( wp_unslash( $_POST['new_kleingarten_meter_reading']['meter-no'] ) );
-				}
-				*/
+                return $meter->add_reading( $sanitized_data['value'], $sanitized_data['date'], $sanitized_data['by'] );
+                */
 
-		        // Validate data:
-		        $validation_errors = 0;
-		        $existing_readings = get_post_meta( $meter_id, 'kleingarten_meter_reading' );
-		        if ( $existing_readings ) {
-
-			        // Check if we already have a reading for this date:
-			        foreach ( $existing_readings as $existing_reading ) {
-				        if ( $existing_reading['date'] === $sanitized_data['date'] ) {
-
-					        $validation_errors++;
-					        $errors->add( 'kleingarten_inline_meter_reading_form_not_unique', __( 'A meter reading already exists for this date.', 'kleingarten' ), $meter_id );
-					        break;
-
-				        }
-			        }
-
-			        // Determine if date is in the future:
-			        $reading_date = $sanitized_data['date'];
-			        $today = strtotime( gmdate( 'Y-m-d' ) );
-			        if ( $reading_date > $today ) {
-				        $errors->add( 'kleingarten_inline_meter_reading_form_date_in_future', __( 'Cannot save a reading for a date in the future.', 'kleingarten' ), $meter_id );
-			        }
-
-		        }
-
-		        // Finally save it if valid:
-		        if ( ! $errors->has_errors() ) {
-
-			        $meta_id = 0;
-			        $meta_id = add_post_meta( $meter_id, 'kleingarten_meter_reading', $sanitized_data );
-			        if ( ! is_bool( $meta_id ) && ! $meta_id === false ) {
-				        return false;
-				        //$this->add_message( 'kleingarten_meter_reading', 'kleingarten_meter_reading', __( 'New reading saved.', 'kleingarten' ), 'success' );
-			        } else {
-				        return $meta_id;
-				        //$this->add_message( 'kleingarten_meter_reading', 'kleingarten_meter_reading', __( 'Something went wrong. Reading could not be saved.', 'kleingarten' ), 'error' );
-			        }
-
-		        } else {
-			        return $errors;
-		        }
+                // Add the the reading (Method will return a proper WP_Error
+                // object on failure.):
+		        return $meter->add_reading( $reading_value, $reading_date, $user_id );
 
 	        }
+
+            // If we got here that means there was data missing:
 	        $errors->add( 'kleingarten_inline_meter_reading_form_missing_data', __( 'Please fill out the form completely.', 'kleingarten' ), $meter_id );
 	        return $errors;
 
@@ -1724,22 +1691,6 @@ class Kleingarten_Shortcodes {
 	        $errors->add( 'kleingarten_inline_meter_reading_form_data_not_checked', __( 'Please confirm that you checked the data for correctness.', 'kleingarten' ), $meter_id );
 	        return $errors;
         }
-
-    }
-
-
-    private function meter_is_assigned_to_user( $meter_id, $user_id ) {
-
-	    $user_meta = get_user_meta( $user_id );
-        $assigned_plot = $user_meta['plot'][0];
-        //$assigned_meters = $this->get_assigned_meters( $assigned_plot );
-	    $assigned_meters = $this->plots->get_assigned_meters( intval( $assigned_plot ) );
-
-        if ( in_array( $meter_id, $assigned_meters ) ) {
-            return true;
-        }
-
-        return false;
 
     }
 

@@ -332,6 +332,15 @@ class Kleingarten_Meter {
 	}
 
 	/**
+	 * Returns a list of readings.
+	 *
+	 * @return array
+	 */
+	public function get_readings() {
+		return $this->readings;
+	}
+
+	/**
 	 * Return the most recent reading.
 	 *
 	 * @return array
@@ -375,6 +384,77 @@ class Kleingarten_Meter {
 	 */
 	public function get_unit() {
 		return get_post_meta( $this->post_ID, 'kleingarten_meter_unit', true );
+	}
+
+	/**
+	 * Return true if the given user if allowed to add new meter readings
+	 * and false if not.
+	 *
+	 * @return string
+	 */
+	public function may_be_updated_by_user( $user_id ) {
+
+		$gardener = new Kleingarten_Gardener( $user_id );
+		$plot = new Kleingarten_Plot( $gardener->plot );
+
+		$assigned_meters = $plot->get_assigned_meters();
+
+		if ( in_array( $this->post_ID, $assigned_meters ) ) {
+			return true;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Adds a new meter reading.
+	 *
+	 * @return string
+	 */
+	public function add_reading( $value, $date, $by = null, $meter_no = '' ) {
+
+		$errors = new WP_Error();
+
+		$sanitized_data['date'] = strtotime( sanitize_text_field( wp_unslash( $date ) ) );
+		$sanitized_data['value'] = absint( wp_unslash( $value ) );
+		if ( $by != null ) {
+			$sanitized_data['by'] = absint( wp_unslash( $by ) );
+		}
+
+		// Validate data:
+		if ( $this->readings ) {
+
+			// Check if we already have a reading for this date:
+			foreach ( $this->readings as $existing_reading ) {
+				if ( $existing_reading['date'] === $sanitized_data['date'] ) {
+					$errors->add( 'kleingarten_meter_reading_not_unique', __( 'A meter reading already exists for this date.', 'kleingarten' ), $this->post_ID );
+					break;
+				}
+			}
+
+			// Determine if date is in the future:
+			$reading_date = $sanitized_data['date'];
+			$today = strtotime( gmdate( 'Y-m-d' ) );
+			if ( $reading_date > $today ) {
+				$errors->add( 'kleingarten_meter_reading_date_in_future', __( 'Cannot save a reading for a date in the future.', 'kleingarten' ), $this->post_ID );
+			}
+
+		}
+
+		$meta_id = add_post_meta( $this->post_ID, 'kleingarten_meter_reading', $sanitized_data );
+		if ( ! $meta_id ) {
+			$errors->add( 'kleingarten_meter_reading_could_not_create',
+				__( 'Could not create not create new reading.',
+					'kleingarten' ), $this->post_ID );
+		}
+
+		if ( ! $errors->has_errors() && $meta_id != false ) {
+			return $meta_id;
+		} else {
+			return $errors;
+		}
+
 	}
 
 }
