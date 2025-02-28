@@ -51,6 +51,13 @@ class Kleingarten_Gardener {
 	public $last_name;
 
 	/**
+	 * Display name
+	 *
+	 * @var
+	 */
+	public $disply_name;
+
+	/**
 	 * ID of assigned plot
 	 *
 	 * @var
@@ -90,6 +97,7 @@ class Kleingarten_Gardener {
 			$this->email = $user->user_email;
 			$this->first_name = $user->first_name;
 			$this->last_name = $user->last_name;
+			$this->disply_name = $user->display_name;
 
 			// Try to get the  assigned plot:
 			$this->plot = absint( get_the_author_meta( 'plot', absint( $user_ID ) ) );
@@ -284,6 +292,15 @@ class Kleingarten_Gardener {
 		// For now every logged in user is allowed to like:
 		return is_user_logged_in();
 
+	}
+
+	/**
+	 * Returns the gardener's user ID.
+	 *
+	 * @return mixed
+	 */
+	public function get_user_id() {
+		return $this->user_ID;
 	}
 
 }

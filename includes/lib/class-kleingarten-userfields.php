@@ -73,7 +73,8 @@ class Kleingarten_Userfields {
 									'kleingarten' ) ) . '</option>';
 						}
                         foreach ( $this->plots->get_plot_IDs() as $plot_ID ) {
-                            if ( ! $this->plots->plot_is_assigned_to_user( $plot_ID, $user->ID ) ) {
+                            $plot = new Kleingarten_Plot( $plot_ID );
+                            if ( ! $plot->is_assigned_to_user( $user->ID ) ) {
 		                        echo '<option value="'
 		                             . esc_attr( $plot_ID ) . '">'
 		                             . esc_html( get_the_title( $plot_ID ) )

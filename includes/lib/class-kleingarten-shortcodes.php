@@ -214,12 +214,7 @@ class Kleingarten_Shortcodes {
 			case true:
 
 				$gardener = new Kleingarten_Gardener( get_current_user_id() );
-
-				//$user = get_user_by( 'ID', get_current_user_id() );
-				//$positions = get_the_author_meta( 'positions', $gardener->user_ID );
-                //$positions = $gardener->positions;
-				//$plot = get_the_author_meta( 'plot', $user->ID );
-                //$plot = $gardener->plot;
+                $plot = new Kleingarten_Plot( $gardener->plot );
 
 				?>
 
@@ -295,7 +290,7 @@ class Kleingarten_Shortcodes {
 								'kleingarten' ) ) ?></th>
                         <td><?php
 							if ( $gardener->plot ) {
-								echo esc_html( get_the_title( $gardener->plot ) );
+                                echo esc_html( $plot->get_title() );
 							} else {
 								echo esc_html( __( 'No plot is assign to you.',
 									'kleingarten' ) );
@@ -330,12 +325,7 @@ class Kleingarten_Shortcodes {
 
 		if ( is_user_logged_in() ) {
 
-			//$user_id = get_current_user_id();
-
 			$gardener = new Kleingarten_Gardener( get_current_user_id() );
-
-			//$send_email_notifications = get_user_meta( $user_id,
-			//	'send_email_notifications', true );
 
 			ob_start();
 
@@ -908,7 +898,6 @@ class Kleingarten_Shortcodes {
 
 		$html .= '</p>';
 
-		//if ( $this->current_user_is_allowed_to_like() ) {
 		$gardener = new Kleingarten_Gardener( get_current_user_id() );
 		if ( $gardener->is_allowed_to_like() ) {
 
@@ -918,17 +907,15 @@ class Kleingarten_Shortcodes {
                 id="kleingarten-list-of-likes"><?php
 			foreach ( $likes as $like ) {
 
-				$firstname = get_user_meta( $like, 'first_name', true );
-				$lastname  = get_user_meta( $like, 'last_name', true );
-				$plot      = get_user_meta( $like, 'plot', true );
+                $gardener = new Kleingarten_Gardener( $like );
+
 				?>
                 <li>
 					<?php
-					echo esc_html( $firstname . ' ' . $lastname );
-					if ( isset ( $plot ) && $plot != '' && $plot != 0 ) {
-						echo ' (' . esc_html( __( 'Garden No.',
-								'kleingarten' ) ) . ' '
-						     . esc_html( get_the_title( $plot ) ) . ')';
+					echo esc_html( $gardener->first_name . ' ' . $gardener->last_name );
+					if ( isset ( $gardener->plot ) && $gardener->plot != '' && $gardener->plot != 0 ) {
+						$plot = new Kleingarten_Plot( $gardener->plot );
+						echo ' (' . esc_html( $plot->get_title() ) . ')';
 					}
 					?>
                 </li>
@@ -996,12 +983,12 @@ class Kleingarten_Shortcodes {
 					}
 				}
 
-				$dislikeed = false;
+				$disliked = false;
 				foreach ( $likes as $i => $like ) {
 
 					if ( $like == $user_id ) {
 						unset ( $likes[ $i ] );
-						$dislikeed = true;
+						$disliked = true;
 						$json_response
 						           = array(
 							'label'         => esc_html( __( 'Disliked',
@@ -1013,7 +1000,7 @@ class Kleingarten_Shortcodes {
 
 				}
 
-				if ( $dislikeed === false ) {
+				if ( $disliked === false ) {
 
 					$json_response = array(
 						'label'         => esc_html( __( 'Liked',
@@ -1028,15 +1015,15 @@ class Kleingarten_Shortcodes {
 				ob_start();
 				foreach ( $likes as $like ) {
 
-					$firstname = get_user_meta( $like, 'first_name', true );
-					$lastname  = get_user_meta( $like, 'last_name', true );
-					$plot      = get_user_meta( $like, 'plot', true );
+					$gardener = new Kleingarten_Gardener( $like );
+
 					?>
-                    <li><?php echo esc_html( $firstname . ' ' . $lastname );
-						if ( isset ( $plot ) && $plot != '' && $plot != 0 ) {
-							echo ' (' . esc_html( __( 'Garden No.',
-									'kleingarten' ) ) . ' '
-							     . esc_html( get_the_title( $plot ) ) . ')';
+                    <li>
+                        <?php
+                        echo esc_html( $gardener->first_name . ' ' . $gardener->last_name );
+						if ( isset ( $gardener->plot ) && $gardener->plot != '' && $gardener->plot != 0 ) {
+							$plot = new Kleingarten_Plot( $gardener->plot );
+							echo ' (' . esc_html( $plot->get_title() ) . ')';
 						}
 						?>
                     </li>
@@ -1113,15 +1100,13 @@ class Kleingarten_Shortcodes {
 				ob_start();
 				foreach ( $likes as $like ) {
 
-					$firstname = get_user_meta( $like, 'first_name', true );
-					$lastname  = get_user_meta( $like, 'last_name', true );
-					$plot      = get_user_meta( $like, 'plot', true );
+                    $gardener = new Kleingarten_Gardener( $like );
+
 					?>
-                    <li><?php echo esc_html( $firstname . ' ' . $lastname );
-						if ( isset ( $plot ) && $plot != '' && $plot != 0 ) {
-							echo ' (' . esc_html( __( 'Garden No.',
-									'kleingarten' ) ) . ' '
-							     . esc_html( get_the_title( $plot ) ) . ')';
+                    <li><?php echo esc_html( $gardener->first_name . ' ' . $gardener->last_name );
+						if ( isset ( $gardener->plot ) && $gardener->plot != '' && $gardener->plot != 0 ) {
+							$plot = new Kleingarten_Plot( $gardener->plot );
+							echo ' (' . esc_html( $plot->get_title() ) . ')';
 						}
 						?>
                     </li>
@@ -1500,26 +1485,12 @@ class Kleingarten_Shortcodes {
 		                echo '<ul class="kleingarten-inline-submit-meter-reading-messages">';
                         foreach ( $error_codes as $error_code ) {
 
-                            // Get error message and corresponding data:
-                            // (Error data is the meter ID the error belongs to)
 	                        $error_message = $save_reading_result->get_error_message( $error_code );
-                            //$error_data = $save_reading_result->get_error_data( $error_code );
 
-	                        //if ( in_array( $error_data, $assigned_meters) && isset( $error_message ) ) {
-
-                                echo '<li>';
-                                echo esc_html( __( 'Error', 'kleingarten' ) ) . ': ';
-                                echo esc_html( $error_message );
-                                echo '</li>';
-
-	                        //} elseif ( $error_code === 'kleingarten_inline_meter_reading_not_your_plot' ) {
-                            /*
-		                        echo '<li>';
-		                        echo esc_html( __( 'Error', 'kleingarten' ) ) . ': ';
-		                        echo esc_html( $error_message );
-		                        echo '</li>';
-                            */
-	                        //}
+                            echo '<li>';
+                            echo esc_html( __( 'Error', 'kleingarten' ) ) . ': ';
+                            echo esc_html( $error_message );
+                            echo '</li>';
 
                         }
 		                echo '</ul>';
@@ -1588,7 +1559,6 @@ class Kleingarten_Shortcodes {
                                     }
 
                                     if ( $atts['allow_reading_submission'] == 'true' ) {
-
 	                                    ?>
                                         <div class="kleingarten-inline-meter-reading-submission-form">
                                             <form method="post" action="<?php echo esc_url( get_permalink() ); ?>">

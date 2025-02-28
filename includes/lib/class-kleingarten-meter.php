@@ -64,6 +64,9 @@ class Kleingarten_Meter {
 					$this->readings[] = array(
 						'value' => $reading_data_set['value'],
 						'date' => $reading_data_set['date'],
+						'by' => $reading_data_set['by'],
+						'meter-no' => $reading_data_set['meter-no'],
+						'meta_id' => $reading['meta_id'],
 					);
 
 				}
@@ -336,8 +339,23 @@ class Kleingarten_Meter {
 	 *
 	 * @return array
 	 */
-	public function get_readings() {
+	public function get_readings( $sort_by_date = true ) {
+
+		if ( $sort_by_date ) {
+
+			uasort($this->readings, function($x, $y) {
+				if ( $x['date'] == $y['date'] )
+				{return 0;}
+				else if ( $x['date'] > $y['date'] )
+				{return -1;}
+				else
+				{return 1;}
+			});
+
+		}
+
 		return $this->readings;
+
 	}
 
 	/**

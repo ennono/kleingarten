@@ -463,7 +463,8 @@ class Kleingarten_Tools {
 								'kleingarten_batch_create_plots_success'   => $success,
 								'kleingarten_batch_create_plots_get_nonce' => wp_create_nonce( 'kleingarten_batch_create_plots_get_nonce_action' ),
 							),
-							home_url( $url )
+							//home_url( $url )
+							$url
 						)
 					)
 				);
@@ -801,6 +802,7 @@ class Kleingarten_Tools {
 							'kleingarten_batch_create_meter_reading_submission_tokens_success'         => 'true',
 							'kleingarten_batch_create_meter_reading_submission_tokens_plots_get_nonce' => wp_create_nonce( 'kleingarten_batch_create_meter_reading_submission_tokens_plots_get_nonce_action' ),
 						),
+							//home_url( $url )
 							$url
 						)
 					)
@@ -1106,7 +1108,8 @@ class Kleingarten_Tools {
 						// Pass the readings back e.g. to display them above the form:
 						//'kleingarten_import_readings_readings'  => $readings,
 					),
-					home_url( $url )
+					//home_url( $url )
+                    $url
 				)
 			)
 		);

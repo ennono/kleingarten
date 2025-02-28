@@ -157,8 +157,8 @@ class Kleingarten_Post_Meta {
 		?><div class="custom-field-panel"><?php
 		?><p><?php echo esc_html( count( $likes ) . ' ' . __( 'Gardener Likes', 'kleingarten' ) ); ?></p><?php
 
-		//$users = get_users( array( 'fields' => array( 'ID' ) ) );
 		foreach ( $users as $user ) {
+            $gardener = new Kleingarten_Gardener( $user->ID );
 			$user_meta = get_user_meta( $user->ID );
 			$checked   = '';
 			if ( in_array( $user->ID, $likes ) ) {
@@ -174,13 +174,14 @@ class Kleingarten_Post_Meta {
             <label for="kleingarten_likeed_by_<?php echo esc_attr( $user->ID ); ?>">
 				<?php
 
-				echo esc_html( $user_meta['first_name'][0] );
+				echo esc_html( $gardener->first_name );
 				echo ' ';
-				echo esc_html( $user_meta['last_name'][0] );
+				echo esc_html( $gardener->last_name );
 
-				if ( isset( $user_meta['plot'][0] ) && $user_meta['plot'][0] != 0 ) {
+                if ( isset( $gardener->plot ) && $gardener->plot != 0 ) {
+                    $plot = new Kleingarten_Plot( $gardener->plot );
 					echo ' (';
-					echo esc_html( get_the_title( $user_meta['plot'][0] ) );
+					echo esc_html( $plot->get_title() );
 					echo ')';
 				}
 
@@ -206,38 +207,16 @@ class Kleingarten_Post_Meta {
     * @return true Altered Post
     * @since 1.1.0
     */
-	public function render_meter_readings_meta_box_content( $meter ) {
+	public function render_meter_readings_meta_box_content( $post ) {
 
-        // Build an array of all the readings we already have in saved for this meter...
-        $known_readings = has_meta( $meter->ID );
-        foreach ( $known_readings as $j => $known_reading ) {
-
-            if ( $known_reading['meta_key'] != 'kleingarten_meter_reading' ) {
-                unset( $known_readings[$j] );
-            } else {
-                $known_reading_data = unserialize( $known_reading['meta_value'] );      // Date, value and author are saved as serialized string. So we have to unserialize it first.
-                $known_readings[$j]['reading_data']['date'] = $known_reading_data['date'];
-                $known_readings[$j]['reading_data']['value'] = $known_reading_data['value'];
-                $known_readings[$j]['reading_data']['by'] = $known_reading_data['by'];
-                $known_readings[$j]['reading_data']['meter-no'] = $known_reading_data['meter-no'];
-            }
-
-        }
-
-        // ... and sort it by dates:
-        uasort($known_readings, function($x, $y) {
-            if ( $x['reading_data']['date'] == $y['reading_data']['date'] )
-                {return 0;}
-            else if ( $x['reading_data']['date'] > $y['reading_data']['date'] )
-                {return -1;}
-            else
-                {return 1;}
-        });
+        // Build an array of all the readings we already have saved for this meter...
+        $meter = new Kleingarten_Meter( $post->ID );
+        $known_readings = $meter->get_readings();
 
         ?><div class="custom-field-panel"><?php
 
         // If a unit was defined for this meter / If this meter as been saved once and therefore has a defined unit/type...
-        $current_unit = get_post_meta( $meter->ID, 'kleingarten_meter_unit', true );
+        $current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
         if ( isset( $current_unit ) && $current_unit != '' ) {
 
            // ... build a form to enter a new reading...
@@ -255,8 +234,8 @@ class Kleingarten_Post_Meta {
                         <td><input name="new_kleingarten_meter_reading[value]" type="number" min="0"> <?php echo esc_html( $current_unit ); ?></td>
                         <td><input name="new_kleingarten_meter_reading[meter-no]" type="text"></td>
                         <td><?php
-                            $user = wp_get_current_user();
-                            echo esc_html( $user->display_name ); ?><input type="hidden" name="new_kleingarten_meter_reading[by]" value="<?php echo esc_attr( $user->ID );
+                            $gardener = new Kleingarten_Gardener( get_current_user_id() );
+                            echo esc_html( $gardener->disply_name ); ?><input type="hidden" name="new_kleingarten_meter_reading[by]" value="<?php echo esc_attr( $gardener->get_user_id() );
                         ?>"></td>
                         <td></td>
                     </tr>
@@ -268,31 +247,26 @@ class Kleingarten_Post_Meta {
             $wp_date_format = get_option('date_format');    // Get WordPress date format from settings.
             foreach ( $known_readings as $i => $reading ) {
 
-                //$reading_data = unserialize( $reading['meta_value'] );      // Date, value and author are saved as serialized string. So we have to unserialize it first.
-                $reading_data = $reading['reading_data'];
-                $reading_data['meta_id'] = $reading['meta_id'];             // And we want to add the meta ID as we will need it later to have an anchor for deleting readings.
-
                 ?><tr><?php
 
-                    //echo '<td>' . esc_html( date_format( date_create( $reading_data['date'] ), $wp_date_format ) ) . '</td>';
-                    echo '<td>' . esc_html( wp_date( $wp_date_format, intval( $reading_data['date'] ) ) ) . '</td>';
+                    echo '<td>' . esc_html( wp_date( $wp_date_format, intval( $reading['date'] ) ) ) . '</td>';
 
-                    echo '<td>' . esc_html( number_format( $reading_data['value'], 0, ',', '.') ) . ' ' . esc_html( $current_unit ) . '</td>';
-                    echo '<td>' . esc_html( $reading_data['meter-no'] ) . '</td>';
+                    echo '<td>' . esc_html( number_format( $reading['value'], 0, ',', '.') ) . ' ' . esc_html( $current_unit ) . '</td>';
+                    echo '<td>' . esc_html( $reading['meter-no'] ) . '</td>';
 
-                    //echo '<td>'.$reading_data['by'].'</td>';
-                    if ( isset( $reading_data['by'] ) && str_contains( $reading_data['by'], 'token_' ) ) {
-                        echo '<td>' . esc_html( __( 'Token', 'kleingarten' ) ) . ':<br>' . esc_html( substr( $reading_data['by'], 6 ) ) . '</td>';
-                    } elseif ( isset( $reading_data['by'] ) && str_contains( $reading_data['by'], 'csv_import_' ) ) {
-                        echo '<td>' . esc_html( __( 'CSV Import', 'kleingarten' ) ) . ':<br>' . esc_html( get_the_author_meta( 'display_name', intval( substr( $reading_data['by'], 11 ) ) ) ) . '</td>';
-                    } elseif ( isset( $reading_data['by'] ) ) {
-                        $user = get_user_by( 'id', $reading_data['by'] );
-                        echo '<td>' . esc_html( __( 'User', 'kleingarten' ) ) . ':<br>' . esc_html( $user->display_name ) . '</td>';
+                    if ( isset( $reading['by'] ) && str_contains( $reading['by'], 'token_' ) ) {
+                        echo '<td>' . esc_html( __( 'Token', 'kleingarten' ) ) . ':<br>' . esc_html( substr( $reading['by'], 6 ) ) . '</td>';
+                    } elseif ( isset( $reading['by'] ) && str_contains( $reading['by'], 'csv_import_' ) ) {
+                        $gardener = new Kleingarten_Gardener( intval( substr( $reading['by'], 11 ) ) );
+                        echo '<td>' . esc_html( __( 'CSV Import', 'kleingarten' ) ) . ':<br>' . esc_html( $gardener->disply_name ) . '</td>';
+                    } elseif ( isset( $reading['by'] ) ) {
+                        $gardener = new Kleingarten_Gardener( $reading['by'] );
+                        echo '<td>' . esc_html( __( 'User', 'kleingarten' ) ) . ':<br>' . esc_html( $gardener->disply_name ) . '</td>';
                     } else {
                         echo '<td>'.esc_html__( 'Unknown', 'kleingarten' ).'</td>';
                     }
 
-                    echo '<td><label for="delete_kleingarten_meter_reading_' . esc_attr( $reading_data['meta_id'] ) . '"><input id="delete_kleingarten_meter_reading_' . esc_attr( $reading_data['meta_id'] ) . '" name="delete_kleingarten_meter_readings[]" type="checkbox" value="' . esc_attr( $reading_data['meta_id'] ) . '">Delete</label></td>';
+                    echo '<td><label for="delete_kleingarten_meter_reading_' . esc_attr( $reading['meta_id'] ) . '"><input id="delete_kleingarten_meter_reading_' . esc_attr( $reading['meta_id'] ) . '" name="delete_kleingarten_meter_readings[]" type="checkbox" value="' . esc_attr( $reading['meta_id'] ) . '">Delete</label></td>';
 
                 ?></tr>
 
@@ -303,11 +277,6 @@ class Kleingarten_Post_Meta {
             ?>
             </tbody>
             </table><?php
-/*
-            echo '<pre>';
-            echo var_dump( get_metadata_by_mid( 'post', 403) );
-            echo '</pre>';
-*/
 
         // ... or if this meter has not been saved once yet and therefore has not defined unit/type yet...
         } else {
