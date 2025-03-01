@@ -26,7 +26,7 @@ class Kleingarten_Plots {
 	 *
 	 * @return void
 	 */
-	public function __construct() {
+	public function __construct( $with_meter_ID_assigned = null ) {
 
 		// Get all published plots:
 		$args  = array(
@@ -34,6 +34,13 @@ class Kleingarten_Plots {
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
 		);
+
+		// If we only want plots with a certain meter assigned:
+		if ( $with_meter_ID_assigned != null && is_int( $with_meter_ID_assigned ) ) {
+			$args['meta_key'] = 'kleingarten_meter_assignment';
+			$args['meta_value'] = strval ( $with_meter_ID_assigned );
+		}
+
 		$this->plots = get_posts( $args );
 
 	}

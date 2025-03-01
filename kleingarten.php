@@ -34,6 +34,7 @@ require_once 'includes/lib/class-kleingarten-user-roles.php';
 require_once 'includes/lib/class-kleingarten-shortcodes.php';
 require_once 'includes/lib/class-kleingarten-post-meta.php';
 require_once 'includes/lib/class-kleingarten-plots.php';
+require_once 'includes/lib/class-kleingarten-meters.php';
 require_once 'includes/lib/class-kleingarten-plot.php';
 require_once 'includes/lib/class-kleingarten-meter.php';
 require_once 'includes/lib/class-kleingarten-gardener.php';

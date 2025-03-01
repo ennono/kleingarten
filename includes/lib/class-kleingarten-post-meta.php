@@ -299,18 +299,24 @@ class Kleingarten_Post_Meta {
     * @return true
     * @since 1.1.0
     */
-	public function render_plot_assignment_meta_box_content( $meter ) {
+    public function render_plot_assignment_meta_box_content( $meter ) {
+
+        $meter_ID = $meter->ID;
+
+        $meter = new Kleingarten_Meter( $meter_ID );
+        $plots = new Kleingarten_Plots( $meter_ID );
 
 		?><div class="custom-field-panel"><?php
 
-        if ($this->meter_is_assigned ( $meter->ID ) ) {
+        if ($meter->meter_is_assigned() ) {
 
             echo '<p>' . esc_html__( 'Meter is assigned to', 'kleingarten' ) . '&nbsp;';
-            $assignments = $this->get_meter_assignments( $meter->ID );
-            $assignments_num = count ( $assignments );
-            foreach ( $assignments as $n => $assignment ) {
-                echo '<a href="' . esc_url( get_edit_post_link( $assignment ) ) . '">';
-                echo esc_html( get_the_title( $assignment ) );
+            $assignment_plots = $plots->get_plot_IDs();
+            $assignments_num = count ( $assignment_plots );
+            foreach ( $assignment_plots as $n => $assignment_plot ) {
+                $plot = new Kleingarten_Plot( $assignment_plot );
+                echo '<a href="' . esc_url( get_edit_post_link( $assignment_plot ) ) . '">';
+                echo esc_html( $plot->get_title() );
                 echo '</a>';
                 if ( $assignments_num - 1 - $n > 0 ) {
                     echo ', ';
@@ -326,67 +332,6 @@ class Kleingarten_Post_Meta {
 
         return true;
 	}
-    
-    /**
-    * Checks if a meter has assignments.
-    *
-    * @param $meter_ID
-    *
-    * @return bool
-    * @since 1.1.0
-    */
-    private function meter_is_assigned( $meter_ID ) {
-
-        // Get assigned meter:
-        $assignments = $this->get_meter_assignments( $meter_ID );
-
-        // If there are multiple meters assigned...
-        if ( is_array( $assignments ) && $assignments ) {
-            return true;
-        }
-
-        // If there is a single meter assigned...
-        if ( ! is_array( $assignments ) && $assignments != null && $assignments != '' ) {
-            return true;
-        }
-
-        // If nothing is assigned...
-        return false;
-
-    }
-
-    /**
-    * Returns a list of plots a meter is assigned to.
-    *
-    * @param $meter_ID
-    *
-    * @return array
-    * @sine 1.1.0
-    */
-    private function get_meter_assignments( $meter_ID ) {
-
-        // List all plots which the given meter is assigned to:
-        $args = array(
-			'post_type'  => 'kleingarten_plot',
-            'meta_key'   => 'kleingarten_meter_assignment',
-            'meta_value' => strval ( $meter_ID ),
-            'posts_per_page' => -1,
-		);
-        $plots_with_meter_assigned = get_posts( $args );
-
-        if ( is_array( $plots_with_meter_assigned ) ) {
-            $plot_IDs = array();
-            foreach ( $plots_with_meter_assigned as $plot ) {
-                $plot_IDs[] = $plot->ID;
-            }
-            return $plot_IDs;
-        } else {
-            $plot_IDs = array();
-            $plot_IDs[] = $plots_with_meter_assigned->ID;
-            return $plot_IDs;
-        }
-
-    }
 
     /**
 	* Build meter assignments meta box content.
@@ -399,19 +344,16 @@ class Kleingarten_Post_Meta {
     */
 	public function render_meter_assignment_meta_box_content( $plot ) {
 
+        $meters = new Kleingarten_Meters();
+
+        $plot_ID = $plot->ID;
+        $plot = new Kleingarten_Plot( $plot_ID );
+
         // List all meters assigned to this plot:
-        $assigned_meters = $this->get_assigned_meters( $plot->ID );
+        $assigned_meters = $plot->get_assigned_meters();
 
         // List all available meters:
-        $args = array(
-                    'post_type' => 'kleingarten_meter',
-                    'post_status' => 'publish',
-                    'meta_key' => 'kleingarten_meter_unit',
-                    'orderby' => 'meta_value',
-                    'order' => 'ASC',
-                    'posts_per_page' => -1,
-        );
-        $available_meters = get_posts( $args );
+        $available_meters = $meters->get_meter_IDs();
 
 		?><div class="custom-field-panel"><?php
 
@@ -424,10 +366,12 @@ class Kleingarten_Post_Meta {
                         echo '<ul class="kleingarten_meters_list">';
 						foreach ( $available_meters as $k => $available_meter ) {
 
+                            $meter = new Kleingarten_Meter( $available_meter );
+
                             // Check if this available meter is already assign to the plot we're currently editing.
                             // If so set a flag to check the checkbox.
 							$checked = false;
-							if ( in_array( $available_meter->ID, $assigned_meters) ) {
+							if ( in_array( $available_meter, $assigned_meters) ) {
 								$checked = true;
 							}
 
@@ -436,9 +380,9 @@ class Kleingarten_Post_Meta {
 							     . '" class="checkbox_multi"><input type="checkbox" '
 							     . checked( $checked, true, false )
 							     //. disabled( $disable, true, false )
-							     . 'name="kleingarten_selected_meters[]" value="' . esc_attr( $available_meter->ID )
+							     . 'name="kleingarten_selected_meters[]" value="' . esc_attr( $available_meter )
 							     . '" id="kleingarten_selected_meters_' . esc_attr( $k ) . '" /> '
-							     . esc_html( $available_meter->post_title )
+							     . esc_html( $meter->get_title() )
 							     //. $disabled_hint
 							     . '</label></li>';
 

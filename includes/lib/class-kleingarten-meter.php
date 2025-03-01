@@ -475,4 +475,63 @@ class Kleingarten_Meter {
 
 	}
 
+	/**
+	 * Returns true if a meters is assign to a plot and false if not.
+	 *
+	 * @param $meter_ID
+	 *
+	 * @return bool
+	 */
+	public function meter_is_assigned() {
+
+		// Get assigned meter:
+		$assignments = $this->get_meter_assignments( $this->post_ID );
+
+		// If there are multiple meters assigned...
+		if ( is_array( $assignments ) && $assignments ) {
+			return true;
+		}
+
+		// If there is a single meter assigned...
+		if ( ! is_array( $assignments ) && $assignments != null && $assignments != '' ) {
+			return true;
+		}
+
+		// If nothing is assigned...
+		return false;
+
+	}
+
+	/**
+	 * Returns a list of plots a meter is assigned to.
+	 *
+	 * @param $meter_ID
+	 *
+	 * @return array
+	 */
+	public function get_meter_assignments( $meter_ID ) {
+
+		// List all plots which the given meter is assigned to:
+		$args = array(
+			'post_type'  => 'kleingarten_plot',
+			'meta_key'   => 'kleingarten_meter_assignment',
+			'meta_value' => strval ( $meter_ID ),
+			'posts_per_page' => -1,
+		);
+		$plots_with_meter_assigned = get_posts( $args );
+
+		if ( is_array( $plots_with_meter_assigned ) ) {
+			$plot_IDs = array();
+			foreach ( $plots_with_meter_assigned as $plot ) {
+				$plot_IDs[] = $plot->ID;
+			}
+			return $plot_IDs;
+		} else {
+			$plot_IDs = array();
+			$plot_IDs[] = $plots_with_meter_assigned->ID;
+			return $plot_IDs;
+		}
+
+	}
+
 }
