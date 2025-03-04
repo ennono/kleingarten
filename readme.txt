@@ -47,7 +47,7 @@ This plugin extends WordPress with useful functions for allotment garden associa
 = 1.1.5 =
 * WE ARE CURRENTLY WORKING ON THIS. NOT SUITABLE FOR PRODUCTIVE ENVIRONMENT! 
 *
-* This version takes a big step forward in terms of security, stability and maintainability!
+* This version is a huge enabler in terms of security, stability and performance!
 *
 * Minor bugfixes.
 

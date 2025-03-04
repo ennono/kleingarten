@@ -245,7 +245,8 @@ class Kleingarten_Post_Meta {
 
             // ... and then list all present readings for this meter...
             $wp_date_format = get_option('date_format');    // Get WordPress date format from settings.
-            foreach ( $known_readings as $i => $reading ) {
+            if ( is_array( $known_readings ) ) {
+                foreach ( $known_readings as $i => $reading ) {
 
                 ?><tr><?php
 
@@ -273,6 +274,8 @@ class Kleingarten_Post_Meta {
                 <?php
 
             }
+            }
+
 
             ?>
             </tbody>
@@ -357,13 +360,12 @@ class Kleingarten_Post_Meta {
 
 		?><div class="custom-field-panel"><?php
 
-					$k = 0;
+		$k = 0;
 
-					// Build and print checkboxes to assign meters to this plot:
-					if ( count( $available_meters ) >= 1
-					     && $available_meters[0] != '' ) {
+		// Build and print checkboxes to assign meters to this plot:
+		if ( count( $available_meters ) >= 1 && $available_meters[0] != '' ) {
 
-                        echo '<ul class="kleingarten_meters_list">';
+            echo '<ul class="kleingarten_meters_list">';
 						foreach ( $available_meters as $k => $available_meter ) {
 
                             $meter = new Kleingarten_Meter( $available_meter );
@@ -396,7 +398,9 @@ class Kleingarten_Post_Meta {
 						echo '<p><em>'
 						     . esc_html__( 'There are no meters defined yet.',
 								'kleingarten' ) . '</em></p>';
-					}
+
+        }
+
 
         wp_nonce_field( 'save_kleingarten_meter_assignments', 'kleingarten_meter_assignments_nonce' );
 
@@ -404,40 +408,6 @@ class Kleingarten_Post_Meta {
 
         return true;
 	}
-
-    /**
-    * Returns a list meters assigned to a plot.
-    *
-    * @param $plot_ID
-    *
-    * @return array
-    *@since 1.1.0
-    */
-    private function get_assigned_meters( $plot_ID, $return_meta_IDs = false ) {
-
-        // Get all post meta for the given plot:
-        $post_meta = has_meta( $plot_ID );
-
-        // Extract meter assignments:
-        $assigned_meters = array();
-        if ( is_array( $post_meta ) && $post_meta ) {
-            foreach ( $post_meta as $j => $single_post_meta ) {
-
-               if ( $single_post_meta['meta_key'] == 'kleingarten_meter_assignment' ) {
-                   if ( ! $return_meta_IDs ) {
-                        $assigned_meters[] = $single_post_meta['meta_value'];
-                   } else {
-                        $assigned_meters[] = $single_post_meta['meta_id'];
-                   }
-               }
-
-            }
-        }
-
-        // Finally return the list of assigned meters:
-        return $assigned_meters;
-
-    }
 
      /**
 	* Build meter unit meta box content.
@@ -456,7 +426,9 @@ class Kleingarten_Post_Meta {
             esc_html_e( 'There are no units defined yet. Go to settings to define some.', 'kleingarten' );
         } else {
 
-            $current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
+            //$current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
+            $meter = new Kleingarten_Meter( $post->ID );
+            $current_unit = $meter->get_unit();
 
             $disabled = false;
             if ( isset ( $current_unit ) && $current_unit != '' ) {
@@ -503,23 +475,12 @@ class Kleingarten_Post_Meta {
     public function render_meter_reading_submission_token_meta_box_content( $post ) {
 
         // Build a list of existing tokens:
-        $existing_tokens = has_meta( $post->ID );
-        foreach ( $existing_tokens as $j => $existing_token ) {
-
-            if ( $existing_token['meta_key'] != 'kleingarten_meter_reading_submission_token' ) {
-                unset( $existing_tokens[$j] );
-            } else {
-                $existing_token_data = unserialize( $existing_token['meta_value'] );      // Date, value and author are saved as serialized string. So we have to unserialize it first.
-                $existing_tokens[$j]['token_data']['token'] = $existing_token_data['token'];
-                $existing_tokens[$j]['token_data']['token_status'] = $existing_token_data['token_status'];
-                $existing_tokens[$j]['token_data']['token_expiry_date'] = $existing_token_data['token_expiry_date'];
-            }
-
-        }
+        $meter = new Kleingarten_Meter( $post->ID );
+        $existing_tokens = $meter->get_tokens();
 
         $wp_date_format = get_option('date_format');    // Get WordPress date format from settings.
 
-        // Print a table with existing tokens and start with the header:
+        // Print a table with existing tokens starting with the header:
         echo '<div id="kleingarten-add-meter-reading-submission-tokens">';
         $current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
         if ( isset( $current_unit ) &&  $current_unit != '' ) {
@@ -690,16 +651,12 @@ class Kleingarten_Post_Meta {
                 $meta_id = update_post_meta( $post_id, 'kleingarten_meter_unit', $sanitized_data );
                 if ( ! is_bool( $meta_id ) && ! $meta_id === false ) {
                     $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Meter unit set.', 'kleingarten' ), 'success' );
-
                 // ... or, but only if meter is not already set, print an error:
                 } elseif ( metadata_exists( 'post', $meta_id, 'kleingarten_meter_unit' ) ) {
                     $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Something went wrong. Meter unit could not be set.', 'kleingarten' ), 'error' );
                 }
 
             }
-
-
-
 
 		}
 
@@ -769,7 +726,9 @@ class Kleingarten_Post_Meta {
 
                     // ... validate data...
                     $validation_errors = 0;
-                    $existing_readings = get_post_meta( $post_id, 'kleingarten_meter_reading' );
+                    //$existing_readings = get_post_meta( $post_id, 'kleingarten_meter_reading' );
+                    $meter = new Kleingarten_Meter( $post_id );
+                    $existing_readings = $meter->get_readings();
                     if ( $existing_readings ) {
 
                         // Check if we already have a reading for this date:
@@ -799,7 +758,8 @@ class Kleingarten_Post_Meta {
                     if ( $validation_errors === 0 ) {
 
                         $meta_id = 0;
-                        $meta_id = add_post_meta( $post_id, 'kleingarten_meter_reading', $sanitized_data );
+                        //$meta_id = add_post_meta( $post_id, 'kleingarten_meter_reading', $sanitized_data );
+                        $meta_id = $meter->add_reading( $sanitized_data['value'], $sanitized_data['date'], $sanitized_data['by'], $sanitized_data['meter-no'] );
                         if ( ! is_bool( $meta_id ) && ! $meta_id === false ) {
                             $this->add_message( 'kleingarten_meter_reading', 'kleingarten_meter_reading', __( 'New reading saved.', 'kleingarten' ), 'success' );
                         } else {
@@ -822,7 +782,9 @@ class Kleingarten_Post_Meta {
                     // ... delete them all:
                     $error_counter = 0;
                     foreach ( $readings_to_delete as $reading_to_delete ) {
-                        if ( ! delete_metadata_by_mid( 'post', absint( wp_unslash( $reading_to_delete ) ) ) ) {
+                        $meter = new Kleingarten_Meter( $post_id );
+                        $meter->remove_reading( $reading_to_delete );
+                        if ( is_wp_error( $meter ) ) {
                             $error_counter++;
                         }
                     }
@@ -871,8 +833,11 @@ class Kleingarten_Post_Meta {
 			return;
 		} else {
 
+            $plot = new Kleingarten_Plot( $plot_id );
+
             // Get a list of currently assigned meters:
-            $currently_assigned_meters = $this->get_assigned_meters( $plot_id );
+            //$currently_assigned_meters = $this->get_assigned_meters( $plot_id );
+            $currently_assigned_meters = $plot->get_assigned_meters();
 
             // We will need all these "isset" checking to prevent warnings
             // resulting from dealing with empty or non-existing arrays.
@@ -890,9 +855,13 @@ class Kleingarten_Post_Meta {
                 $success_counter = 0;
                 foreach ( $meters_to_add as $meter_to_add ) {
 
+                    $meter = new Kleingarten_Meter( $meter_to_add );
+                    $meter->assign_to_plot( $plot_id );
+
                     $meta_id = 0;
                     $meta_id = add_post_meta( $plot_id, 'kleingarten_meter_assignment', absint ($meter_to_add) );
-                    if ( is_bool( $meta_id ) && $meta_id === false ) {
+                    //if ( is_bool( $meta_id ) && $meta_id === false ) {
+                    if ( is_wp_error( $meta_id ) ) {
                         $error_counter++;
                     } else {
                         $success_counter++;
@@ -923,7 +892,8 @@ class Kleingarten_Post_Meta {
                 $error_counter = 0;
                 $success_counter = 0;
                 foreach ( $meters_to_remove as $meter_to_remove ) {
-                    if ( ! delete_post_meta( $plot_id, 'kleingarten_meter_assignment', absint ($meter_to_remove) ) ) {
+                    $meter = new Kleingarten_Meter( $meter_to_remove );
+                    if ( is_wp_error( $meter->unassign_from_plot( $plot_id ) ) ) {
                         $error_counter++;
                     } else {
                         $success_counter++;
@@ -1012,6 +982,7 @@ class Kleingarten_Post_Meta {
         if ( isset ( $_POST['meter_id'] ) ) {
 
             // Create a token...
+            /*
             $token = $this->create_meter_reading_submission_token();    // This will only create the key. Nothing more. Not expiry date or anything else.
             $json_response['token'] = $token;
 
@@ -1028,10 +999,22 @@ class Kleingarten_Post_Meta {
             $token_data_set_to_save['token'] = $token;
             $token_data_set_to_save['token_status'] = 'active';
             $token_data_set_to_save['token_expiry_date'] = $expiry_date_timestamp;
-            $json_response['token_meta_id'] = add_post_meta( absint( wp_unslash( $_POST['meter_id'] ) ), 'kleingarten_meter_reading_submission_token', $token_data_set_to_save );
+            //$json_response['token_meta_id'] = add_post_meta( absint( wp_unslash( $_POST['meter_id'] ) ), 'kleingarten_meter_reading_submission_token', $token_data_set_to_save );
+            */
+            $meter = new Kleingarten_Meter( $_POST['meter_id'] );
+            $token_id = $meter->create_token();
 
-            // Fine, return the token so JS and die:
-            wp_send_json_success( $json_response, 200 );
+            if ( ! is_wp_error( $token_id ) ) {
+
+                $token_details = $meter->get_token_details( $token_id );
+                $wp_date_format = get_option('date_format');
+                $token_details['token_expiry_date'] = date( $wp_date_format, $token_details['token_expiry_date'] );
+
+                $json_response = $token_details;
+                // Fine, return the token so JS and die:
+                wp_send_json_success( $json_response, 200 );
+            }
+
 
         }
 

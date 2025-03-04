@@ -61,13 +61,22 @@ class Kleingarten_Meter {
 
 					$reading_data_set = unserialize( $reading['meta_value'] );
 
-					$this->readings[] = array(
-						'value' => $reading_data_set['value'],
-						'date' => $reading_data_set['date'],
-						'by' => $reading_data_set['by'],
-						'meter-no' => $reading_data_set['meter-no'],
-						'meta_id' => $reading['meta_id'],
-					);
+					if ( isset( $reading_data_set['meter-no'] ) ) {
+						$this->readings[] = array(
+							'value' => $reading_data_set['value'],
+							'date' => $reading_data_set['date'],
+							'by' => $reading_data_set['by'],
+							'meter-no' => $reading_data_set['meter-no'],
+							'meta_id' => $reading['meta_id'],
+						);
+					} else {
+						$this->readings[] = array(
+							'value' => $reading_data_set['value'],
+							'date' => $reading_data_set['date'],
+							'by' => $reading_data_set['by'],
+							'meta_id' => $reading['meta_id'],
+						);
+					}
 
 				}
 
@@ -343,14 +352,17 @@ class Kleingarten_Meter {
 
 		if ( $sort_by_date ) {
 
-			uasort($this->readings, function($x, $y) {
-				if ( $x['date'] == $y['date'] )
-				{return 0;}
-				else if ( $x['date'] > $y['date'] )
-				{return -1;}
-				else
-				{return 1;}
-			});
+			if ( is_array( $this->readings ) ) {
+				uasort($this->readings, function($x, $y) {
+					if ( $x['date'] == $y['date'] )
+					{return 0;}
+					else if ( $x['date'] > $y['date'] )
+					{return -1;}
+					else
+					{return 1;}
+				});
+			}
+
 
 		}
 
@@ -434,11 +446,13 @@ class Kleingarten_Meter {
 
 		$errors = new WP_Error();
 
-		$sanitized_data['date'] = strtotime( sanitize_text_field( wp_unslash( $date ) ) );
+		//$sanitized_data['date'] = strtotime( sanitize_text_field( wp_unslash( $date ) ) );
+		$sanitized_data['date'] = absint( wp_unslash( $date ) );
 		$sanitized_data['value'] = absint( wp_unslash( $value ) );
 		if ( $by != null ) {
 			$sanitized_data['by'] = absint( wp_unslash( $by ) );
 		}
+		$sanitized_data['meter-no'] = sanitize_text_field( wp_unslash( $meter_no ) );
 
 		// Validate data:
 		if ( $this->readings ) {
@@ -472,6 +486,25 @@ class Kleingarten_Meter {
 		} else {
 			return $errors;
 		}
+
+	}
+
+	/**
+	 * Removes a meter reading by meta_id.
+	 *
+	 * @param $meta_id
+	 *
+	 * @return true|WP_Error
+	 */
+	public function remove_reading( $meta_id ) {
+
+		if ( ! delete_metadata_by_mid( 'post', absint( wp_unslash( $meta_id ) ) ) ) {
+			$errors = new WP_Error();
+			$errors->add( 'kleingarten_meter_reading_could_not_delete', __( 'Something went wrong. Could could not remove reading.', 'kleingarten', $meta_id ) );
+			return $errors;
+		}
+
+		return true;
 
 	}
 
@@ -532,6 +565,133 @@ class Kleingarten_Meter {
 			return $plot_IDs;
 		}
 
+	}
+
+	/**
+	 * Returns a list of tokens.
+	 *
+	 * @return array
+	 */
+	public function get_tokens() {
+
+		// Build a list of existing tokens:
+		$existing_tokens = has_meta( $this->post_ID );
+		foreach ( $existing_tokens as $j => $existing_token ) {
+
+			if ( $existing_token['meta_key'] != 'kleingarten_meter_reading_submission_token' ) {
+				unset( $existing_tokens[$j] );
+			} else {
+				$existing_token_data = unserialize( $existing_token['meta_value'] );      // Date, value and author are saved as serialized string. So we have to unserialize it first.
+				$existing_tokens[$j]['token_data']['token'] = $existing_token_data['token'];
+				$existing_tokens[$j]['token_data']['token_status'] = $existing_token_data['token_status'];
+				$existing_tokens[$j]['token_data']['token_expiry_date'] = $existing_token_data['token_expiry_date'];
+			}
+
+		}
+
+		return $existing_tokens;
+
+	}
+
+	/**
+	 * Returns a details of a single token.
+	 *
+	 * @return array
+	 */
+	public function get_token_details( $meta_id ) {
+
+		$meta_data = get_metadata_by_mid( 'post', $meta_id );
+
+		$token_details = array(
+			'token' => $meta_data->meta_value['token'],
+			'token_status' => $meta_data->meta_value['token_status'],
+			'token_expiry_date' => $meta_data->meta_value['token_expiry_date'],
+		);
+
+		return $token_details;
+
+	}
+
+	/**
+	 * Assigns the meter to a plot.
+	 *
+	 * @param $plot_id
+	 *
+	 * @return WP_Error|true
+	 */
+	public function assign_to_plot( $plot_id ) {
+
+		$meta_id = add_post_meta( $plot_id, 'kleingarten_meter_assignment', $this->post_ID );
+
+		if ( ! $meta_id ) {
+			$errors = new WP_Error();
+			$errors->add( 'kleingarten_meter_assignment_could_not_create', __( 'Could assign meter to plot.', 'kleingarten' ), $plot_id );
+			return $errors;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Un-assigns the meter from a plot.
+	 *
+	 * @param $plot_id
+	 *
+	 * @return WP_Error|true
+	 */
+	public function unassign_from_plot( $plot_id ) {
+
+		$meta_id = delete_post_meta( $plot_id, 'kleingarten_meter_assignment', $this->post_ID );
+
+		if ( ! $meta_id ) {
+			$errors = new WP_Error();
+			$errors->add( 'kleingarten_meter_assignment_could_not_create', __( 'Could unassign meter from plot.', 'kleingarten' ), $plot_id );
+			return $errors;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Adds a new meter reading submission token.
+	 *
+	 * @return int
+	 */
+	public function create_token( $token_status = 'active' ): bool|int {
+
+		$days_to_add_from_today = get_option( 'kleingarten_meter_reading_submission_token_time_to_live', 10 );
+		$wp_date_format = get_option('date_format');
+		$today = gmdate( $wp_date_format );
+		$expiry_date_formated = gmdate($wp_date_format, strtotime($today. ' + ' . $days_to_add_from_today . ' days'));
+		$expiry_date_timestamp = strtotime($expiry_date_formated);
+
+		$token_data_set_to_save = array();
+		$token_data_set_to_save['token'] = $this->calc_token();
+		$token_data_set_to_save['token_status'] = $token_status;
+		$token_data_set_to_save['token_expiry_date'] = $expiry_date_timestamp;
+
+		$meta_id = add_post_meta( absint( wp_unslash( $this->post_ID ) ), 'kleingarten_meter_reading_submission_token', $token_data_set_to_save );
+
+		if ( ! $meta_id ) {
+			$errors = WP_Errors();
+			$errors->add( 'kleingarten_meter_assignment_could_not_create_meter_reading_submission_token', __( 'Could create new token.', 'kleingarten' ) );
+			return $errors;
+		}
+
+		return $meta_id;
+
+	}
+
+	/**
+	 * Returns a token to be saved as meter reading submission token.
+	 *
+	 * @return int
+	 */
+	private function calc_token() {
+		$token = random_int(100000, 999999);
+		return $token;
 	}
 
 }
