@@ -14,10 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Post_Types {
 
-	public $allotment_plot_args;
-	public $allotment_plot_labels;
-	public $meter_labels;
-	public $meter_args;
+	private $allotment_plot_args;
+	private $allotment_plot_labels;
+	private $meter_labels;
+	private $meter_args;
 
 	/**
 	 * Post types constructor.
@@ -34,7 +34,7 @@ class Kleingarten_Post_Types {
 		add_action( 'init',
 			array( $this, 'register_meter_post_type' ) );
 
-		add_action( 'wp_trash_post', array( $this, 'purge_meter' ) );
+		add_action( 'wp_trash_post', array( 'Kleingarten_Meter', 'purge_meter' ) );
 		// Alternatively if you want to clean when meter is deleted from DB instead:
 		// add_action( 'delete_post', array( $this, 'purge_meter' ) );
 
@@ -228,38 +228,6 @@ class Kleingarten_Post_Types {
 	}
 
 	/**
-	 * Remove meter assignments.
-	 * To be used to clean up assignments when a meter is deleted.
-	 *
-	 * @return void
-	 * @since 1.1.0
-	 */
-	public function purge_meter( $deleted_meter_ID ) {
-
-		// List all plots which the deleted meter is assigned to:
-		$args  = array(
-			'post_type'      => 'kleingarten_plot',
-			'meta_key'       => 'kleingarten_meter_assignment',
-			'meta_value'     => $deleted_meter_ID,
-			'posts_per_page' => - 1,
-		);
-		$plots = get_posts( $args );
-
-		// If we found post which the deleted meter is assigned to...
-		if ( $plots ) {
-
-			// ... delete them all:
-			foreach ( (array) $plots as $plot ) {
-				delete_post_meta( $plot->ID, 'kleingarten_meter_assignment',
-					$deleted_meter_ID );
-			}
-
-		}
-
-
-	}
-
-	/**
 	 * Callback to customize columns for meter post type in admin area.
 	 *
 	 * @return array
@@ -285,11 +253,10 @@ class Kleingarten_Post_Types {
 		$wp_date_format
 			= get_option( 'date_format' );    // Get WordPress date format from settings.
 
-		// Get the  recent reading value an date:
-		$readings                  = has_meta( $meter_id,
+		// Get the recent reading value and date:
+		$readings = has_meta( $meter_id,
 			'kleingarten_meter_reading' );
-		$most_recent
-		                           = 0;                       // Helper for comparing
+		$most_recent = 0;                       // Helper for comparing
 		$most_recent_reading_value = null;         // Latest value
 		$most_recent_reading_date  = '';         // Latest date
 		foreach ( $readings as $j => $reading ) {

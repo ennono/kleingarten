@@ -655,6 +655,36 @@ class Kleingarten_Meter {
 	}
 
 	/**
+	 * Remove meter assignments. To be used to clean up assignments when a meter is deleted.
+	 *
+	 * @return void
+	 * @since 1.1.0
+	 */
+	public static function purge_meter( $deleted_meter_ID ) {
+
+		// List all plots which the deleted meter is assigned to:
+		$args  = array(
+			'post_type'      => 'kleingarten_plot',
+			'meta_key'       => 'kleingarten_meter_assignment',
+			'meta_value'     => $deleted_meter_ID,
+			'posts_per_page' => - 1,
+		);
+		$plots = get_posts( $args );
+
+		// If we found post which the deleted meter is assigned to...
+		if ( $plots ) {
+
+			// ... delete them all:
+			foreach ( (array) $plots as $plot ) {
+				delete_post_meta( $plot->ID, 'kleingarten_meter_assignment',
+					$deleted_meter_ID );
+			}
+
+		}
+
+	}
+
+	/**
 	 * Adds a new meter reading submission token.
 	 *
 	 * @return int

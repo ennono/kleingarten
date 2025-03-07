@@ -29,13 +29,6 @@ class Kleingarten_Plot {
 	private $post;
 
 	/**
-	 * Meters
-	 *
-	 * @array
-	 */
-	//private $meters;
-
-	/**
 	 * Plot handler constructor.
 	 *
 	 * @return void
@@ -49,11 +42,13 @@ class Kleingarten_Plot {
 		$this->post = get_post( $this->post_ID );
 
 		// If getting the post succeeded initialize more:
+		/*
 		if ( $this->post != null ) {
 
 
 
 		}
+		*/
 
 	}
 
