@@ -1023,22 +1023,6 @@ class Kleingarten_Post_Meta {
     }
 
     /**
-    * Returns a random meter reading submission token.
-    *
-    * @param $plot_ID
-    *
-    * @return int
-    * @since 1.1.0
-    */
-    private function create_meter_reading_submission_token() {
-
-        $token = random_int(100000, 999999);
-
-        return $token;
-
-    }
-
-    /**
     * Saves meta readings submission tokens. As creating tokens is usually handled by AJAX this function mostly cares about deactivating tokens.
     * To be uses as a callback on "save_post".
     *
@@ -1058,6 +1042,8 @@ class Kleingarten_Post_Meta {
         // ... but if nonce check succeeded:
 		} else {
 
+           $meter = new Kleingarten_Meter( $meter_id );
+
            // If there are tokens to deactivate...
            if ( isset( $_POST['kleingarten_deactivate_tokens'] ) ) {
 
@@ -1066,19 +1052,29 @@ class Kleingarten_Post_Meta {
                if ( is_array( $tokens_to_deactivate ) ) {
 
                    // ... deactivate them all:
-                   $error_counter = 0;
+                   //$error_counter = 0;
+                   $j = 0;
                    foreach ( $tokens_to_deactivate as $token_to_deactivate ) {
-                       //if ( ! delete_metadata_by_mid( 'post', absint( $tokento_delete ) ) ) {
-                       if ( ! $this->deactivate_meter_reading_submission_token( $token_to_deactivate ) ) {
-                           $error_counter++;
+                       if ( is_wp_error( $result = $meter->deactivate_token( $token_to_deactivate ) ) ) {
+                           //$error_counter++;
+                           $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', $result->get_error_message(), 'error' );
+                       } else {
+                           $j++;
                        }
                    }
+                   if ( $j >= 1 ) {
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u tokens deactivated.', 'kleingarten' ), $j ), 'error' );
+                   } elseif ( $j == 1 ) {
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token deactivated.', 'kleingarten' ), $j ), 'error' );
+                   }
 
+                   /*
                    if ( ! $error_counter > 0 ) {
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Tokens deactivated.', 'kleingarten' ), 'info' );
                    } else {
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Something went wrong. Some tokens could not be deactivated.', 'kleingarten' ), 'error' );
                    }
+                   */
 
                }
                // ... or if it is just one single reading...
@@ -1108,18 +1104,29 @@ class Kleingarten_Post_Meta {
 
                    // ... deactivate them all:
                    $error_counter = 0;
+                   $j = 0;
                    foreach ( $tokens_to_delete as $token_to_delete ) {
-                       if ( ! delete_metadata_by_mid( 'post', absint( $token_to_delete ) ) ) {
-                       //if ( ! $this->deactivate_meter_reading_submission_token( $tokento_delete ) ) {
-                           $error_counter++;
+                       //if ( ! delete_metadata_by_mid( 'post', absint( $token_to_delete ) ) ) {
+                       if ( is_wp_error( $result = $meter->delete_token( $token_to_delete ) ) ) {
+                           //$error_counter++;
+                           $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', $result->get_error_message(), 'error' );
+                       } else {
+                           $j++;
                        }
                    }
+                   if ( $j >= 1 ) {
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u tokens deleted.', 'kleingarten' ), $j ), 'error' );
+                   } elseif ( $j == 1 ) {
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token deleted.', 'kleingarten' ), $j ), 'error' );
+                   }
 
+                   /*
                    if ( ! $error_counter > 0 ) {
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Tokens deleted.', 'kleingarten' ), 'info' );
                    } else {
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Something went wrong. Some tokens could not be deleted.', 'kleingarten' ), 'error' );
                    }
+                   */
 
                }
                // ... or if it is just one single reading...
@@ -1137,34 +1144,6 @@ class Kleingarten_Post_Meta {
            }
 
         }
-
-    }
-
-    /**
-    * Deactivate a meter reading submission token.
-    *
-    * @param $plot_ID
-    *
-    * @return bool
-    *@since 1.1.0
-    */
-    private function deactivate_meter_reading_submission_token( $meta_id ) {
-
-        $meta = get_post_meta_by_id( $meta_id );
-        if ( $meta === false ) {
-            return false;
-        }
-
-        if ( $meta->meta_key == 'kleingarten_meter_reading_submission_token' ) {
-
-            $meta_value = maybe_unserialize( $meta->meta_value );
-            $meta_value['token_status'] = 'deactivated';
-
-            return update_metadata_by_mid( 'post', $meta_id, $meta_value );
-
-        }
-
-        return false;
 
     }
 

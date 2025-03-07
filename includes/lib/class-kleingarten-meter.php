@@ -694,4 +694,86 @@ class Kleingarten_Meter {
 		return $token;
 	}
 
+	/**
+	 * Deactivate a meter reading submission token.
+	 *
+	 * @param $plot_ID
+	 *
+	 * @return bool|WP_Error
+	 *@since 1.1.0
+	 */
+	public function deactivate_token( $token_id ) {
+
+		$errors = new WP_Error();
+
+		$token_id = absint( $token_id );
+
+		// Try to find the token that shall be deactivated:
+		$meta = get_post_meta_by_id( $token_id );
+		if ( $meta === false ) {
+			$errors->add( 'kleingarten_meter_assignment_could_not_find_meter_reading_submission_token', __( 'Could not find token to deactivate. Please refresh the page and try again.', 'kleingarten' ) );
+			return $errors;
+		}
+
+		if ( $meta->post_id != $this->post_ID ) {
+			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_does_not_belong_to_this_meter', __( 'You have no permission to deactivate this token.', 'kleingarten' ) );
+			return $errors;
+		}
+
+		// If we found the token and if it actually is a token:
+		if ( $meta->meta_key == 'kleingarten_meter_reading_submission_token' ) {
+
+			$meta_value = maybe_unserialize( $meta->meta_value );
+
+			$meta_value['token_status'] = 'deactivated';
+
+			if ( ! update_metadata_by_mid( 'post', $token_id, $meta_value ) ) {
+				$errors->add( 'kleingarten_meter_assignment_could_not_update_meter_reading_submission_token', __( 'Could not deactivate token.', 'kleingarten' ) );
+				return $errors;
+			}
+
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Deletes an existing token.
+	 *
+	 * @param $token_id
+	 *
+	 * @return void|WP_Error
+	 */
+	public function delete_token( $token_id ) {
+
+		$errors = new WP_Error();
+
+		$token_id = absint( $token_id );
+
+		// Try to find the token that shall be deactivated:
+		$meta = get_post_meta_by_id( $token_id );
+		if ( $meta === false ) {
+			$errors->add( 'kleingarten_meter_assignment_could_not_find_meter_reading_submission_token', __( 'Could not find token to deactivate. Please refresh the page and try again.', 'kleingarten' ) );
+			return $errors;
+		}
+
+		if ( $meta->post_id != $this->post_ID ) {
+			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_does_not_belong_to_this_meter', __( 'You have no permission to deactivate this token.', 'kleingarten' ) );
+			return $errors;
+		}
+
+		$meta_value = maybe_unserialize( $meta->meta_value );
+		if ( $meta_value['token_status'] != 'deactivated' ) {
+			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_not_deactivated', __( 'Token must be deactivated first.', 'kleingarten' ) );
+			return $errors;
+		}
+
+		if ( ! delete_metadata_by_mid( 'post', $token_id ) ) {
+			$errors->add( 'kleingarten_meter_assignment_could_not_delete_meter_reading_submission_token', __( 'Could not delete token.', 'kleingarten' ) );
+			return $errors;
+		}
+
+	}
+
 }
