@@ -383,6 +383,7 @@ class Kleingarten_Tools {
 					}
 
 					// Prepare plot:
+                    /*
 					$postarr = array(
 						'post_type'   => 'kleingarten_plot',
 						'post_title'  => $prefix . ' ' . $i . ' ' . $suffix,
@@ -395,39 +396,48 @@ class Kleingarten_Tools {
 					if ( is_wp_error( $new_plot_id ) || $new_plot_id === 0 ) {
 						$error_counter ++;
 					}
+                    */
+                    $new_plot = Kleingarten_Plot::create_new( $prefix . ' ' . $i . ' ' . $suffix );
+                    if ( ! is_wp_error( $new_plot ) ) {
 
-					// Create meters if requested:
-					if ( isset( $_POST['kleingarten_batch_create_plots_add_meters'] )
-					     && count( $available_meters ) > 0 ) {
+	                    $new_plot_id = $new_plot->get_ID();
 
-						foreach ( $available_meters as $available_meter ) {
+	                    // Create meters if requested:
+	                    if ( isset( $_POST['kleingarten_batch_create_plots_add_meters'] )
+	                         && count( $available_meters ) > 0 ) {
 
-							// Create new meter:
-							$postarr      = array(
-								'post_type'   => 'kleingarten_meter',
-								'post_title'  => $available_meter . ' '
-								                 . $prefix . ' ' . $i . ' '
-								                 . $suffix,
-								'post_status' => 'publish',
-								'post_author' => get_current_user_id(),
-							);
-							$new_meter_id = wp_insert_post( $postarr );
+		                    foreach ( $available_meters as $available_meter ) {
 
-							// Set new meter's unit:
-							update_post_meta( $new_meter_id,
-								'kleingarten_meter_unit', $available_meter );
+			                    // Create new meter:
+			                    $postarr      = array(
+				                    'post_type'   => 'kleingarten_meter',
+				                    'post_title'  => $available_meter . ' '
+				                                     . $prefix . ' ' . $i . ' '
+				                                     . $suffix,
+				                    'post_status' => 'publish',
+				                    'post_author' => get_current_user_id(),
+			                    );
+			                    $new_meter_id = wp_insert_post( $postarr );
 
-							// Assign meter to plot:
-							$meta_id = add_post_meta( $new_plot_id,
-								'kleingarten_meter_assignment',
-								absint( $new_meter_id ) );
-							if ( is_bool( $meta_id ) && $meta_id === false ) {
-								$error_counter ++;
-							}
+			                    // Set new meter's unit:
+			                    update_post_meta( $new_meter_id,
+				                    'kleingarten_meter_unit', $available_meter );
 
-						}
+			                    // Assign meter to plot:
+			                    $meta_id = add_post_meta( $new_plot_id,
+				                    'kleingarten_meter_assignment',
+				                    absint( $new_meter_id ) );
+			                    if ( is_bool( $meta_id ) && $meta_id === false ) {
+				                    $error_counter ++;
+			                    }
 
-					}
+		                    }
+
+	                    }
+
+                    } else {
+                        $error_counter ++;
+                    }
 
 				}
 

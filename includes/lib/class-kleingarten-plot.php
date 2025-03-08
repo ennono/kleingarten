@@ -52,6 +52,34 @@ class Kleingarten_Plot {
 
 	}
 
+	public static function create_new( $title, $author_id = 0 ) {
+
+		if ( $author_id == 0 ) {
+			$author_id = get_current_user_id();
+		}
+
+		// Prepare plot:
+		$postarr = array(
+			'post_type'   => 'kleingarten_plot',
+			'post_title'  => sanitize_text_field( $title ),
+			'post_status' => 'publish',
+			'post_author' => absint( $author_id ),
+		);
+
+		// Create plot or add error message on failure:
+		$new_plot_id = wp_insert_post( $postarr );
+		if ( is_wp_error( $new_plot_id ) || $new_plot_id === 0 ) {
+			return new WP_Error();
+		}
+
+		return new self( $new_plot_id );
+
+	}
+
+	public function get_ID() {
+		return $this->post_ID;
+	}
+
 	/**
 	 * Little helper that returns true if given plot is assigned to given
 	 * member and false if not.
