@@ -371,7 +371,7 @@ class Kleingarten_Meter {
 	}
 
 	/**
-	 * Return the most recent reading.
+	 * Returns the most recent reading and its date.
 	 *
 	 * @return array
 	 */
@@ -380,16 +380,19 @@ class Kleingarten_Meter {
 		$most_recent = 0;                       // Helper for comparing
 		$most_recent_reading_value = null;      // Latest value
 		$most_recent_reading_date  = '';        // Latest date
-		foreach ( $this->readings as $reading ) {
+		if ( is_array( $this->readings ) ) {
+			foreach ( $this->readings as $reading ) {
 
-			$current_date = $reading['date'];
-			if ( $current_date > $most_recent ) {
-				$most_recent = $current_date;
-				$most_recent_reading_value = $reading['value'];
-				$most_recent_reading_date  = $reading['date'];
+				$current_date = $reading['date'];
+				if ( $current_date > $most_recent ) {
+					$most_recent = $current_date;
+					$most_recent_reading_value = $reading['value'];
+					$most_recent_reading_date  = $reading['date'];
+				}
+
 			}
-
 		}
+
 
 		return array(
 			'reading' => $most_recent_reading_value,
@@ -518,7 +521,7 @@ class Kleingarten_Meter {
 	public function meter_is_assigned() {
 
 		// Get assigned meter:
-		$assignments = $this->get_meter_assignments( $this->post_ID );
+		$assignments = $this->get_meter_assignments();
 
 		// If there are multiple meters assigned...
 		if ( is_array( $assignments ) && $assignments ) {
@@ -542,13 +545,13 @@ class Kleingarten_Meter {
 	 *
 	 * @return array
 	 */
-	public function get_meter_assignments( $meter_ID ) {
+	public function get_meter_assignments() {
 
 		// List all plots which the given meter is assigned to:
 		$args = array(
 			'post_type'  => 'kleingarten_plot',
 			'meta_key'   => 'kleingarten_meter_assignment',
-			'meta_value' => strval ( $meter_ID ),
+			'meta_value' => strval ( $this->post_ID ),
 			'posts_per_page' => -1,
 		);
 		$plots_with_meter_assigned = get_posts( $args );

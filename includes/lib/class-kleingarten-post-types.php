@@ -253,7 +253,10 @@ class Kleingarten_Post_Types {
 		$wp_date_format
 			= get_option( 'date_format' );    // Get WordPress date format from settings.
 
+		$meter = new Kleingarten_Meter( $meter_id );
+
 		// Get the recent reading value and date:
+		/*
 		$readings = has_meta( $meter_id,
 			'kleingarten_meter_reading' );
 		$most_recent = 0;                       // Helper for comparing
@@ -288,9 +291,14 @@ class Kleingarten_Post_Types {
 			}
 
 		}
+		*/
+		$most_recent_reading = $meter->get_most_recent_reading();
+		$most_recent_reading_value = $most_recent_reading['reading'];
+		$most_recent_reading_date  = $most_recent_reading['date'];
 
 		if ( 'meter_unit' === $column ) {
-			$unit = get_post_meta( $meter_id, 'kleingarten_meter_unit', true );
+			//$unit = get_post_meta( $meter_id, 'kleingarten_meter_unit', true );
+			$unit = $meter->get_unit();
 			if ( $unit != '' ) {
 				echo esc_html( $unit );
 			} else {
@@ -322,7 +330,8 @@ class Kleingarten_Post_Types {
 
 		if ( 'assignments' === $column ) {
 
-			$assignments = $this->get_meter_assignments( $meter_id );
+			//$assignments = $this->get_meter_assignments( $meter_id );
+			$assignments = $meter->get_meter_assignments();
 
 			if ( $assignments ) {
 
@@ -332,10 +341,13 @@ class Kleingarten_Post_Types {
 
 					foreach ( $assignments as $j => $assignment ) {
 
+						$plot = new Kleingarten_Plot( $assignment );
+
 						echo '<a href="'
 						     . esc_url( get_edit_post_link( $assignment ) )
 						     . '">';
 						echo esc_html( get_the_title( $assignment ) );
+						echo esc_html( $plot->get_title() );
 						echo '</a>';
 
 						if ( $j < $assignments_number - 1 ) {
@@ -346,10 +358,11 @@ class Kleingarten_Post_Types {
 
 					// ... or if there is only one plot linked
 				} else {
+					$plot = new Kleingarten_Plot( $assignments[0] );
 					echo '<a href="'
 					     . esc_url( get_edit_post_link( $assignments[0] ) )
 					     . '">';
-					echo esc_html( get_the_title( $assignments[0] ) );
+					echo esc_html( $plot->get_title() );
 					echo '</a>';
 				}
 
@@ -360,41 +373,6 @@ class Kleingarten_Post_Types {
 
 		}
 
-
-	}
-
-	/**
-	 * Returns a list of plots a meter is assigned to.
-	 *
-	 * @param $meter_ID
-	 *
-	 * @return array
-	 * @sine 1.1.0
-	 */
-	private function get_meter_assignments( $meter_ID ) {
-
-		// List all plots which the given meter is assigned to:
-		$args                      = array(
-			'post_type'      => 'kleingarten_plot',
-			'meta_key'       => 'kleingarten_meter_assignment',
-			'meta_value'     => strval( $meter_ID ),
-			'posts_per_page' => - 1,
-		);
-		$plots_with_meter_assigned = get_posts( $args );
-
-		if ( is_array( $plots_with_meter_assigned ) ) {
-			$plot_IDs = array();
-			foreach ( $plots_with_meter_assigned as $plot ) {
-				$plot_IDs[] = $plot->ID;
-			}
-
-			return $plot_IDs;
-		} else {
-			$plot_IDs   = array();
-			$plot_IDs[] = $plots_with_meter_assigned->ID;
-
-			return $plot_IDs;
-		}
 
 	}
 
