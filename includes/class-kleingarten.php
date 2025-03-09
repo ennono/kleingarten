@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedConstantInspection */
 /**
  * Main plugin class file.
  *

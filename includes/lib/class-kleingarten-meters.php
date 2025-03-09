@@ -29,10 +29,10 @@ class Kleingarten_Meters {
 	public function __construct( /*$assigned_to_meter = null*/ ) {
 
 		// Get all published meters:
-		$args  = array(
+		$args = array(
 			'post_type'      => 'kleingarten_meter',
 			'post_status'    => 'publish',
-			'posts_per_page' => -1,
+			'posts_per_page' => - 1,
 		);
 
 		// If we only want meters with a certain meter assigned:
@@ -53,9 +53,13 @@ class Kleingarten_Meters {
 	 * @return int|null
 	 */
 	public function get_meters_num() {
+
 		if ( is_countable( $this->meters ) ) {
 			return count( $this->meters );
 		}
+
+		return 0;
+
 	}
 
 	/**
@@ -69,7 +73,7 @@ class Kleingarten_Meters {
 		$meter_IDs = array();
 
 		// Put every available meter on the list:
-		foreach( $this->meters as $meter ) {
+		foreach ( $this->meters as $meter ) {
 			$meter_IDs[] = $meter->ID;
 		}
 

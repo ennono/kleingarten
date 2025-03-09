@@ -63,17 +63,17 @@ class Kleingarten_Meter {
 
 					if ( isset( $reading_data_set['meter-no'] ) ) {
 						$this->readings[] = array(
-							'value' => $reading_data_set['value'],
-							'date' => $reading_data_set['date'],
-							'by' => $reading_data_set['by'],
+							'value'    => $reading_data_set['value'],
+							'date'     => $reading_data_set['date'],
+							'by'       => $reading_data_set['by'],
 							'meter-no' => $reading_data_set['meter-no'],
-							'meta_id' => $reading['meta_id'],
+							'meta_id'  => $reading['meta_id'],
 						);
 					} else {
 						$this->readings[] = array(
-							'value' => $reading_data_set['value'],
-							'date' => $reading_data_set['date'],
-							'by' => $reading_data_set['by'],
+							'value'   => $reading_data_set['value'],
+							'date'    => $reading_data_set['date'],
+							'by'      => $reading_data_set['by'],
 							'meta_id' => $reading['meta_id'],
 						);
 					}
@@ -102,7 +102,7 @@ class Kleingarten_Meter {
 		if ( $date === '' ) {
 			$timestamp = strtotime( 'now' );
 
-		// If a timestamp was set convert it:
+			// If a timestamp was set convert it:
 		} else {
 			$timestamp = strtotime( sanitize_text_field( $date ) );
 		}
@@ -113,14 +113,17 @@ class Kleingarten_Meter {
 			= Kleingarten_Meter::token_is_usable( $token );       // "token_is_usable" will return meta ID or WP_Error
 		if ( is_wp_error( $token_id ) ) {
 			$errors->merge_from( $token_id );
+
 			return $errors;
 		}
 
 		// Validate the reading.
 		// Stop right here on failure.
-		$reading_validation_data = Kleingarten_Meter::reading_is_valid( $value_read );
+		$reading_validation_data
+			= Kleingarten_Meter::reading_is_valid( $value_read );
 		if ( is_wp_error( $reading_validation_data ) ) {
 			$errors->merge_from( $reading_validation_data );
+
 			return $errors;
 		}
 
@@ -130,11 +133,12 @@ class Kleingarten_Meter {
 			= Kleingarten_Meter::reading_date_is_valid( $timestamp, $token_id );
 		if ( is_wp_error( $reading_date_validation_data ) ) {
 			$errors->merge_from( $reading_date_validation_data );
+
 			return $errors;
 		}
 
 		// Get the associated meter's post ID from the token ID or stop here in failure:
-		$meter_id = 0;
+		$meter_id        = 0;
 		$token_meta_data = get_metadata_by_mid( 'post', $token_id );
 		if ( is_object( $token_meta_data ) ) {
 			$meter_id = $token_meta_data->post_id;
@@ -335,9 +339,39 @@ class Kleingarten_Meter {
 	}
 
 	/**
+	 * Remove meter assignments. To be used to clean up assignments when a meter is deleted.
+	 *
+	 * @return void
+	 * @since 1.1.0
+	 */
+	public static function purge_meter( $deleted_meter_ID ) {
+
+		// List all plots which the deleted meter is assigned to:
+		$args  = array(
+			'post_type'      => 'kleingarten_plot',
+			'meta_key'       => 'kleingarten_meter_assignment',
+			'meta_value'     => $deleted_meter_ID,
+			'posts_per_page' => - 1,
+		);
+		$plots = get_posts( $args );
+
+		// If we found post which the deleted meter is assigned to...
+		if ( $plots ) {
+
+			// ... delete them all:
+			foreach ( (array) $plots as $plot ) {
+				delete_post_meta( $plot->ID, 'kleingarten_meter_assignment',
+					$deleted_meter_ID );
+			}
+
+		}
+
+	}
+
+	/**
 	 * Returns the number of readings.
 	 *
-	 * @return array
+	 * @return int
 	 */
 	public function count_readings() {
 		return count( $this->readings );
@@ -353,14 +387,15 @@ class Kleingarten_Meter {
 		if ( $sort_by_date ) {
 
 			if ( is_array( $this->readings ) ) {
-				uasort($this->readings, function($x, $y) {
-					if ( $x['date'] == $y['date'] )
-					{return 0;}
-					else if ( $x['date'] > $y['date'] )
-					{return -1;}
-					else
-					{return 1;}
-				});
+				uasort( $this->readings, function ( $x, $y ) {
+					if ( $x['date'] == $y['date'] ) {
+						return 0;
+					} else if ( $x['date'] > $y['date'] ) {
+						return - 1;
+					} else {
+						return 1;
+					}
+				} );
 			}
 
 
@@ -377,7 +412,7 @@ class Kleingarten_Meter {
 	 */
 	public function get_most_recent_reading() {
 
-		$most_recent = 0;                       // Helper for comparing
+		$most_recent               = 0;                       // Helper for comparing
 		$most_recent_reading_value = null;      // Latest value
 		$most_recent_reading_date  = '';        // Latest date
 		if ( is_array( $this->readings ) ) {
@@ -385,7 +420,7 @@ class Kleingarten_Meter {
 
 				$current_date = $reading['date'];
 				if ( $current_date > $most_recent ) {
-					$most_recent = $current_date;
+					$most_recent               = $current_date;
 					$most_recent_reading_value = $reading['value'];
 					$most_recent_reading_date  = $reading['date'];
 				}
@@ -428,7 +463,7 @@ class Kleingarten_Meter {
 	public function may_be_updated_by_user( $user_id ) {
 
 		$gardener = new Kleingarten_Gardener( $user_id );
-		$plot = new Kleingarten_Plot( $gardener->plot );
+		$plot     = new Kleingarten_Plot( $gardener->plot );
 
 		$assigned_meters = $plot->get_assigned_meters();
 
@@ -450,12 +485,13 @@ class Kleingarten_Meter {
 		$errors = new WP_Error();
 
 		//$sanitized_data['date'] = strtotime( sanitize_text_field( wp_unslash( $date ) ) );
-		$sanitized_data['date'] = absint( wp_unslash( $date ) );
+		$sanitized_data['date']  = absint( wp_unslash( $date ) );
 		$sanitized_data['value'] = absint( wp_unslash( $value ) );
 		if ( $by != null ) {
 			$sanitized_data['by'] = absint( wp_unslash( $by ) );
 		}
-		$sanitized_data['meter-no'] = sanitize_text_field( wp_unslash( $meter_no ) );
+		$sanitized_data['meter-no']
+			= sanitize_text_field( wp_unslash( $meter_no ) );
 
 		// Validate data:
 		if ( $this->readings ) {
@@ -463,24 +499,29 @@ class Kleingarten_Meter {
 			// Check if we already have a reading for this date:
 			foreach ( $this->readings as $existing_reading ) {
 				if ( $existing_reading['date'] === $sanitized_data['date'] ) {
-					$errors->add( 'kleingarten_meter_reading_not_unique', __( 'A meter reading already exists for this date.', 'kleingarten' ), $this->post_ID );
+					$errors->add( 'kleingarten_meter_reading_not_unique',
+						__( 'A meter reading already exists for this date.',
+							'kleingarten' ), $this->post_ID );
 					break;
 				}
 			}
 
 			// Determine if date is in the future:
 			$reading_date = $sanitized_data['date'];
-			$today = strtotime( gmdate( 'Y-m-d' ) );
+			$today        = strtotime( gmdate( 'Y-m-d' ) );
 			if ( $reading_date > $today ) {
-				$errors->add( 'kleingarten_meter_reading_date_in_future', __( 'Cannot save a reading for a date in the future.', 'kleingarten' ), $this->post_ID );
+				$errors->add( 'kleingarten_meter_reading_date_in_future',
+					__( 'Cannot save a reading for a date in the future.',
+						'kleingarten' ), $this->post_ID );
 			}
 
 		}
 
-		$meta_id = add_post_meta( $this->post_ID, 'kleingarten_meter_reading', $sanitized_data );
+		$meta_id = add_post_meta( $this->post_ID, 'kleingarten_meter_reading',
+			$sanitized_data );
 		if ( ! $meta_id ) {
 			$errors->add( 'kleingarten_meter_reading_could_not_create',
-				__( 'Could not create not create new reading.',
+				__( 'Could not create new reading.',
 					'kleingarten' ), $this->post_ID );
 		}
 
@@ -501,9 +542,13 @@ class Kleingarten_Meter {
 	 */
 	public function remove_reading( $meta_id ) {
 
-		if ( ! delete_metadata_by_mid( 'post', absint( wp_unslash( $meta_id ) ) ) ) {
+		if ( ! delete_metadata_by_mid( 'post',
+			absint( wp_unslash( $meta_id ) ) ) ) {
 			$errors = new WP_Error();
-			$errors->add( 'kleingarten_meter_reading_could_not_delete', __( 'Something went wrong. Could could not remove reading.', 'kleingarten', $meta_id ) );
+			$errors->add( 'kleingarten_meter_reading_could_not_delete',
+				__( 'Something went wrong. Could could not remove reading.',
+					'kleingarten' ), $meta_id );
+
 			return $errors;
 		}
 
@@ -529,7 +574,8 @@ class Kleingarten_Meter {
 		}
 
 		// If there is a single meter assigned...
-		if ( ! is_array( $assignments ) && $assignments != null && $assignments != '' ) {
+		if ( ! is_array( $assignments ) && $assignments != null
+		     && $assignments != '' ) {
 			return true;
 		}
 
@@ -548,11 +594,11 @@ class Kleingarten_Meter {
 	public function get_meter_assignments() {
 
 		// List all plots which the given meter is assigned to:
-		$args = array(
-			'post_type'  => 'kleingarten_plot',
-			'meta_key'   => 'kleingarten_meter_assignment',
-			'meta_value' => strval ( $this->post_ID ),
-			'posts_per_page' => -1,
+		$args                      = array(
+			'post_type'      => 'kleingarten_plot',
+			'meta_key'       => 'kleingarten_meter_assignment',
+			'meta_value'     => strval( $this->post_ID ),
+			'posts_per_page' => - 1,
 		);
 		$plots_with_meter_assigned = get_posts( $args );
 
@@ -561,10 +607,12 @@ class Kleingarten_Meter {
 			foreach ( $plots_with_meter_assigned as $plot ) {
 				$plot_IDs[] = $plot->ID;
 			}
+
 			return $plot_IDs;
 		} else {
-			$plot_IDs = array();
+			$plot_IDs   = array();
 			$plot_IDs[] = $plots_with_meter_assigned->ID;
+
 			return $plot_IDs;
 		}
 
@@ -581,13 +629,18 @@ class Kleingarten_Meter {
 		$existing_tokens = has_meta( $this->post_ID );
 		foreach ( $existing_tokens as $j => $existing_token ) {
 
-			if ( $existing_token['meta_key'] != 'kleingarten_meter_reading_submission_token' ) {
-				unset( $existing_tokens[$j] );
+			if ( $existing_token['meta_key']
+			     != 'kleingarten_meter_reading_submission_token' ) {
+				unset( $existing_tokens[ $j ] );
 			} else {
-				$existing_token_data = unserialize( $existing_token['meta_value'] );      // Date, value and author are saved as serialized string. So we have to unserialize it first.
-				$existing_tokens[$j]['token_data']['token'] = $existing_token_data['token'];
-				$existing_tokens[$j]['token_data']['token_status'] = $existing_token_data['token_status'];
-				$existing_tokens[$j]['token_data']['token_expiry_date'] = $existing_token_data['token_expiry_date'];
+				$existing_token_data
+					= unserialize( $existing_token['meta_value'] );      // Date, value and author are saved as serialized string. So we have to unserialize it first.
+				$existing_tokens[ $j ]['token_data']['token']
+					= $existing_token_data['token'];
+				$existing_tokens[ $j ]['token_data']['token_status']
+					= $existing_token_data['token_status'];
+				$existing_tokens[ $j ]['token_data']['token_expiry_date']
+					= $existing_token_data['token_expiry_date'];
 			}
 
 		}
@@ -606,8 +659,8 @@ class Kleingarten_Meter {
 		$meta_data = get_metadata_by_mid( 'post', $meta_id );
 
 		$token_details = array(
-			'token' => $meta_data->meta_value['token'],
-			'token_status' => $meta_data->meta_value['token_status'],
+			'token'             => $meta_data->meta_value['token'],
+			'token_status'      => $meta_data->meta_value['token_status'],
 			'token_expiry_date' => $meta_data->meta_value['token_expiry_date'],
 		);
 
@@ -624,11 +677,15 @@ class Kleingarten_Meter {
 	 */
 	public function assign_to_plot( $plot_id ) {
 
-		$meta_id = add_post_meta( $plot_id, 'kleingarten_meter_assignment', $this->post_ID );
+		$meta_id = add_post_meta( $plot_id, 'kleingarten_meter_assignment',
+			$this->post_ID );
 
 		if ( ! $meta_id ) {
 			$errors = new WP_Error();
-			$errors->add( 'kleingarten_meter_assignment_could_not_create', __( 'Could assign meter to plot.', 'kleingarten' ), $plot_id );
+			$errors->add( 'kleingarten_meter_assignment_could_not_create',
+				__( 'Could not assign meter to plot.', 'kleingarten' ),
+				$plot_id );
+
 			return $errors;
 		}
 
@@ -645,45 +702,19 @@ class Kleingarten_Meter {
 	 */
 	public function unassign_from_plot( $plot_id ) {
 
-		$meta_id = delete_post_meta( $plot_id, 'kleingarten_meter_assignment', $this->post_ID );
+		$meta_id = delete_post_meta( $plot_id, 'kleingarten_meter_assignment',
+			$this->post_ID );
 
 		if ( ! $meta_id ) {
 			$errors = new WP_Error();
-			$errors->add( 'kleingarten_meter_assignment_could_not_create', __( 'Could unassign meter from plot.', 'kleingarten' ), $plot_id );
+			$errors->add( 'kleingarten_meter_assignment_could_not_create',
+				__( 'Could unassign meter from plot.', 'kleingarten' ),
+				$plot_id );
+
 			return $errors;
 		}
 
 		return true;
-
-	}
-
-	/**
-	 * Remove meter assignments. To be used to clean up assignments when a meter is deleted.
-	 *
-	 * @return void
-	 * @since 1.1.0
-	 */
-	public static function purge_meter( $deleted_meter_ID ) {
-
-		// List all plots which the deleted meter is assigned to:
-		$args  = array(
-			'post_type'      => 'kleingarten_plot',
-			'meta_key'       => 'kleingarten_meter_assignment',
-			'meta_value'     => $deleted_meter_ID,
-			'posts_per_page' => - 1,
-		);
-		$plots = get_posts( $args );
-
-		// If we found post which the deleted meter is assigned to...
-		if ( $plots ) {
-
-			// ... delete them all:
-			foreach ( (array) $plots as $plot ) {
-				delete_post_meta( $plot->ID, 'kleingarten_meter_assignment',
-					$deleted_meter_ID );
-			}
-
-		}
 
 	}
 
@@ -694,22 +725,29 @@ class Kleingarten_Meter {
 	 */
 	public function create_token( $token_status = 'active' ): bool|int {
 
-		$days_to_add_from_today = get_option( 'kleingarten_meter_reading_submission_token_time_to_live', 10 );
-		$wp_date_format = get_option('date_format');
-		$today = gmdate( $wp_date_format );
-		$expiry_date_formated = gmdate($wp_date_format, strtotime($today. ' + ' . $days_to_add_from_today . ' days'));
-		$expiry_date_timestamp = strtotime($expiry_date_formated);
+		$days_to_add_from_today
+			                   = get_option( 'kleingarten_meter_reading_submission_token_time_to_live',
+			10 );
+		$wp_date_format        = get_option( 'date_format' );
+		$today                 = gmdate( $wp_date_format );
+		$expiry_date_formated  = gmdate( $wp_date_format,
+			strtotime( $today . ' + ' . $days_to_add_from_today . ' days' ) );
+		$expiry_date_timestamp = strtotime( $expiry_date_formated );
 
-		$token_data_set_to_save = array();
-		$token_data_set_to_save['token'] = $this->calc_token();
-		$token_data_set_to_save['token_status'] = $token_status;
+		$token_data_set_to_save                      = array();
+		$token_data_set_to_save['token']             = $this->calc_token();
+		$token_data_set_to_save['token_status']      = $token_status;
 		$token_data_set_to_save['token_expiry_date'] = $expiry_date_timestamp;
 
-		$meta_id = add_post_meta( absint( wp_unslash( $this->post_ID ) ), 'kleingarten_meter_reading_submission_token', $token_data_set_to_save );
+		$meta_id = add_post_meta( absint( wp_unslash( $this->post_ID ) ),
+			'kleingarten_meter_reading_submission_token',
+			$token_data_set_to_save );
 
 		if ( ! $meta_id ) {
 			$errors = WP_Errors();
-			$errors->add( 'kleingarten_meter_assignment_could_not_create_meter_reading_submission_token', __( 'Could create new token.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_could_not_create_meter_reading_submission_token',
+				__( 'Could not create new token.', 'kleingarten' ) );
+
 			return $errors;
 		}
 
@@ -723,7 +761,8 @@ class Kleingarten_Meter {
 	 * @return int
 	 */
 	private function calc_token() {
-		$token = random_int(100000, 999999);
+		$token = random_int( 100000, 999999 );
+
 		return $token;
 	}
 
@@ -733,7 +772,7 @@ class Kleingarten_Meter {
 	 * @param $plot_ID
 	 *
 	 * @return bool|WP_Error
-	 *@since 1.1.0
+	 * @since 1.1.0
 	 */
 	public function deactivate_token( $token_id ) {
 
@@ -744,12 +783,18 @@ class Kleingarten_Meter {
 		// Try to find the token that shall be deactivated:
 		$meta = get_post_meta_by_id( $token_id );
 		if ( $meta === false ) {
-			$errors->add( 'kleingarten_meter_assignment_could_not_find_meter_reading_submission_token', __( 'Could not find token to deactivate. Please refresh the page and try again.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_could_not_find_meter_reading_submission_token',
+				__( 'Could not find token to deactivate. Please refresh the page and try again.',
+					'kleingarten' ) );
+
 			return $errors;
 		}
 
 		if ( $meta->post_id != $this->post_ID ) {
-			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_does_not_belong_to_this_meter', __( 'You have no permission to deactivate this token.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_does_not_belong_to_this_meter',
+				__( 'You have no permission to deactivate this token.',
+					'kleingarten' ) );
+
 			return $errors;
 		}
 
@@ -761,7 +806,9 @@ class Kleingarten_Meter {
 			$meta_value['token_status'] = 'deactivated';
 
 			if ( ! update_metadata_by_mid( 'post', $token_id, $meta_value ) ) {
-				$errors->add( 'kleingarten_meter_assignment_could_not_update_meter_reading_submission_token', __( 'Could not deactivate token.', 'kleingarten' ) );
+				$errors->add( 'kleingarten_meter_assignment_could_not_update_meter_reading_submission_token',
+					__( 'Could not deactivate token.', 'kleingarten' ) );
+
 				return $errors;
 			}
 
@@ -787,23 +834,33 @@ class Kleingarten_Meter {
 		// Try to find the token that shall be deactivated:
 		$meta = get_post_meta_by_id( $token_id );
 		if ( $meta === false ) {
-			$errors->add( 'kleingarten_meter_assignment_could_not_find_meter_reading_submission_token', __( 'Could not find token to deactivate. Please refresh the page and try again.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_could_not_find_meter_reading_submission_token',
+				__( 'Could not find token to deactivate. Please refresh the page and try again.',
+					'kleingarten' ) );
+
 			return $errors;
 		}
 
 		if ( $meta->post_id != $this->post_ID ) {
-			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_does_not_belong_to_this_meter', __( 'You have no permission to deactivate this token.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_does_not_belong_to_this_meter',
+				__( 'You have no permission to deactivate this token.',
+					'kleingarten' ) );
+
 			return $errors;
 		}
 
 		$meta_value = maybe_unserialize( $meta->meta_value );
 		if ( $meta_value['token_status'] != 'deactivated' ) {
-			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_not_deactivated', __( 'Token must be deactivated first.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_meter_reading_submission_token_not_deactivated',
+				__( 'Token must be deactivated first.', 'kleingarten' ) );
+
 			return $errors;
 		}
 
 		if ( ! delete_metadata_by_mid( 'post', $token_id ) ) {
-			$errors->add( 'kleingarten_meter_assignment_could_not_delete_meter_reading_submission_token', __( 'Could not delete token.', 'kleingarten' ) );
+			$errors->add( 'kleingarten_meter_assignment_could_not_delete_meter_reading_submission_token',
+				__( 'Could not delete token.', 'kleingarten' ) );
+
 			return $errors;
 		}
 

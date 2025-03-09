@@ -26,7 +26,7 @@ class Kleingarten_Plot {
 	 *
 	 * @obj WP_Post
 	 */
-	private $post;
+	//private $post;
 
 	/**
 	 * Plot handler constructor.
@@ -39,7 +39,7 @@ class Kleingarten_Plot {
 		$this->post_ID = $plot_ID;
 
 		// Try get the plot's post:
-		$this->post = get_post( $this->post_ID );
+		//$this->post = get_post( $this->post_ID );
 
 		// If getting the post succeeded initialize more:
 		/*
@@ -96,7 +96,7 @@ class Kleingarten_Plot {
 		$gardener = new Kleingarten_Gardener( $user_ID );
 
 		// If plot ID is invalid, stop right here:
-		if ( ! is_int( $this->post_ID ) ||  $this->post_ID <= 0 ) {
+		if ( ! is_int( $this->post_ID ) || $this->post_ID <= 0 ) {
 			return false;
 		}
 
@@ -150,7 +150,8 @@ class Kleingarten_Plot {
 		if ( is_array( $post_meta ) && $post_meta ) {
 			foreach ( $post_meta as $j => $single_post_meta ) {
 
-				if ( $single_post_meta['meta_key'] == 'kleingarten_meter_assignment' ) {
+				if ( $single_post_meta['meta_key']
+				     == 'kleingarten_meter_assignment' ) {
 					if ( ! $return_meta_IDs ) {
 						$assigned_meters[] = $single_post_meta['meta_value'];
 					} else {

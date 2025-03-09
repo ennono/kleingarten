@@ -1001,14 +1001,15 @@ class Kleingarten_Post_Meta {
             $token_data_set_to_save['token_expiry_date'] = $expiry_date_timestamp;
             //$json_response['token_meta_id'] = add_post_meta( absint( wp_unslash( $_POST['meter_id'] ) ), 'kleingarten_meter_reading_submission_token', $token_data_set_to_save );
             */
-            $meter = new Kleingarten_Meter( $_POST['meter_id'] );
+            $meter = new Kleingarten_Meter( absint( wp_unslash( $_POST['meter_id'] ) ) );
             $token_id = $meter->create_token();
 
             if ( ! is_wp_error( $token_id ) ) {
 
                 $token_details = $meter->get_token_details( $token_id );
                 $wp_date_format = get_option('date_format');
-                $token_details['token_expiry_date'] = date( $wp_date_format, $token_details['token_expiry_date'] );
+                //$token_details['token_expiry_date'] = date( $wp_date_format, $token_details['token_expiry_date'] );
+                $token_details['token_expiry_date'] = gmdate( $wp_date_format, $token_details['token_expiry_date'] );
 
                 $json_response = $token_details;
                 // Fine, return the token so JS and die:
@@ -1063,8 +1064,10 @@ class Kleingarten_Post_Meta {
                        }
                    }
                    if ( $j >= 1 ) {
+                       /* translators: Number of deactivated tokens */
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u tokens deactivated.', 'kleingarten' ), $j ), 'error' );
                    } elseif ( $j == 1 ) {
+                       /* translators: Number of deactivated tokens */
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token deactivated.', 'kleingarten' ), $j ), 'error' );
                    }
 
@@ -1115,8 +1118,10 @@ class Kleingarten_Post_Meta {
                        }
                    }
                    if ( $j >= 1 ) {
+                       /* translators: Number of deleted tokens */
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u tokens deleted.', 'kleingarten' ), $j ), 'error' );
                    } elseif ( $j == 1 ) {
+                       /* translators: Number of deleted tokens */
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token deleted.', 'kleingarten' ), $j ), 'error' );
                    }
 

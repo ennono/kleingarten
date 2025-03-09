@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpUndefinedConstantInspection */
 /* Tools class file. */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -382,62 +382,54 @@ class Kleingarten_Tools {
 							= sanitize_textarea_field( wp_unslash( $_POST['kleingarten_batch_create_plots_suffix'] ) );
 					}
 
-					// Prepare plot:
-                    /*
-					$postarr = array(
-						'post_type'   => 'kleingarten_plot',
-						'post_title'  => $prefix . ' ' . $i . ' ' . $suffix,
-						'post_status' => 'publish',
-						'post_author' => get_current_user_id(),
-					);
+					// Create new plot:
+					$new_plot = Kleingarten_Plot::create_new( $prefix . ' ' . $i
+					                                          . ' ' . $suffix );
 
-					// Create plot and add error message on failure:
-					$new_plot_id = wp_insert_post( $postarr );
-					if ( is_wp_error( $new_plot_id ) || $new_plot_id === 0 ) {
+					// If creating the plat was successful...
+					if ( ! is_wp_error( $new_plot ) ) {
+
+						$new_plot_id = $new_plot->get_ID();
+
+						// Create meters if requested:
+						if ( isset( $_POST['kleingarten_batch_create_plots_add_meters'] )
+						     && count( $available_meters ) > 0 ) {
+
+							foreach ( $available_meters as $available_meter ) {
+
+								// Create new meter:
+								$postarr      = array(
+									'post_type'   => 'kleingarten_meter',
+									'post_title'  => $available_meter . ' '
+									                 . $prefix . ' ' . $i . ' '
+									                 . $suffix,
+									'post_status' => 'publish',
+									'post_author' => get_current_user_id(),
+								);
+								$new_meter_id = wp_insert_post( $postarr );
+
+								// Set new meter's unit:
+								update_post_meta( $new_meter_id,
+									'kleingarten_meter_unit',
+									$available_meter );
+
+								// Assign meter to plot:
+								$meta_id = add_post_meta( $new_plot_id,
+									'kleingarten_meter_assignment',
+									absint( $new_meter_id ) );
+								if ( is_bool( $meta_id )
+								     && $meta_id === false ) {
+									$error_counter ++;
+								}
+
+							}
+
+						}
+
+						// ... if creating plot was not sucessful:
+					} else {
 						$error_counter ++;
 					}
-                    */
-                    $new_plot = Kleingarten_Plot::create_new( $prefix . ' ' . $i . ' ' . $suffix );
-                    if ( ! is_wp_error( $new_plot ) ) {
-
-	                    $new_plot_id = $new_plot->get_ID();
-
-	                    // Create meters if requested:
-	                    if ( isset( $_POST['kleingarten_batch_create_plots_add_meters'] )
-	                         && count( $available_meters ) > 0 ) {
-
-		                    foreach ( $available_meters as $available_meter ) {
-
-			                    // Create new meter:
-			                    $postarr      = array(
-				                    'post_type'   => 'kleingarten_meter',
-				                    'post_title'  => $available_meter . ' '
-				                                     . $prefix . ' ' . $i . ' '
-				                                     . $suffix,
-				                    'post_status' => 'publish',
-				                    'post_author' => get_current_user_id(),
-			                    );
-			                    $new_meter_id = wp_insert_post( $postarr );
-
-			                    // Set new meter's unit:
-			                    update_post_meta( $new_meter_id,
-				                    'kleingarten_meter_unit', $available_meter );
-
-			                    // Assign meter to plot:
-			                    $meta_id = add_post_meta( $new_plot_id,
-				                    'kleingarten_meter_assignment',
-				                    absint( $new_meter_id ) );
-			                    if ( is_bool( $meta_id ) && $meta_id === false ) {
-				                    $error_counter ++;
-			                    }
-
-		                    }
-
-	                    }
-
-                    } else {
-                        $error_counter ++;
-                    }
 
 				}
 
@@ -995,76 +987,82 @@ class Kleingarten_Tools {
 				'application/octet-stream',
 				'application/txt',
 			);
-			if ( ! in_array( $_FILES['kleingarten_import_meter_readings_file']['type'],
-				$csv_mimes ) ) {
-				$errors->add( 'kleingarten_import_readings_file_is_not_csv',
-					__( 'This is not a CSV file.',
-						'kleingarten' ) );
+			if ( isset( $_FILES['kleingarten_import_meter_readings_file']['type'] ) ) {
+				if ( ! in_array( $_FILES['kleingarten_import_meter_readings_file']['type'],
+					$csv_mimes ) ) {
+					$errors->add( 'kleingarten_import_readings_file_is_not_csv',
+						__( 'This is not a CSV file.',
+							'kleingarten' ) );
+				}
 			}
 
 			// No errors so far? Go on. Read the CSV file and shrink it into an array:
 			if ( ! $errors->has_errors() ) {
 
-				$filepath
-					= $_FILES['kleingarten_import_meter_readings_file']['tmp_name'];
+				if ( isset( $_FILES['kleingarten_import_meter_readings_file']['tmp_name'] ) ) {
 
-				// If opening CSV file succeeds...
-				$readings = array();
-				$row      = 1;
-				if ( ( $csv_file_handle = fopen( $filepath, 'r' ) )
-				     !== false ) {
+					$filepath
+						= sanitize_text_field( $_FILES['kleingarten_import_meter_readings_file']['tmp_name'] );
 
-					// ... read it row by row:
-					while ( ( $reading_from_csv = fgetcsv( $csv_file_handle,
-							null,
-							';' ) ) !== false ) {
+					// If opening CSV file succeeds...
+					$readings = array();
+					$row      = 1;
+					if ( ( $csv_file_handle = fopen( $filepath, 'r' ) )
+					     !== false ) {
 
-						// Read the current row column by column and put into array:
-						$num = count( $reading_from_csv );
-						for ( $c = 0; $c < $num; $c ++ ) {
-							switch ( $c ) {
-								// First column: Meter ID (WordPress Post ID):
-								case 0:
-									$readings[ $row ]['meter_id']
-										= $reading_from_csv[ $c ];
-									break;
-								// Second column: Reading value:
-								case 1:
-									$readings[ $row ]['reading_value']
-										= $reading_from_csv[ $c ];
-									break;
-								// Third column: Reading date:
-								case 2:
-									$readings[ $row ]['reading_date']
-										= $reading_from_csv[ $c ];
-									break;
-								// Fourth column: Meter no:
-								case 3:
-									$readings[ $row ]['meter_no']
-										= $reading_from_csv[ $c ];
-									break;
+						// ... read it row by row:
+						while ( ( $reading_from_csv = fgetcsv( $csv_file_handle,
+								null,
+								';' ) ) !== false ) {
+
+							// Read the current row column by column and put into array:
+							$num = count( $reading_from_csv );
+							for ( $c = 0; $c < $num; $c ++ ) {
+								switch ( $c ) {
+									// First column: Meter ID (WordPress Post ID):
+									case 0:
+										$readings[ $row ]['meter_id']
+											= $reading_from_csv[ $c ];
+										break;
+									// Second column: Reading value:
+									case 1:
+										$readings[ $row ]['reading_value']
+											= $reading_from_csv[ $c ];
+										break;
+									// Third column: Reading date:
+									case 2:
+										$readings[ $row ]['reading_date']
+											= $reading_from_csv[ $c ];
+										break;
+									// Fourth column: Meter no:
+									case 3:
+										$readings[ $row ]['meter_no']
+											= $reading_from_csv[ $c ];
+										break;
+								}
 							}
+							$row ++;
 						}
-						$row ++;
-					}
-					fclose( $csv_file_handle );
+						fclose( $csv_file_handle );
 
 
-					// Try to save the readings we found in CSV file:
-					foreach ( $readings as $k => $reading ) {
+						// Try to save the readings we found in CSV file:
+						foreach ( $readings as $k => $reading ) {
 
-						// Try to save the current reading:
-						$add_meter_reading_result
-							= $this->add_meter_reading( $reading['meter_id'],
-							$reading['reading_value'],
-							$reading['reading_date'],
-							'csv_import_' . get_current_user_id(),
-							$reading['meter_no']
-						);
+							// Try to save the current reading:
+							$add_meter_reading_result
+								= $this->add_meter_reading( $reading['meter_id'],
+								$reading['reading_value'],
+								$reading['reading_date'],
+								'csv_import_' . get_current_user_id(),
+								$reading['meter_no']
+							);
 
-						// If that failed for the current reading, add the error we encountered:
-						if ( is_wp_error( $add_meter_reading_result ) ) {
-							$add_meter_reading_result->export_to( $errors );
+							// If that failed for the current reading, add the error we encountered:
+							if ( is_wp_error( $add_meter_reading_result ) ) {
+								$add_meter_reading_result->export_to( $errors );
+							}
+
 						}
 
 					}
@@ -1119,7 +1117,7 @@ class Kleingarten_Tools {
 						//'kleingarten_import_readings_readings'  => $readings,
 					),
 					//home_url( $url )
-                    $url
+					$url
 				)
 			)
 		);

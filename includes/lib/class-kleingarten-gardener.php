@@ -16,61 +16,53 @@ class Kleingarten_Gardener {
 
 
 	/**
-	 * User ID
-	 *
-	 * @var
-	 */
-	private $user_ID;
-
-	/**
 	 * User login name
 	 *
 	 * @var
 	 */
 	public $user_login;
-
 	/**
 	 * User email
 	 *
 	 * @var
 	 */
 	public $email;
-
 	/**
 	 * First name
 	 *
 	 * @var
 	 */
 	public $first_name;
-
 	/**
 	 * Last name
 	 *
 	 * @var
 	 */
 	public $last_name;
-
 	/**
 	 * Display name
 	 *
 	 * @var
 	 */
 	public $disply_name;
-
 	/**
 	 * ID of assigned plot
 	 *
 	 * @var
 	 */
 	public $plot;
-
 	/**
 	 * List of positions
 	 *
 	 * @var
 	 */
 	public $positions;
-
+	/**
+	 * User ID
+	 *
+	 * @var
+	 */
+	private $user_ID;
 	/**
 	 * Flag indicating if gardener wants to receive notification mails
 	 *
@@ -93,14 +85,15 @@ class Kleingarten_Gardener {
 		// If we found a user with the given ID...
 		if ( $user != false ) {
 
-			$this->user_login = $user->user_login;
-			$this->email = $user->user_email;
-			$this->first_name = $user->first_name;
-			$this->last_name = $user->last_name;
+			$this->user_login  = $user->user_login;
+			$this->email       = $user->user_email;
+			$this->first_name  = $user->first_name;
+			$this->last_name   = $user->last_name;
 			$this->disply_name = $user->display_name;
 
 			// Try to get the  assigned plot:
-			$this->plot = absint( get_the_author_meta( 'plot', absint( $user_ID ) ) );
+			$this->plot = absint( get_the_author_meta( 'plot',
+				absint( $user_ID ) ) );
 
 			// If user hast no plot assigned, set the property to 0:
 			if ( empty( $this->plot ) ) {
@@ -113,7 +106,8 @@ class Kleingarten_Gardener {
 				$this->positions = array();
 			}
 
-			if ( get_the_author_meta( 'send_email_notifications', $user_ID ) == 1 ) {
+			if ( get_the_author_meta( 'send_email_notifications', $user_ID )
+			     == 1 ) {
 				$this->receives_notification_mails = true;
 			} else {
 				$this->receives_notification_mails = false;
@@ -149,12 +143,13 @@ class Kleingarten_Gardener {
 		$gardener = new Kleingarten_Gardener( $user_id );
 		if ( ! is_wp_error( $user_id ) ) {
 			$gardener->assign_plot( absint( $user_data['plot'] ) );
-			if ( isset( $user_data['user_notifications'] ) && $user_data['user_notifications'] == 1 ) {
+			if ( isset( $user_data['user_notifications'] )
+			     && $user_data['user_notifications'] == 1 ) {
 				$gardener->set_notification_mail_receival();
 			}
 
-		// But if there were errors on creating the user,
-		// stop here and return the error object:
+			// But if there were errors on creating the user,
+			// stop here and return the error object:
 		} else {
 			return $user_id;
 		}
@@ -165,6 +160,33 @@ class Kleingarten_Gardener {
 
 		return $user_id;
 
+	}
+
+	/**
+	 * Assigns a plot to the gardener.
+	 *
+	 * @param $positions
+	 *
+	 * @return mixed
+	 */
+	public function assign_plot( $plot_ID ) {
+
+		if ( $plot_ID < 0 ) {
+			$plot_ID = 0;
+		}
+
+		return update_user_meta( $this->user_ID, 'plot', absint( $plot_ID ) );
+
+	}
+
+	/**
+	 * Makes the gardener receive notification mails
+	 *
+	 * @return mixed
+	 */
+	public function set_notification_mail_receival() {
+		return update_user_meta( $this->user_ID, 'send_email_notifications',
+			1 );
 	}
 
 	/**
@@ -226,22 +248,6 @@ class Kleingarten_Gardener {
 	}
 
 	/**
-	 * Assigns a plot to the gardener.
-	 *
-	 * @param $positions
-	 *
-	 * @return mixed
-	 */
-	public function assign_plot( $plot_ID ) {
-
-		if ( $plot_ID < 0 ) {
-			$plot_ID = 0;
-		}
-		return update_user_meta( $this->user_ID, 'plot', absint( $plot_ID ) );
-
-	}
-
-	/**
 	 * Returns true if gardener has a plot and false if not.
 	 *
 	 * @return bool
@@ -265,21 +271,13 @@ class Kleingarten_Gardener {
 	}
 
 	/**
-	 * Makes the gardener receive notification mails
-	 *
-	 * @return mixed
-	 */
-	public function set_notification_mail_receival() {
-		return update_user_meta( $this->user_ID, 'send_email_notifications', 1 );
-	}
-
-	/**
 	 * Makes the gardener NOT receive notification mails
 	 *
 	 * @return mixed
 	 */
 	public function unset_notification_mail_receival() {
-		return update_user_meta( $this->user_ID, 'send_email_notifications', 0 );
+		return update_user_meta( $this->user_ID, 'send_email_notifications',
+			0 );
 	}
 
 	/**

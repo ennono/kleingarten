@@ -34,7 +34,8 @@ class Kleingarten_Post_Types {
 		add_action( 'init',
 			array( $this, 'register_meter_post_type' ) );
 
-		add_action( 'wp_trash_post', array( 'Kleingarten_Meter', 'purge_meter' ) );
+		add_action( 'wp_trash_post',
+			array( 'Kleingarten_Meter', 'purge_meter' ) );
 		// Alternatively if you want to clean when meter is deleted from DB instead:
 		// add_action( 'delete_post', array( $this, 'purge_meter' ) );
 
@@ -292,7 +293,7 @@ class Kleingarten_Post_Types {
 
 		}
 		*/
-		$most_recent_reading = $meter->get_most_recent_reading();
+		$most_recent_reading       = $meter->get_most_recent_reading();
 		$most_recent_reading_value = $most_recent_reading['reading'];
 		$most_recent_reading_date  = $most_recent_reading['date'];
 

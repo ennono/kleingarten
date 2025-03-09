@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Userfields {
 
-    private $plots;
+	private $plots;
 
 	/**
 	 * Userfields constructor.
@@ -22,7 +22,7 @@ class Kleingarten_Userfields {
 	 */
 	public function __construct() {
 
-        $this->plots = new Kleingarten_Plots();
+		$this->plots = new Kleingarten_Plots();
 
 		// Add fields to user profile page
 		add_action( 'show_user_profile',
@@ -46,10 +46,10 @@ class Kleingarten_Userfields {
 	 */
 	public function display_kleingarten_user_fields( $user ) {
 
-        // Represents the gardner we are dealing with:
-        $gardener = new Kleingarten_Gardener( $user->ID );
+		// Represents the gardner we are dealing with:
+		$gardener = new Kleingarten_Gardener( $user->ID );
 
-        // Get a list of all available positions:
+		// Get a list of all available positions:
 		$available_positions = explode( "\r\n",
 			get_option( 'kleingarten_available_positions' ) );
 
@@ -65,22 +65,23 @@ class Kleingarten_Userfields {
                     <select name="plot" id="plot">
 						<?php
 						if ( $gardener->plot != 0 ) {
-							echo '<option value="' . esc_attr( $gardener->plot ) . '">'
+							echo '<option value="' . esc_attr( $gardener->plot )
+							     . '">'
 							     . esc_html( get_the_title( $gardener->plot ) )
 							     . '</option>';
 						} else {
 							echo '<option value="">' . esc_html( __( 'None',
 									'kleingarten' ) ) . '</option>';
 						}
-                        foreach ( $this->plots->get_plot_IDs() as $plot_ID ) {
-                            $plot = new Kleingarten_Plot( $plot_ID );
-                            if ( ! $plot->is_assigned_to_user( $user->ID ) ) {
-		                        echo '<option value="'
-		                             . esc_attr( $plot_ID ) . '">'
-		                             . esc_html( get_the_title( $plot_ID ) )
-		                             . '</option>';
-	                        }
-                        }
+						foreach ( $this->plots->get_plot_IDs() as $plot_ID ) {
+							$plot = new Kleingarten_Plot( $plot_ID );
+							if ( ! $plot->is_assigned_to_user( $user->ID ) ) {
+								echo '<option value="'
+								     . esc_attr( $plot_ID ) . '">'
+								     . esc_html( get_the_title( $plot_ID ) )
+								     . '</option>';
+							}
+						}
 						if ( $gardener->has_assigned_plot() ) {
 							echo '<option value="">' . esc_html__( 'None',
 									'kleingarten' ) . '</option>';
@@ -106,7 +107,8 @@ class Kleingarten_Userfields {
 
 						foreach ( $available_positions as $k => $v ) {
 							$checked = false;
-							if ( in_array( $v, (array) $gardener->positions, true ) ) {
+							if ( in_array( $v, (array) $gardener->positions,
+								true ) ) {
 								$checked = true;
 							}
 							echo '<p><label for="positions_' . esc_attr( $k )
@@ -163,7 +165,7 @@ class Kleingarten_Userfields {
                         <label for="send-email-notifications" class="checkbox">
 							<?php
 
-                            if ( $gardener->receives_notification_mails() ) {
+							if ( $gardener->receives_notification_mails() ) {
 								?>
                                 <input
                                         type="checkbox"
@@ -223,23 +225,24 @@ class Kleingarten_Userfields {
 		}
 
 		if ( isset( $_POST['positions'] ) ) {
-			$gardener->set_positions( $_POST['positions'] );
+			$gardener->set_positions( array_map( 'sanitize_text_field',
+				wp_unslash( $_POST['positions'] ) ) );
 		} else {
 			// If $_POST['positions'] does not exist that means, that no position
 			// was selected => Delete corresponding user meta.
-            $gardener->remove_all_positions();
+			$gardener->remove_all_positions();
 		}
 
 		// Assign or remove plot
 		if ( isset( $_POST['plot'] ) ) {
-            $gardener->assign_plot( $_POST['plot'] );
+			$gardener->assign_plot( absint( wp_unslash( $_POST['plot'] ) ) );
 		}
 
 		if ( isset( $_POST['send-email-notifications'] )
 		     && $_POST['send-email-notifications'] >= 1 ) {
-            $gardener->set_notification_mail_receival();
+			$gardener->set_notification_mail_receival();
 		} else {
-            $gardener->unset_notification_mail_receival();
+			$gardener->unset_notification_mail_receival();
 		}
 
 	}

@@ -29,16 +29,17 @@ class Kleingarten_Plots {
 	public function __construct( $with_meter_ID_assigned = null ) {
 
 		// Get all published plots:
-		$args  = array(
+		$args = array(
 			'post_type'      => 'kleingarten_plot',
 			'post_status'    => 'publish',
-			'posts_per_page' => -1,
+			'posts_per_page' => - 1,
 		);
 
 		// If we only want plots with a certain meter assigned:
-		if ( $with_meter_ID_assigned != null && is_int( $with_meter_ID_assigned ) ) {
-			$args['meta_key'] = 'kleingarten_meter_assignment';
-			$args['meta_value'] = strval ( $with_meter_ID_assigned );
+		if ( $with_meter_ID_assigned != null
+		     && is_int( $with_meter_ID_assigned ) ) {
+			$args['meta_key']   = 'kleingarten_meter_assignment';
+			$args['meta_value'] = strval( $with_meter_ID_assigned );
 		}
 
 		$this->plots = get_posts( $args );
@@ -51,9 +52,13 @@ class Kleingarten_Plots {
 	 * @return int|null
 	 */
 	public function get_plots_num() {
+
 		if ( is_countable( $this->plots ) ) {
 			return count( $this->plots );
 		}
+
+		return 0;
+
 	}
 
 	/**
@@ -67,7 +72,7 @@ class Kleingarten_Plots {
 		$plot_IDs = array();
 
 		// Put every available plot on the list:
-		foreach( $this->plots as $plot ) {
+		foreach ( $this->plots as $plot ) {
 			$plot_IDs[] = $plot->ID;
 		}
 
