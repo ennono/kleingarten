@@ -44,6 +44,12 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
+= 1.1.6 =
+* UNDER CONSTRUCTION! DO NOT USE IN PRODUCTIVE ENVIRONMENT! *
+*
+* Removed pending users from list of users who liked a post (admin area).
+* Minor bugfixes.
+
 = 1.1.5 =
 * This version is a programmatically make over: It is a huge enabler in terms of security, stability and performance!
 * Minor bugfixes.

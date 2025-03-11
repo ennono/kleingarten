@@ -137,7 +137,7 @@ class Kleingarten_Post_Meta {
 	*
     * @param $post
     *
-    * @return true Altered Post
+    * @return true
     */
 	public function render_likes_meta_box_content( $post ) {
 
@@ -146,7 +146,11 @@ class Kleingarten_Post_Meta {
 		$raw_likes = get_post_meta( $post->ID, 'kleingarten_likes', true );
 		$raw_likes = rtrim( $raw_likes, $seperator );
 		$likes     = explode( $seperator, $raw_likes );
-		$users     = get_users( array( 'fields' => array( 'ID' ) ) );
+		$users     = get_users( array(
+                                        'fields' => array( 'ID' ),
+                                        'role__not_in' => array( 'kleingarten_pending' ),
+                                    )
+                                );
 
 		foreach ( $likes as $i => $like ) {
 			if ( ! strlen( $like ) ) {
@@ -155,11 +159,10 @@ class Kleingarten_Post_Meta {
 		}
 
 		?><div class="custom-field-panel"><?php
-		?><p><?php echo esc_html( count( $likes ) . ' ' . __( 'Gardener Likes', 'kleingarten' ) ); ?></p><?php
 
 		foreach ( $users as $user ) {
             $gardener = new Kleingarten_Gardener( $user->ID );
-			$user_meta = get_user_meta( $user->ID );
+			//$user_meta = get_user_meta( $user->ID );
 			$checked   = '';
 			if ( in_array( $user->ID, $likes ) ) {
 				$checked = 'checked';

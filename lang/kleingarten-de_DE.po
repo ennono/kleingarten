@@ -8,8 +8,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-03-09 20:46+0000\n"
-"Last-Translator: admin\n"
+"PO-Revision-Date: 2025-03-11 19:38+0000\n"
+"Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
@@ -568,10 +568,9 @@ msgid "gardener like this post."
 msgstr "Gartenfreund gefällt dieser Beitrag."
 
 #: includes/lib/class-kleingarten-post-meta.php:158
-#, fuzzy
 #| msgid "Gardener Notes"
 msgid "Gardener Likes"
-msgstr "Kleingärtnernotizen"
+msgstr "Gefällt-mir-Angaben"
 
 #: includes/lib/class-kleingarten-shortcodes.php:824
 #, fuzzy
