@@ -65,6 +65,8 @@ class Kleingarten_Shortcodes {
 			'handle_kleingarten_member_profile_settings_callback'
 		) );
 
+		add_filter( 'authenticate', array( $this, 'handle_user_authentification' ), 31, 3);
+
 		add_shortcode( 'kleingarten_my_plot',
 			array( $this, 'kleingarten_my_plot_callback' ) );
 
@@ -173,11 +175,12 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Handle failed login attempts
+	 * Handles failed login attempts.
 	 *
 	 * @return void
 	 */
 	public function handle_failed_login() {
+
 
 		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
 
@@ -197,6 +200,21 @@ class Kleingarten_Shortcodes {
 			}
 		}
 
+
+	}
+
+	public function handle_user_authentification( $user, $username, $password ) {
+		if ( is_wp_error( $user ) && isset( $_SERVER[ 'HTTP_REFERER' ] ) && !strpos( $_SERVER[ 'HTTP_REFERER' ], 'wp-admin' ) && !strpos( $_SERVER[ 'HTTP_REFERER' ], 'wp-login.php' ) ) {
+			$referrer = $_SERVER[ 'HTTP_REFERER' ];
+			foreach ( $user->errors as $key => $error ) {
+				if ( in_array( $key, array( 'empty_password', 'empty_username') ) ) {
+					unset( $user->errors[ $key ] );
+					$user->errors[ 'custom_'.$key ] = $error;
+				}
+			}
+		}
+
+		return $user;
 	}
 
 	/**

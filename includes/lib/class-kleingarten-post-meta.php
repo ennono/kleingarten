@@ -219,7 +219,8 @@ class Kleingarten_Post_Meta {
         ?><div class="custom-field-panel"><?php
 
         // If a unit was defined for this meter / If this meter as been saved once and therefore has a defined unit/type...
-        $current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
+        //$current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
+        $current_unit = $meter->get_unit();
         if ( isset( $current_unit ) && $current_unit != '' ) {
 
            // ... build a form to enter a new reading...

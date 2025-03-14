@@ -47,6 +47,8 @@ This plugin extends WordPress with useful functions for allotment garden associa
 = 1.1.6 =
 * UNDER CONSTRUCTION! DO NOT USE IN PRODUCTIVE ENVIRONMENT! *
 *
+* Fixed: Login form redirects to wp-login.php if a field is left empty.
+* Fixed: Tool for creating multiple tokens creates expired tokens.
 * Removed pending users from list of users who liked a post (admin area).
 * Minor bugfixes.
 

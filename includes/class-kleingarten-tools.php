@@ -490,7 +490,6 @@ class Kleingarten_Tools {
 
 		ob_start();
 
-
 		// Pre-defined methods to write CSV file. Keep empty to let WordPress chose a proper method:
 		$method = '';
 
@@ -538,19 +537,10 @@ class Kleingarten_Tools {
 					if ( isset( $_GET['kleingarten_batch_create_meter_reading_submission_tokens_success'] ) ) {
 
 						// ... list all available meters:
-						$args             = array(
-							'post_type'      => 'kleingarten_meter',
-							'post_status'    => 'publish',
-							'meta_key'       => 'kleingarten_meter_unit',
-							'orderby'        => 'meta_value',
-							'order'          => 'ASC',
-							'posts_per_page' => - 1,
-						);
-						$available_meters = get_posts( $args );
+                        $available_meters = new Kleingarten_Meters();
 
 						// ... if we fount some meters:
-						if ( $available_meters
-						     && count( $available_meters ) > 0 ) {
+						if ( $available_meters->get_meters_num() > 0 ) {
 
 							require_once ABSPATH . 'wp-admin/includes/file.php';
 							global $wp_filesystem;
@@ -566,46 +556,21 @@ class Kleingarten_Tools {
 								esc_html__( 'Token', 'kleingarten' ),
 								esc_html__( 'Expires on', 'kleingarten' )
 							);
-							$file   = implode( ';', $fields ) . "\n";
+							$file = implode( ';', $fields ) . "\n";
 
 							// Create a token for each meter we found:
 							$error_counter = 0;
-							foreach ( $available_meters as $meter ) {
+							foreach ( $available_meters->get_meter_IDs() as $available_meter_ID ) {
+
+								$meter = new Kleingarten_Meter( $available_meter_ID );
 
 								// Create a token...
-								$token = random_int( 100000, 999999 );
-
-								// ... and its expiry date...
-								$days_to_add_from_today
-									= get_option( 'kleingarten_meter_reading_submission_token_time_to_live',
-									10 );
-								$wp_date_format
-									= get_option( 'date_format' );    // Get WordPress date format from settings.
-								$today
-									= gmdate( $wp_date_format );
-								$expiry_date_formated
-									= gmdate( $wp_date_format,
-									strtotime( $today . ' + '
-									           . $days_to_add_from_today
-									           . ' days' ) );
-								//$expiry_date_timestamp
-								//	= strtotime( $expiry_date_formated );
-
-								// ... and attach token to the meter:
-								$token_data_set_to_save = array();
-								$token_data_set_to_save['token']
-								                        = $token;
-								$token_data_set_to_save['token_status']
-								                        = 'active';
-								$token_data_set_to_save['token_expiry_date']
-								                        = $expiry_date_formated;
-								$token_id
-								                        = add_post_meta( $meter->ID,
-									'kleingarten_meter_reading_submission_token',
-									$token_data_set_to_save );
+                                $token_mid = $meter->create_token();
+                                $token = $meter->get_token_details( $token_mid );
 
 								// If token could not be saved successfully...
-								if ( ! $token_id ) {
+								//if ( ! $token_id ) {
+                                if ( ! $token ) {
 
 									// ... note that error:
 									$error_counter ++;
@@ -615,21 +580,16 @@ class Kleingarten_Tools {
 
 									// ... find the plots the current meter is assigned to:
 									$values = array();
-									$plots
-									        = $this->get_meter_assignments( $meter->ID );
+                                    $plots = $meter->get_meter_assignments();
 
 									// ... and add a line for each plot to our CSV file:
 									foreach ( $plots as $plot ) {
-										$values['plot']
-											= esc_html( get_the_title( $plot ) );
-										//$values['tenant'] = 'Tenant';
-										$values['meter']
-											     = esc_html( preg_replace( "/\r|\n/",
-											"", $meter->post_title ) );
-										$values['token']
-											     = esc_html( $token_data_set_to_save['token'] );
-										$values['expiry']
-											     = esc_html( $token_data_set_to_save['token_expiry_date'] );
+                                        $plot = new Kleingarten_Plot( $plot );
+										$values['plot'] = $plot->get_title();
+										$values['meter'] = esc_html( preg_replace( "/\r|\n/",
+											"", $meter->get_title() ) );
+										$values['token'] = $token['token'];
+										$values['expiry'] = $token['token_expiry_date'];
 										$lines[] = $values;
 									}
 

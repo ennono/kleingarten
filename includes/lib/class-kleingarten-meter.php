@@ -374,7 +374,9 @@ class Kleingarten_Meter {
 	 * @return int
 	 */
 	public function count_readings() {
-		return count( $this->readings );
+		if ( is_countable( $this->readings ) ) {
+			return count( $this->readings );
+		}
 	}
 
 	/**
@@ -719,7 +721,7 @@ class Kleingarten_Meter {
 	}
 
 	/**
-	 * Adds a new meter reading submission token.
+	 * Adds a new meter reading submission token and returns its meta ID.
 	 *
 	 * @return int
 	 */
