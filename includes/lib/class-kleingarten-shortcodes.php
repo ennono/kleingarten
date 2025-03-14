@@ -162,7 +162,7 @@ class Kleingarten_Shortcodes {
 					     . esc_url( get_permalink( $user_profile_page_id ) )
 					     . '">' . esc_html( $user->user_login ) . '</a>';
 				}
-				echo '.&nbsp;<a href="'
+				echo '&nbsp;<a href="'
 				     . esc_url( wp_logout_url( add_query_arg( $args,
 						$atts['logged_out_page'] ) ) ) . '">'
 				     . esc_html( __( 'Logout', 'kleingarten' ) ) . '</a></p>';

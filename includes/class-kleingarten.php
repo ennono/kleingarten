@@ -549,7 +549,7 @@ class Kleingarten {
 	}
 
 	/**
-	 * Send email notifications on new post
+	 * Send email notifications on new post.
 	 *
 	 * @access  public
 	 * @return  void
@@ -609,14 +609,9 @@ class Kleingarten {
 		}
 
 		// Build a list of recipients
-		$args       = array(
-			'meta_key'       => 'send_email_notifications',
-			'meta_value'     => '1',
-			'posts_per_page' => - 1,
-		);
-		$recipients = get_users( $args );
+		$recipients = Kleingarten_Gardeners::get_new_post_notification_recipients();
 
-		// Set email subject
+			// Set email subject
 		$subject
 			= esc_html( get_option( 'kleingarten_new_post_notification_subject' ) );
 		if ( $subject == '' ) {

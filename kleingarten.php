@@ -38,6 +38,7 @@ require_once 'includes/lib/class-kleingarten-meters.php';
 require_once 'includes/lib/class-kleingarten-plot.php';
 require_once 'includes/lib/class-kleingarten-meter.php';
 require_once 'includes/lib/class-kleingarten-gardener.php';
+require_once 'includes/lib/class-kleingarten-gardeners.php';
 
 /**
  * Returns the main instance of Kleingarten to prevent the need to use globals.
