@@ -271,7 +271,7 @@ class Kleingarten_Post_Meta {
                         echo '<td>'.esc_html__( 'Unknown', 'kleingarten' ).'</td>';
                     }
 
-                    echo '<td><label for="delete_kleingarten_meter_reading_' . esc_attr( $reading['meta_id'] ) . '"><input id="delete_kleingarten_meter_reading_' . esc_attr( $reading['meta_id'] ) . '" name="delete_kleingarten_meter_readings[]" type="checkbox" value="' . esc_attr( $reading['meta_id'] ) . '">Delete</label></td>';
+                    echo '<td><label for="delete_kleingarten_meter_reading_' . esc_attr( $reading['meta_id'] ) . '"><input id="delete_kleingarten_meter_reading_' . esc_attr( $reading['meta_id'] ) . '" name="delete_kleingarten_meter_readings[]" type="checkbox" value="' . esc_attr( $reading['meta_id'] ) . '">' . esc_html( __( 'Delete', 'kleingarten' ) ) . '</label></td>';
 
                 ?></tr>
 
@@ -986,25 +986,6 @@ class Kleingarten_Post_Meta {
         if ( isset ( $_POST['meter_id'] ) ) {
 
             // Create a token...
-            /*
-            $token = $this->create_meter_reading_submission_token();    // This will only create the key. Nothing more. Not expiry date or anything else.
-            $json_response['token'] = $token;
-
-            // ... and its expiry date...
-            $days_to_add_from_today = get_option( 'kleingarten_meter_reading_submission_token_time_to_live', 10 );
-            $wp_date_format = get_option('date_format');    // Get WordPress date format from settings.
-            $today = gmdate( $wp_date_format );
-            $expiry_date_formated = gmdate($wp_date_format, strtotime($today. ' + ' . $days_to_add_from_today . ' days'));
-            $expiry_date_timestamp = strtotime($expiry_date_formated);
-            $json_response['expiry_date'] = $expiry_date_formated;
-
-            // ... then save it in DB:
-            $token_data_set_to_save = array();
-            $token_data_set_to_save['token'] = $token;
-            $token_data_set_to_save['token_status'] = 'active';
-            $token_data_set_to_save['token_expiry_date'] = $expiry_date_timestamp;
-            //$json_response['token_meta_id'] = add_post_meta( absint( wp_unslash( $_POST['meter_id'] ) ), 'kleingarten_meter_reading_submission_token', $token_data_set_to_save );
-            */
             $meter = new Kleingarten_Meter( absint( wp_unslash( $_POST['meter_id'] ) ) );
             $token_id = $meter->create_token();
 
