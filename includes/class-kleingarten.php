@@ -581,6 +581,11 @@ class Kleingarten {
 			return;
 		}
 
+		// If publishing a former private private, stop here:
+		if ( $old_status == 'private' && $new_status == 'publish' ) {
+			return;
+		}
+
 		// If this is just a revision, stop here:
 		if ( wp_is_post_revision( $post_ID ) ) {
 			return;
