@@ -470,6 +470,7 @@ class Kleingarten_Shortcodes {
 		// Extract shortcode attributes
 		$atts = shortcode_atts( array(
 			'terms_of_use_url' => 'none',
+            'anti_spam_challenge' => 'false',
 		),
 			$atts
 		);
@@ -480,7 +481,7 @@ class Kleingarten_Shortcodes {
 
 		$hide_form = false;
 
-		// If registration form submitted create new user:
+		// If registration form submitted:
 		if ( isset( $_REQUEST['kleingarten_register_gardener_nonce'] ) ) {
 
 			if ( wp_verify_nonce( sanitize_key( wp_unslash( $_REQUEST['kleingarten_register_gardener_nonce'] ) ),
@@ -523,6 +524,9 @@ class Kleingarten_Shortcodes {
 				} else {
 					$new_user_data["user_terms_of_use_accepted"] = 0;
 				}
+                if ( isset( $_POST["anti_spam_response"] ) ) {
+                    $new_user_data["anti_spam_response"] = $_POST["anti_spam_response"];
+                }
 
 				// Validate user data and get error messages:
 				$user_data_validation
@@ -663,6 +667,28 @@ class Kleingarten_Shortcodes {
                     <input name="user_pw_confirm" id="user_pw_confirm"
                            type="password" size="25"/>
                 </p>
+                <?php
+
+				$anti_spam_challenge = $atts['anti_spam_challenge'];
+				if ( $anti_spam_challenge == 'true' ) {
+
+					$anti_spam_challenge = get_option( 'kleingarten_anti_spam_challenge' );
+
+					?>
+                    <p>
+                        <label for="anti_spam_response"><?php echo esc_html( $anti_spam_challenge ); ?>*</label>
+                        <br>
+                        <input type="text" name="anti_spam_response" id="anti_spam_response"
+                               value="<?php if ( isset( $_POST["anti_spam_response"] ) ) {
+							       echo esc_attr( sanitize_text_field( wp_unslash( $_POST["anti_spam_response"] ) ) );
+						       } ?>" size="25"
+                               required="required">
+                    </p>
+					<?php
+
+				}
+
+                ?>
                 <p>
                     <input value="1" type="checkbox" id="user_notifications"
                            name="user_notifications" checked/>
@@ -700,6 +726,7 @@ class Kleingarten_Shortcodes {
 				}
 
 				?>
+
                 <p id="reg_passmail">
                     <small><?php echo esc_html( __( '* mandatory field',
 							'kleingarten' ) ); ?></small></p>
@@ -743,6 +770,14 @@ class Kleingarten_Shortcodes {
 			$error->add( 'kleingarten-registration-terms-of-user-not-accepted',
 				__( 'Kindly accept the terms of use.', 'kleingarten' ) );
 		}
+
+        $correct_answer = get_option( 'kleingarten_anti_spam_response' );
+        if ( $user_data["anti_spam_response"] != $correct_answer ) {
+	        $error->add( 'kleingarten-registration-terms-of-user-not-accepted',
+		        /* translators: User's answer on antispam challenge. */
+		        sprintf( __( '%s is not the correct answer. Try again.', 'kleingarten' ), esc_html( $user_data["anti_spam_response"] ) )
+            );
+        }
 
 		// Check if user already exists:
 		if ( username_exists( $user_data["login"] ) ) {

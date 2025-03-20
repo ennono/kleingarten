@@ -112,6 +112,24 @@ class Kleingarten_Admin_API {
 				$html .= '</select> ';
 				break;
 
+			case 'anti_spam_challenge':
+				$html .= '<input id="' . esc_attr( $field['id'] )
+				         . '" type="text" name="' . esc_attr( $option_name )
+				         . '" placeholder="'
+				         . esc_attr( $field['placeholder'] ) . '" value="'
+				         . esc_attr( $data ) . '" /><p class="description">'
+				         . esc_html( $field['description'] ) . '</p>';
+				break;
+
+			case 'anti_spam_response':
+				$html .= '<input id="' . esc_attr( $field['id'] )
+				         . '" type="text" name="' . esc_attr( $option_name )
+				         . '" placeholder="'
+				         . esc_attr( $field['placeholder'] ) . '" value="'
+				         . esc_attr( $data ) . '" /><p class="description">'
+				         . esc_html( $field['description'] ) . '</p>';
+				break;
+
 			case 'post_types_with_auto_likes_shortcode':
 
 				// Build a list of available post types:

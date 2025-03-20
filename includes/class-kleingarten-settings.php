@@ -190,6 +190,30 @@ class Kleingarten_Settings {
 						'login_page_sanitize_callback'
 					),
 				),
+				array(
+					'id'          => 'anti_spam_challenge',
+					'label'       => __( 'Antispam Question', 'kleingarten' ),
+					'description' => __( 'New members must answer this question on registration.',
+						'kleingarten' ),
+					'default'     => '',
+					'placeholder' => __( 'In which city is our club located?', 'kleingarten' ),
+					'callback'    => array(
+						$this,
+						'anti_spam_challenge_sanitize_callback'
+					),
+				),
+				array(
+					'id'          => 'anti_spam_response',
+					'label'       => __( 'Antispam Answer', 'kleingarten' ),
+					'description' => __( 'The correct answer on your antispam question.',
+						'kleingarten' ),
+					'default'     => '',
+					'placeholder' => __( 'Berlin', 'kleingarten' ),
+					'callback'    => array(
+						$this,
+						'anti_spam_response_sanitize_callback'
+					),
+				),
 			),
 		);
 
@@ -988,6 +1012,24 @@ class Kleingarten_Settings {
 
 		return $input;
 
+	}
+
+	/**
+	 * Sanitize "Antispam Challenge" option callback
+	 *
+	 * @return mixed
+	 */
+	public function anti_spam_challenge_sanitize_callback( $input ) {
+		return sanitize_text_field( $input );
+	}
+
+	/**
+	 * Sanitize "Antispam Challenge" option callback
+	 *
+	 * @return mixed
+	 */
+	public function anti_spam_response_sanitize_callback( $input ) {
+		return sanitize_text_field( $input );
 	}
 
 }
