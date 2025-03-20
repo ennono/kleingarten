@@ -49,7 +49,8 @@ class Kleingarten_Plot {
 	public static function remove_gardener_assignments( $post_ID ) {
 
 		// Remove user assignments:
-		$users_with_plot_assigned = Kleingarten_Gardeners::get_users_with_plot_assigned( $post_ID );
+		$users_with_plot_assigned
+			= Kleingarten_Gardeners::get_users_with_plot_assigned( $post_ID );
 		foreach ( $users_with_plot_assigned as $user ) {
 			$gardener = new Kleingarten_Gardener( $user->ID );
 			if ( $gardener ) {

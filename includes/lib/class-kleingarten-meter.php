@@ -92,15 +92,16 @@ class Kleingarten_Meter {
 
 		// Configure new meter:
 		if ( $author_id > 0 && get_user( $author_id ) ) {
+
 		} elseif ( get_user( $author_id ) ) {
-			$postarr      = array(
+			$postarr = array(
 				'post_type'   => 'kleingarten_meter',
 				'post_title'  => $title,
 				'post_status' => 'publish',
 				'post_author' => $author_id,
 			);
 		} else {
-			$postarr      = array(
+			$postarr = array(
 				'post_type'   => 'kleingarten_meter',
 				'post_title'  => $title,
 				'post_status' => 'publish',
@@ -405,6 +406,8 @@ class Kleingarten_Meter {
 	public function count_readings() {
 		if ( is_countable( $this->readings ) ) {
 			return count( $this->readings );
+		} else {
+			return 0;
 		}
 	}
 

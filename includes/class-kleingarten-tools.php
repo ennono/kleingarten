@@ -398,18 +398,24 @@ class Kleingarten_Tools {
 							foreach ( $available_meters as $available_meter ) {
 
 								// Create new meter:
-                                /*
+								/*
 								$postarr      = array(
 									'post_type'   => 'kleingarten_meter',
 									'post_title'  => $available_meter . ' '
-									                 . $prefix . ' ' . $i . ' '
-									                 . $suffix,
+													 . $prefix . ' ' . $i . ' '
+													 . $suffix,
 									'post_status' => 'publish',
 									'post_author' => get_current_user_id(),
 								);
 								$new_meter_id = wp_insert_post( $postarr );
-                                */
-								$new_meter_id = Kleingarten_Meter::create_new( $available_meter . ' ' . $prefix . ' ' . $i . ' ' . $suffix );
+								*/
+								$new_meter_id
+									= Kleingarten_Meter::create_new( $available_meter
+									                                 . ' '
+									                                 . $prefix
+									                                 . ' ' . $i
+									                                 . ' '
+									                                 . $suffix );
 
 								// Set new meter's unit:
 								update_post_meta( $new_meter_id,
@@ -540,7 +546,7 @@ class Kleingarten_Tools {
 					if ( isset( $_GET['kleingarten_batch_create_meter_reading_submission_tokens_success'] ) ) {
 
 						// ... list all available meters:
-                        $available_meters = new Kleingarten_Meters();
+						$available_meters = new Kleingarten_Meters();
 
 						// ... if we fount some meters:
 						if ( $available_meters->get_meters_num() > 0 ) {
@@ -559,21 +565,26 @@ class Kleingarten_Tools {
 								esc_html__( 'Token', 'kleingarten' ),
 								esc_html__( 'Expires on', 'kleingarten' )
 							);
-							$file = implode( ';', $fields ) . "\n";
+							$file   = implode( ';', $fields ) . "\n";
 
 							// Create a token for each meter we found:
 							$error_counter = 0;
-							foreach ( $available_meters->get_meter_IDs() as $available_meter_ID ) {
+							foreach (
+								$available_meters->get_meter_IDs() as
+								$available_meter_ID
+							) {
 
-								$meter = new Kleingarten_Meter( $available_meter_ID );
+								$meter
+									= new Kleingarten_Meter( $available_meter_ID );
 
 								// Create a token...
-                                $token_mid = $meter->create_token();
-                                $token = $meter->get_token_details( $token_mid );
+								$token_mid = $meter->create_token();
+								$token
+								           = $meter->get_token_details( $token_mid );
 
 								// If token could not be saved successfully...
 								//if ( ! $token_id ) {
-                                if ( ! $token ) {
+								if ( ! $token ) {
 
 									// ... note that error:
 									$error_counter ++;
@@ -583,17 +594,19 @@ class Kleingarten_Tools {
 
 									// ... find the plots the current meter is assigned to:
 									$values = array();
-                                    $plots = $meter->get_meter_assignments();
+									$plots  = $meter->get_meter_assignments();
 
 									// ... and add a line for each plot to our CSV file:
 									foreach ( $plots as $plot ) {
-                                        $plot = new Kleingarten_Plot( $plot );
-										$values['plot'] = $plot->get_title();
-										$values['meter'] = esc_html( preg_replace( "/\r|\n/",
+										$plot            = new Kleingarten_Plot( $plot );
+										$values['plot']  = $plot->get_title();
+										$values['meter']
+										                 = esc_html( preg_replace( "/\r|\n/",
 											"", $meter->get_title() ) );
 										$values['token'] = $token['token'];
-										$values['expiry'] = $token['token_expiry_date'];
-										$lines[] = $values;
+										$values['expiry']
+										                 = $token['token_expiry_date'];
+										$lines[]         = $values;
 									}
 
 								}

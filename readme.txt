@@ -3,7 +3,7 @@ Contributors: frickemedia
 Tags: kleingarten, schrebergarten, garten, allotment gardening
 Requires at least: 3.9
 Tested up to: 6.7
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,9 +44,12 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
-= 1.1.6 =
+= 1.x.x =
 * UNDER CONSTRUCTION! DO NOT USE IN PRODUCTIVE ENVIRONMENT! *
 *
+* Minor bugfixes.
+
+= 1.1.6 =
 * Fixed: User registration from backend does not save Kleingarten custom fields.
 * Fixed: Used meter reading submission tokens are not marked as used but as expired.
 * Fixed: Deleted or trashed plots are not unlinked from gardeners.

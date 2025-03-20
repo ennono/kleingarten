@@ -65,7 +65,8 @@ class Kleingarten_Shortcodes {
 			'handle_kleingarten_member_profile_settings_callback'
 		) );
 
-		add_filter( 'authenticate', array( $this, 'handle_user_authentification' ), 31, 3);
+		add_filter( 'authenticate',
+			array( $this, 'handle_user_authentification' ), 31, 3 );
 
 		add_shortcode( 'kleingarten_my_plot',
 			array( $this, 'kleingarten_my_plot_callback' ) );
@@ -203,13 +204,17 @@ class Kleingarten_Shortcodes {
 
 	}
 
-	public function handle_user_authentification( $user, $username, $password ) {
-		if ( is_wp_error( $user ) && isset( $_SERVER[ 'HTTP_REFERER' ] ) && !strpos( $_SERVER[ 'HTTP_REFERER' ], 'wp-admin' ) && !strpos( $_SERVER[ 'HTTP_REFERER' ], 'wp-login.php' ) ) {
-			$referrer = $_SERVER[ 'HTTP_REFERER' ];
+	public function handle_user_authentification( $user, $username, $password
+	) {
+		if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
+		     && ! strpos( $_SERVER['HTTP_REFERER'], 'wp-admin' )
+		     && ! strpos( $_SERVER['HTTP_REFERER'], 'wp-login.php' ) ) {
+			$referrer = $_SERVER['HTTP_REFERER'];
 			foreach ( $user->errors as $key => $error ) {
-				if ( in_array( $key, array( 'empty_password', 'empty_username') ) ) {
+				if ( in_array( $key,
+					array( 'empty_password', 'empty_username' ) ) ) {
 					unset( $user->errors[ $key ] );
-					$user->errors[ 'custom_'.$key ] = $error;
+					$user->errors[ 'custom_' . $key ] = $error;
 				}
 			}
 		}
@@ -419,7 +424,7 @@ class Kleingarten_Shortcodes {
 	 *
 	 * @return void  HTML output
 	 */
-	#[NoReturn] public function handle_kleingarten_member_profile_settings_callback(
+	public function handle_kleingarten_member_profile_settings_callback(
 	) {
 
 		// Verify nonce or die
@@ -433,17 +438,14 @@ class Kleingarten_Shortcodes {
 
 		if ( is_user_logged_in() ) {
 
-			//$user_id = get_current_user_id();
 			$gardener = new Kleingarten_Gardener( get_current_user_id() );
 
 			if ( isset( $_POST['send_email_notifications'] )
 			     && $_POST['send_email_notifications'] == 1 ) {
 
-				//update_user_meta( $user_id, 'send_email_notifications', 1 );
 				$gardener->set_notification_mail_receival();
 
 			} else {
-				//update_user_meta( $user_id, 'send_email_notifications', 0 );
 				$gardener->unset_notification_mail_receival();
 			}
 
@@ -1341,73 +1343,74 @@ class Kleingarten_Shortcodes {
 		?>
         <div class="kleingarten-submit-meter-reading-form-section"><?php
 
-		// Print messages if form was submitted:
-		if ( $submitted == true && count( $messages ) > 0 ) {
+			// Print messages if form was submitted:
+			if ( $submitted == true && count( $messages ) > 0 ) {
 
-			echo '<ul class="kleingarten-submit-meter-reading-messages">';
-			foreach ( $messages as $message ) {
-				echo '<li>' . esc_html( $message ) . '</li>';
+				echo '<ul class="kleingarten-submit-meter-reading-messages">';
+				foreach ( $messages as $message ) {
+					echo '<li>' . esc_html( $message ) . '</li>';
+				}
+				echo '</ul>';
+
+			} elseif ( $submitted == true && $error_counter == 0
+			           && count( $messages ) == 0 ) {
+
+				echo '<ul class="kleingarten-submit-meter-reading-messages">';
+				echo '<li>' . esc_html( __( 'Meter reading submitted.',
+						'kleingarten' ) ) . '</li>';
+				echo '</ul>';
+
 			}
-			echo '</ul>';
 
-		} elseif ( $submitted == true && $error_counter == 0
-		           && count( $messages ) == 0 ) {
-
-			echo '<ul class="kleingarten-submit-meter-reading-messages">';
-			echo '<li>' . esc_html( __( 'Meter reading submitted.',
-					'kleingarten' ) ) . '</li>';
-			echo '</ul>';
-
-		}
-
-		?>
-        <form action="<?php echo esc_url( get_permalink() ); ?>"
-              method="post">
-            <p>
-                <label for="kleingarten_meter_reading_submission_token">
-					<?php esc_html_e( 'Token', 'kleingarten' ); ?>
-                </label>
-                <input
-                        type="text"
-                        name="kleingarten_meter_reading_submission_token"
-                        id="kleingarten_meter_reading_submission_token"
-                        required
-                />
-            </p>
-            <p>
-                <label for="kleingarten_meter_reading_date">
-					<?php esc_html_e( 'Reading date', 'kleingarten' ); ?>
-                </label>
-                <input
-                        type="date"
-                        name="kleingarten_meter_reading_date"
-                        id="kleingarten_meter_reading_date"
-                        value="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>"
-                        required
-                />
-            </p>
-            <p>
-                <label for="kleingarten_meter_reading">
-					<?php esc_html_e( 'Reading value', 'kleingarten' ); ?>
-                </label>
-                <input
-                        type="number"
-                        name="kleingarten_meter_reading"
-                        id="kleingarten_meter_reading"
-                        required
-                />
-            </p>
-            <p>
-                <input type="submit"
-                       name="kleingarten_submit_meter_reading_submit"
-                       value="<?php esc_attr_e( 'Submit', 'kleingarten' ); ?>">
-            </p>
-            <input type="hidden"
-                   value="<?php echo esc_url( get_permalink() ); ?>"
-                   name="redirect_url">
-			<?php wp_nonce_field( 'kleingarten_meter_reading_submission',
-				'kleingarten_meter_reading_submission_nonce' ); ?>
-        </form>
+			?>
+            <form action="<?php echo esc_url( get_permalink() ); ?>"
+                  method="post">
+                <p>
+                    <label for="kleingarten_meter_reading_submission_token">
+						<?php esc_html_e( 'Token', 'kleingarten' ); ?>
+                    </label>
+                    <input
+                            type="text"
+                            name="kleingarten_meter_reading_submission_token"
+                            id="kleingarten_meter_reading_submission_token"
+                            required
+                    />
+                </p>
+                <p>
+                    <label for="kleingarten_meter_reading_date">
+						<?php esc_html_e( 'Reading date', 'kleingarten' ); ?>
+                    </label>
+                    <input
+                            type="date"
+                            name="kleingarten_meter_reading_date"
+                            id="kleingarten_meter_reading_date"
+                            value="<?php echo esc_attr( gmdate( 'Y-m-d' ) ); ?>"
+                            required
+                    />
+                </p>
+                <p>
+                    <label for="kleingarten_meter_reading">
+						<?php esc_html_e( 'Reading value', 'kleingarten' ); ?>
+                    </label>
+                    <input
+                            type="number"
+                            name="kleingarten_meter_reading"
+                            id="kleingarten_meter_reading"
+                            required
+                    />
+                </p>
+                <p>
+                    <input type="submit"
+                           name="kleingarten_submit_meter_reading_submit"
+                           value="<?php esc_attr_e( 'Submit',
+						       'kleingarten' ); ?>">
+                </p>
+                <input type="hidden"
+                       value="<?php echo esc_url( get_permalink() ); ?>"
+                       name="redirect_url">
+				<?php wp_nonce_field( 'kleingarten_meter_reading_submission',
+					'kleingarten_meter_reading_submission_nonce' ); ?>
+            </form>
         </div>
 		<?php
 

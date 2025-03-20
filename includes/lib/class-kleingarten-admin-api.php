@@ -292,7 +292,8 @@ class Kleingarten_Admin_API {
 				if ( get_option( 'kleingarten_send_new_post_notification' ) ) {
 
 					// Build a list of recipients
-					$recipients = Kleingarten_Gardeners::get_new_post_notification_recipients();
+					$recipients
+						= Kleingarten_Gardeners::get_new_post_notification_recipients();
 
 					$html .= '<br><br><p><strong>' . esc_html__( 'Recipients',
 							'kleingarten' ) . ':</strong></p>';

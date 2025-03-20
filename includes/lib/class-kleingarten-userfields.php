@@ -48,11 +48,11 @@ class Kleingarten_Userfields {
 	public function display_kleingarten_user_fields( $user ) {
 
 		// Represents the gardner we are dealing with:
-        if ( is_object( $user ) && isset( $user->ID ) ) {
-	        $gardener = new Kleingarten_Gardener( $user->ID );
-        } else {
-	        $gardener = new Kleingarten_Gardener( 0 );
-        }
+		if ( is_object( $user ) && isset( $user->ID ) ) {
+			$gardener = new Kleingarten_Gardener( $user->ID );
+		} else {
+			$gardener = new Kleingarten_Gardener( 0 );
+		}
 
 		// Get a list of all available positions:
 		$available_positions = explode( "\r\n",
@@ -215,24 +215,21 @@ class Kleingarten_Userfields {
 	 */
 	public function save_kleingarten_user_fields( $user_id ) {
 
-        if ( isset( $_POST['_wpnonce'] ) ) {
-            if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce'] ) ),
-	            'update-user_' . $user_id )
-            ) {
-	            error_log( '1' );
-                return;
-            }
-        } elseif ( isset( $_POST['_wpnonce_create-user'] ) ) {
-	        if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce_create-user'] ) ),
-		        'create-user' )
-	        ) {
-		        error_log( '2' );
-		        return;
-	        }
-        } else {
-	        error_log( '3' );
-            return;
-        }
+		if ( isset( $_POST['_wpnonce'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce'] ) ),
+				'update-user_' . $user_id )
+			) {
+				return;
+			}
+		} elseif ( isset( $_POST['_wpnonce_create-user'] ) ) {
+			if ( ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce_create-user'] ) ),
+				'create-user' )
+			) {
+				return;
+			}
+		} else {
+			return;
+		}
 
 		// Represents the gardner we are dealing with:
 		$gardener = new Kleingarten_Gardener( $user_id );

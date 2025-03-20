@@ -177,8 +177,10 @@ class Kleingarten {
 		add_action( 'template_redirect',
 			array( $this, 'redirect_private_post_404_to_login_page' ) );
 
-		add_action( 'wp_trash_post', array( 'Kleingarten_Plot', 'remove_gardener_assignments' ) );
-		add_action( 'delete_post', array( 'Kleingarten_Plot', 'remove_gardener_assignments' ) );
+		add_action( 'wp_trash_post',
+			array( 'Kleingarten_Plot', 'remove_gardener_assignments' ) );
+		add_action( 'delete_post',
+			array( 'Kleingarten_Plot', 'remove_gardener_assignments' ) );
 
 		// Load API for generic admin functions.
 		if ( is_admin() ) {
@@ -617,9 +619,10 @@ class Kleingarten {
 		}
 
 		// Build a list of recipients
-		$recipients = Kleingarten_Gardeners::get_new_post_notification_recipients();
+		$recipients
+			= Kleingarten_Gardeners::get_new_post_notification_recipients();
 
-			// Set email subject
+		// Set email subject
 		$subject
 			= esc_html( get_option( 'kleingarten_new_post_notification_subject' ) );
 		if ( $subject == '' ) {
