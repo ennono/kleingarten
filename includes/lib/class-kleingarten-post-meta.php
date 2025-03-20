@@ -520,7 +520,7 @@ class Kleingarten_Post_Meta {
 
                     // Column: Token status
                     // If not expired...
-                    if ( $existing_token['token_data']['token_expiry_date'] > strtotime( 'now' ) ) {
+                    if ( $existing_token['token_data']['token_expiry_date'] >= strtotime( 'now' ) && $existing_token['token_data']['token_status'] != 'used' ) {
                         switch ( $existing_token['token_data']['token_status'] ) {
                             case 'active':
                                 echo    '<td>' . esc_html( __( 'Active', 'kleingarten' ) ) . '</td>';
@@ -537,7 +537,15 @@ class Kleingarten_Post_Meta {
                         }
                     // ... or if expired:
                     } else {
-                        echo    '<td>' . esc_html( __( 'Expired', 'kleingarten' ) ) . '</td>';
+                        switch ( $existing_token['token_data']['token_status'] ) {
+                            case 'used':
+                                echo    '<td>' . esc_html( __( 'Used', 'kleingarten' ) ) . '</td>';
+                                break;
+                            default:
+                                echo    '<td>' . esc_html( __( 'Expired', 'kleingarten' ) ) . '</td>';
+                                break;
+                        }
+                        //echo    '<td>' . esc_html( __( 'Expired', 'kleingarten' ) ) . '</td>';
                     }
 
                     // Column: Expiry date

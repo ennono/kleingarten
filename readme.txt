@@ -47,6 +47,11 @@ This plugin extends WordPress with useful functions for allotment garden associa
 = 1.1.6 =
 * UNDER CONSTRUCTION! DO NOT USE IN PRODUCTIVE ENVIRONMENT! *
 *
+* Fixed: User registration from backend does not save Kleingarten custom fields.
+* Fixed: Used meter reading submission tokens are not marked as used but as expired.
+* Fixed: Deleted or trashed plots are not unlinked from gardeners.
+* Fixed: Register form does not insist on first and last name.
+* Fixed: No notification mail sent on new private post.
 * Fixed: New post notification mail are send to pending users.
 * Fixed: Login form redirects to wp-login.php if a field is left empty.
 * Fixed: Tool for creating multiple tokens creates expired tokens.

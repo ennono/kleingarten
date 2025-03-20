@@ -113,6 +113,8 @@ class Kleingarten_Gardener {
 				$this->receives_notification_mails = false;
 			}
 
+		} else {
+			$this->user_ID = 0;
 		}
 
 	}
