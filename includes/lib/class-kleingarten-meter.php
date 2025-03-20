@@ -86,6 +86,35 @@ class Kleingarten_Meter {
 
 	}
 
+	public static function create_new( $title, $author_id = 0 ) {
+
+		$errors = new WP_Error();
+
+		// Configure new meter:
+		if ( $author_id > 0 && get_user( $author_id ) ) {
+		} elseif ( get_user( $author_id ) ) {
+			$postarr      = array(
+				'post_type'   => 'kleingarten_meter',
+				'post_title'  => $title,
+				'post_status' => 'publish',
+				'post_author' => $author_id,
+			);
+		} else {
+			$postarr      = array(
+				'post_type'   => 'kleingarten_meter',
+				'post_title'  => $title,
+				'post_status' => 'publish',
+				'post_author' => get_current_user_id(),
+			);
+		}
+
+		// Create new meter:
+		$new_meter_id = wp_insert_post( $postarr );
+
+		return $new_meter_id;
+
+	}
+
 	/**
 	 * Saves a new meter reading by token.
 	 *

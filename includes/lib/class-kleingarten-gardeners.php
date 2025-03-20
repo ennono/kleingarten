@@ -41,4 +41,17 @@ class Kleingarten_Gardeners {
 
 	}
 
+	public static function get_users_with_plot_assigned( $plots_id ) {
+
+		// Build a list of users:
+		$users = get_users( [
+			'role__in'     => array( 'administrator', 'author', 'subscriber', 'kleingarten_allotment_gardener', 'kleingarten_pending' ),
+			'meta_key'     => 'plot',
+			'meta_value'   => $plots_id,
+		] );
+
+		return $users;
+		
+	}
+	
 }

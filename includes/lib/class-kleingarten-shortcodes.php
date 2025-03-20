@@ -459,7 +459,7 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Callback for shortcode kleingarten_register_form. Displays Registe Form.
+	 * Callback for shortcode kleingarten_register_form. Displays registration form.
 	 *
 	 * @return string  HTML output
 	 */
@@ -742,7 +742,7 @@ class Kleingarten_Shortcodes {
 				__( 'Kindly accept the terms of use.', 'kleingarten' ) );
 		}
 
-		// Check if user already existst:
+		// Check if user already exists:
 		if ( username_exists( $user_data["login"] ) ) {
 			$error->add( 'kleingarten-registration-user-exists',
 				__( 'Username already taken.', 'kleingarten' ) );
@@ -754,10 +754,22 @@ class Kleingarten_Shortcodes {
 				__( 'Invalid username.', 'kleingarten' ) );
 		}
 
-		// Check is username is empty:
+		// Check if username is empty:
 		if ( $user_data["login"] == '' ) {
 			$error->add( 'kleingarten-registration-username-empty',
 				__( 'Username empty.', 'kleingarten' ) );
+		}
+
+		// Check if firstname is empty:
+		if ( $user_data["firstname"] == '' ) {
+			$error->add( 'kleingarten-registration-firstname-empty',
+				__( 'Firstname empty.', 'kleingarten' ) );
+		}
+
+		// Check if lastname is empty:
+		if ( $user_data["lastname"] == '' ) {
+			$error->add( 'kleingarten-registration-lastname-empty',
+				__( 'Lastname empty.', 'kleingarten' ) );
 		}
 
 		// Check if email is valid:

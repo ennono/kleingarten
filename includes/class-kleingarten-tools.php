@@ -341,7 +341,7 @@ class Kleingarten_Tools {
 		     && wp_verify_nonce( sanitize_key( wp_unslash( $_POST['kleingarten_batch_create_plots_nonce'] ) ),
 				'kleingarten_batch_create_plots_nonce_action' ) ) {
 
-			// If a number of plots to create was submittet...
+			// If a number of plots to create was submitted...
 			if ( isset( $_POST['kleingarten_batch_create_plots_num'] )
 			     && $_POST['kleingarten_batch_create_plots_num'] > 0 ) {
 
@@ -386,7 +386,7 @@ class Kleingarten_Tools {
 					$new_plot = Kleingarten_Plot::create_new( $prefix . ' ' . $i
 					                                          . ' ' . $suffix );
 
-					// If creating the plat was successful...
+					// If creating the plot was successful...
 					if ( ! is_wp_error( $new_plot ) ) {
 
 						$new_plot_id = $new_plot->get_ID();
@@ -398,6 +398,7 @@ class Kleingarten_Tools {
 							foreach ( $available_meters as $available_meter ) {
 
 								// Create new meter:
+                                /*
 								$postarr      = array(
 									'post_type'   => 'kleingarten_meter',
 									'post_title'  => $available_meter . ' '
@@ -407,6 +408,8 @@ class Kleingarten_Tools {
 									'post_author' => get_current_user_id(),
 								);
 								$new_meter_id = wp_insert_post( $postarr );
+                                */
+								$new_meter_id = Kleingarten_Meter::create_new( $available_meter . ' ' . $prefix . ' ' . $i . ' ' . $suffix );
 
 								// Set new meter's unit:
 								update_post_meta( $new_meter_id,

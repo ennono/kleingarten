@@ -180,6 +180,17 @@ class Kleingarten_Gardener {
 	}
 
 	/**
+	 * Reset plot assignment.
+	 *
+	 * @return mixed
+	 */
+	public function reset_plot() {
+
+		return update_user_meta( $this->user_ID, 'plot', 0 );
+
+	}
+
+	/**
 	 * Makes the gardener receive notification mails
 	 *
 	 * @return mixed

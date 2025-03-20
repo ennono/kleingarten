@@ -38,20 +38,37 @@ class Kleingarten_Plot {
 		// Save at least the plot's post ID:
 		$this->post_ID = $plot_ID;
 
-		// Try get the plot's post:
-		//$this->post = get_post( $this->post_ID );
+	}
 
-		// If getting the post succeeded initialize more:
-		/*
-		if ( $this->post != null ) {
+	/**
+	 * Remove gardener assignment. To used with hook that fires on deleting
+	 * or trashing a plot.
+	 *
+	 * @return true|false
+	 */
+	public static function remove_gardener_assignments( $post_ID ) {
 
-
-
+		// Remove user assignments:
+		$users_with_plot_assigned = Kleingarten_Gardeners::get_users_with_plot_assigned( $post_ID );
+		foreach ( $users_with_plot_assigned as $user ) {
+			$gardener = new Kleingarten_Gardener( $user->ID );
+			if ( $gardener ) {
+				$gardener->reset_plot();
+			}
 		}
-		*/
+
+		return true;
 
 	}
 
+	/**
+	 * Creates a new plot and returns is as an instance of Kleingarten_Plot.
+	 *
+	 * @param $title
+	 * @param $author_id
+	 *
+	 * @return WP_Error|self
+	 */
 	public static function create_new( $title, $author_id = 0 ) {
 
 		if ( $author_id == 0 ) {
@@ -76,6 +93,11 @@ class Kleingarten_Plot {
 
 	}
 
+	/**
+	 * Returns the post ID.
+	 *
+	 * @return int
+	 */
 	public function get_ID() {
 		return $this->post_ID;
 	}

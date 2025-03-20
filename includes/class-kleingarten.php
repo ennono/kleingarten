@@ -177,6 +177,9 @@ class Kleingarten {
 		add_action( 'template_redirect',
 			array( $this, 'redirect_private_post_404_to_login_page' ) );
 
+		add_action( 'wp_trash_post', array( 'Kleingarten_Plot', 'remove_gardener_assignments' ) );
+		add_action( 'delete_post', array( 'Kleingarten_Plot', 'remove_gardener_assignments' ) );
+
 		// Load API for generic admin functions.
 		if ( is_admin() ) {
 			$this->admin = new Kleingarten_Admin_API();
