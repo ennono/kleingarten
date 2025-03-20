@@ -525,7 +525,7 @@ class Kleingarten_Shortcodes {
 					$new_user_data["user_terms_of_use_accepted"] = 0;
 				}
                 if ( isset( $_POST["anti_spam_response"] ) ) {
-                    $new_user_data["anti_spam_response"] = $_POST["anti_spam_response"];
+                    $new_user_data["anti_spam_response"] = sanitize_text_field( wp_unslash( $_POST["anti_spam_response"] ) );
                 }
 
 				// Validate user data and get error messages:
