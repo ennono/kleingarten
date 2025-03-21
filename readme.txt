@@ -45,7 +45,11 @@ This plugin extends WordPress with useful functions for allotment garden associa
 == Changelog ==
 
 = 1.x.x =
+* UNDER DEVELOPMENT! DON'T USE IN PRODUCTIVE ENVIRONMENT!
+*
 * Added a link to logo.
+* Register form antispam function now prints a note, if challenge and response are not configured.
+* Minor bugfixes.
 
 = 1.1.7 =
 * Added a very simple antispam function to register form.

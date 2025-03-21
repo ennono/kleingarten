@@ -475,6 +475,8 @@ class Kleingarten_Shortcodes {
 			$atts
 		);
 
+		$anti_spam_challenge = $atts['anti_spam_challenge'];
+
 		if ( ! get_option( 'users_can_register' ) ) {
 			return __( 'User registration is disabled.', 'kleingarten' );
 		}
@@ -524,9 +526,13 @@ class Kleingarten_Shortcodes {
 				} else {
 					$new_user_data["user_terms_of_use_accepted"] = 0;
 				}
-                if ( isset( $_POST["anti_spam_response"] ) ) {
-                    $new_user_data["anti_spam_response"] = sanitize_text_field( wp_unslash( $_POST["anti_spam_response"] ) );
-                }
+				if ( $anti_spam_challenge == 'true' ) {
+					if ( isset( $_POST["anti_spam_response"] ) ) {
+						$new_user_data["anti_spam_response"] = sanitize_text_field( wp_unslash( $_POST["anti_spam_response"] ) );
+					} else {
+						$new_user_data["anti_spam_response"] = null;
+					}
+				}
 
 				// Validate user data and get error messages:
 				$user_data_validation
@@ -669,22 +675,29 @@ class Kleingarten_Shortcodes {
                 </p>
                 <?php
 
-				$anti_spam_challenge = $atts['anti_spam_challenge'];
+				$anti_spam_challenge_string = get_option( 'kleingarten_anti_spam_challenge' );
+				$anti_spam_response_string = get_option( 'kleingarten_anti_spam_response' );
 				if ( $anti_spam_challenge == 'true' ) {
 
-					$anti_spam_challenge = get_option( 'kleingarten_anti_spam_challenge' );
-
-					?>
-                    <p>
-                        <label for="anti_spam_response"><?php echo esc_html( $anti_spam_challenge ); ?>*</label>
-                        <br>
-                        <input type="text" name="anti_spam_response" id="anti_spam_response"
-                               value="<?php if ( isset( $_POST["anti_spam_response"] ) ) {
-							       echo esc_attr( sanitize_text_field( wp_unslash( $_POST["anti_spam_response"] ) ) );
-						       } ?>" size="25"
-                               required="required">
-                    </p>
-					<?php
+                    if ( ! empty( $anti_spam_challenge_string ) && ! empty( $anti_spam_response_string ) ) {
+	                    ?>
+                        <p>
+                            <label for="anti_spam_response"><?php echo esc_html( $anti_spam_challenge_string ); ?>*</label>
+                            <br>
+                            <input type="text" name="anti_spam_response" id="anti_spam_response"
+                                   value="<?php if ( isset( $_POST["anti_spam_response"] ) ) {
+			                           echo esc_attr( sanitize_text_field( wp_unslash( $_POST["anti_spam_response"] ) ) );
+		                           } ?>" size="25"
+                                   required="required">
+                        </p>
+	                    <?php
+                    } else {
+	                    ?>
+                        <p>
+                            <?php esc_html_e( 'Antispam is not configured.', 'kleingarten' ); ?>
+                        </p>
+	                    <?php
+                    }
 
 				}
 
@@ -773,10 +786,18 @@ class Kleingarten_Shortcodes {
 
         $correct_answer = get_option( 'kleingarten_anti_spam_response' );
         if ( $user_data["anti_spam_response"] != $correct_answer ) {
-	        $error->add( 'kleingarten-registration-terms-of-user-not-accepted',
-		        /* translators: User's answer on antispam challenge. */
-		        sprintf( __( '%s is not the correct answer. Try again.', 'kleingarten' ), esc_html( $user_data["anti_spam_response"] ) )
-            );
+            if ( $user_data["anti_spam_response"] != '') {
+	            $error->add( 'kleingarten-registration-terms-of-user-not-accepted',
+		            /* translators: User's answer on antispam challenge. */
+		            sprintf( __( '%s is not the correct answer. Try again.', 'kleingarten' ), esc_html( $user_data["anti_spam_response"] ) )
+	            );
+            } else {
+	            $error->add( 'kleingarten-registration-terms-of-user-not-accepted',
+		            /* translators: User's answer on antispam challenge. */
+		            __( 'This is not the correct answer. Try again.', 'kleingarten' )
+	            );
+            }
+
         }
 
 		// Check if user already exists:
