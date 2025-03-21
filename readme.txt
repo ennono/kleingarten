@@ -44,9 +44,10 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
-= 1.x.x =
+= 1.1.8 =
 * UNDER DEVELOPMENT! DON'T USE IN PRODUCTIVE ENVIRONMENT!
 *
+* Now it is possible to reactivate tokens that have been deactivated before.
 * Added a link to logo.
 * Register form antispam function now prints a note, if challenge and response are not configured.
 * Minor bugfixes.

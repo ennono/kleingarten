@@ -564,13 +564,22 @@ class Kleingarten_Post_Meta {
                             // Deactivate Checkbox:
                             echo '<td>';
                             echo    '<label style="margin-right: 1rem;" for="kleingarten_deactivate_tokens"><input name="kleingarten_deactivate_tokens[]" type="checkbox" value="' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Deactivate', 'kleingarten' ) ) . '</label>';
-                        // For deactivated or used tokens:
-                        } elseif ( $existing_token['token_data']['token_status'] == 'deactivated' || $existing_token['token_data']['token_status'] == 'used' ) {
+                        // For deactivated tokens:
+                        } elseif ( $existing_token['token_data']['token_status'] == 'deactivated' ) {
+                            echo '<td>';
+                            // Activate Checkbox:
+                            echo    '<label for="kleingarten_activate_or_delete_tokens"><input name="kleingarten_activate_or_delete_tokens[' . $existing_token['meta_id'] . ']" type="radio" value="reactivate_' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Reactivate', 'kleingarten' ) ) . '</label><br>';
+                            // Delete Checkbox:
+                            echo    '<label for="kleingarten_activate_or_delete_tokens"><input name="kleingarten_activate_or_delete_tokens[' . $existing_token['meta_id'] . ']" type="radio" value="delete_' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Delete', 'kleingarten' ) ) . '</label>';
+                            echo '</td>';
+                        // For used tokens:
+                        } elseif ( $existing_token['token_data']['token_status'] == 'used' ) {
                             echo '<td>';
                             // Delete Checkbox:
                             echo    '<label for="kleingarten_delete_tokens"><input name="kleingarten_delete_tokens[]" type="checkbox" value="' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Delete', 'kleingarten' ) ) . '</label>';
                             echo '</td>';
-                        } else {
+                        }
+                        else {
                             echo '<td></td>';
                         }
                     }
@@ -590,8 +599,6 @@ class Kleingarten_Post_Meta {
         }
 
         echo '</div>';
-
-
 
         return true;
 
@@ -1041,7 +1048,8 @@ class Kleingarten_Post_Meta {
            // If there are tokens to deactivate...
            if ( isset( $_POST['kleingarten_deactivate_tokens'] ) ) {
 
-               $tokens_to_deactivate = array_unique( array_map( 'absint', wp_unslash(  $_POST['kleingarten_deactivate_tokens'] ) ) );
+               $tokens_to_deactivate = array_unique( array_map( 'sanitize_text_field', wp_unslash(  $_POST['kleingarten_deactivate_tokens'] ) ) );
+               //$tokens_to_deactivate = $_POST['kleingarten_deactivate_tokens'];
                // ... and if it's more than one single reading...
                if ( is_array( $tokens_to_deactivate ) ) {
 
@@ -1099,15 +1107,74 @@ class Kleingarten_Post_Meta {
                if ( is_array( $tokens_to_delete ) ) {
 
                    // ... deactivate them all:
-                   $error_counter = 0;
                    $j = 0;
                    foreach ( $tokens_to_delete as $token_to_delete ) {
-                       //if ( ! delete_metadata_by_mid( 'post', absint( $token_to_delete ) ) ) {
+
+                       // If the token has been used deactivate it first.
+                       // Otherwise, it cannot be deleted.
+                       $token_details = $meter->get_token_details( $token_to_delete );
+                       if ( $token_details['token_status'] == 'used' ) {
+                           $meter->deactivate_token( $token_to_delete );
+                       }
+
+                       // Delete the token:
                        if ( is_wp_error( $result = $meter->delete_token( $token_to_delete ) ) ) {
-                           //$error_counter++;
                            $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', $result->get_error_message(), 'error' );
                        } else {
                            $j++;
+                       }
+
+                   }
+                   if ( $j >= 1 ) {
+                       /* translators: Number of deleted tokens */
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u tokens deleted.', 'kleingarten' ), $j ), 'error' );
+                   } elseif ( $j == 1 ) {
+                       /* translators: Number of deleted tokens */
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token deleted.', 'kleingarten' ), $j ), 'error' );
+                   }
+
+               }
+               // ... or if it is just one single token...
+               // (This is mostly pro forma. Probably never triggered, because single readings are presented as array, too.)
+               /*
+               else {
+                   // ... deactivate it:
+                   if (delete_metadata_by_mid( 'post', absint( $tokens_to_delete ) ) ) {
+                   //if ( $this->deactivate_meter_reading_submission_token( absint( $tokens_to_delete ) ) ) {
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Token deleted.', 'kleingarten' ), 'info' );
+                   } else {
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Something went wrong. Token could not be deleted.', 'kleingarten' ), 'error' );
+                   }
+               }
+               */
+
+           }
+
+           // If there are deactivated tokens to delete OR to re-activate...
+           if ( isset( $_POST['kleingarten_activate_or_delete_tokens'] ) ) {
+
+               $tokens_to_delete_or_reactivate = array_unique( array_map( 'sanitize_text_field', wp_unslash( $_POST['kleingarten_activate_or_delete_tokens'] ) ) );
+
+               // ... and if it's more than one single token...
+               if ( is_array( $tokens_to_delete_or_reactivate ) ) {
+
+                   // ... look at every single token we have to deal with:
+                   $j = 0;
+                   foreach ( $tokens_to_delete_or_reactivate as $token_to_delete_or_reactivate ) {
+
+                       // If token shall be deleted...
+                       if ( str_contains( $token_to_delete_or_reactivate, 'delete_' ) ) {
+
+                           // Get token meta ID:
+                           $token_to_delete = absint( str_replace( 'delete_', '', $token_to_delete_or_reactivate ) ) ;
+
+                           // Delete it and print an error on failure:
+                           if ( is_wp_error( $result = $meter->delete_token( $token_to_delete ) ) ) {
+                               $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', $result->get_error_message(), 'error' );
+                           } else {
+                               $j++;
+                           }
+
                        }
                    }
                    if ( $j >= 1 ) {
@@ -1118,25 +1185,34 @@ class Kleingarten_Post_Meta {
                        $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token deleted.', 'kleingarten' ), $j ), 'error' );
                    }
 
-                   /*
-                   if ( ! $error_counter > 0 ) {
-                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Tokens deleted.', 'kleingarten' ), 'info' );
-                   } else {
-                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Something went wrong. Some tokens could not be deleted.', 'kleingarten' ), 'error' );
-                   }
-                   */
+                   // ... look at every single token we have to deal with again:
+                   $j = 0;
+                   foreach ( $tokens_to_delete_or_reactivate as $token_to_delete_or_reactivate ) {
 
-               }
-               // ... or if it is just one single reading...
-               // (This is mostly pro forma. Probably never triggered, because single readings are presented as array, too.)
-               else {
-                   // ... deactivate it:
-                   if (delete_metadata_by_mid( 'post', absint( $tokens_to_delete ) ) ) {
-                   //if ( $this->deactivate_meter_reading_submission_token( absint( $tokens_to_delete ) ) ) {
-                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Token deleted.', 'kleingarten' ), 'info' );
-                   } else {
-                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', __( 'Something went wrong. Token could not be deleted.', 'kleingarten' ), 'error' );
+                       // If token shall be re-activated...
+                       if ( str_contains( $token_to_delete_or_reactivate, 'reactivate_' ) ) {
+
+                           // Get token meta ID:
+                           $token_to_activate = absint( str_replace( 'reactivate_', '', $token_to_delete_or_reactivate ) ) ;
+
+                           // Delete it and print an error on failure:
+                           if ( is_wp_error( $result = $meter->activate_token( $token_to_activate ) ) ) {
+                               $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', $result->get_error_message(), 'error' );
+                           } else {
+                               $j++;
+                           }
+
+                       }
+
                    }
+                   if ( $j >= 1 ) {
+                       /* translators: Number of deleted tokens */
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u tokens (re-)activated.', 'kleingarten' ), $j ), 'error' );
+                   } elseif ( $j == 1 ) {
+                       /* translators: Number of deleted tokens */
+                       $this->add_message( 'kleingarten_meter_reading_submission_token', 'kleingarten_meter_reading_submission_token', sprintf( __( '%u token (re-)activated.', 'kleingarten' ), $j ), 'error' );
+                   }
+
                }
 
            }

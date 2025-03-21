@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kleingarten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WordPress-Plugin-Template\n"
-"POT-Creation-Date: 2025-03-21 14:36+0000\n"
+"POT-Creation-Date: 2025-03-21 20:37+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -102,23 +102,35 @@ msgid_plural "%s plots updated."
 msgstr[0] ""
 msgstr[1] ""
 
+#. Number of deleted tokens
+#: includes/lib/class-kleingarten-post-meta.php:1213
+msgid "%u token (re-)activated."
+msgstr ""
+
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1064
+#: includes/lib/class-kleingarten-post-meta.php:1072
 msgid "%u token deactivated."
 msgstr ""
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1118
+#: includes/lib/class-kleingarten-post-meta.php:1133
+#: includes/lib/class-kleingarten-post-meta.php:1185
 msgid "%u token deleted."
 msgstr ""
 
+#. Number of deleted tokens
+#: includes/lib/class-kleingarten-post-meta.php:1210
+msgid "%u tokens (re-)activated."
+msgstr ""
+
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1061
+#: includes/lib/class-kleingarten-post-meta.php:1069
 msgid "%u tokens deactivated."
 msgstr ""
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1115
+#: includes/lib/class-kleingarten-post-meta.php:1130
+#: includes/lib/class-kleingarten-post-meta.php:1182
 msgid "%u tokens deleted."
 msgstr ""
 
@@ -136,7 +148,7 @@ msgid "A CSV file with all created tokens has been created"
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:1155
-#: includes/lib/class-kleingarten-post-meta.php:751
+#: includes/lib/class-kleingarten-post-meta.php:758
 #: includes/lib/class-kleingarten-meter.php:537
 msgid "A meter reading already exists for this date."
 msgstr ""
@@ -283,7 +295,7 @@ msgid "Bottom"
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:1168
-#: includes/lib/class-kleingarten-post-meta.php:764
+#: includes/lib/class-kleingarten-post-meta.php:771
 #: includes/lib/class-kleingarten-meter.php:548
 msgid "Cannot save a reading for a date in the future."
 msgstr ""
@@ -323,6 +335,10 @@ msgstr ""
 
 #: includes/class-kleingarten-settings.php:179
 msgid "Control how the plugin handles user accounts."
+msgstr ""
+
+#: includes/lib/class-kleingarten-meter.php:953
+msgid "Could not (re-)activate token."
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:666
@@ -371,6 +387,7 @@ msgstr ""
 
 #: includes/lib/class-kleingarten-meter.php:821
 #: includes/lib/class-kleingarten-meter.php:872
+#: includes/lib/class-kleingarten-meter.php:920
 msgid ""
 "Could not find token to deactivate. Please refresh the page and try again."
 msgstr ""
@@ -454,7 +471,8 @@ msgstr ""
 #: includes/class-kleingarten.php:359
 #: includes/lib/class-kleingarten-post-meta.php:274
 #: includes/lib/class-kleingarten-post-meta.php:559
-#: includes/lib/class-kleingarten-post-meta.php:571
+#: includes/lib/class-kleingarten-post-meta.php:573
+#: includes/lib/class-kleingarten-post-meta.php:579
 msgid "Delete"
 msgstr ""
 
@@ -731,7 +749,7 @@ msgstr ""
 msgid "Meter Assignment"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:916
+#: includes/lib/class-kleingarten-post-meta.php:923
 msgid "Meter assignments removed."
 msgstr ""
 
@@ -806,7 +824,7 @@ msgstr ""
 msgid "Meter Unit"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:665
+#: includes/lib/class-kleingarten-post-meta.php:672
 msgid "Meter unit set."
 msgstr ""
 
@@ -815,7 +833,7 @@ msgstr ""
 msgid "Meter updated."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:885
+#: includes/lib/class-kleingarten-post-meta.php:892
 msgid "Meters assigned."
 msgstr ""
 
@@ -849,7 +867,7 @@ msgstr ""
 msgid "New post notification subject"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:776
+#: includes/lib/class-kleingarten-post-meta.php:783
 msgid "New reading saved."
 msgstr ""
 
@@ -1032,7 +1050,7 @@ msgstr ""
 msgid "Please select a unit and save the meter to add meter readings."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:589
+#: includes/lib/class-kleingarten-post-meta.php:598
 msgid "Please select a unit and save the meter to add tokens."
 msgstr ""
 
@@ -1146,6 +1164,10 @@ msgstr ""
 msgid "Put your message here."
 msgstr ""
 
+#: includes/lib/class-kleingarten-post-meta.php:571
+msgid "Reactivate"
+msgstr ""
+
 #: includes/class-kleingarten.php:647
 msgid "Read now!"
 msgstr ""
@@ -1174,7 +1196,7 @@ msgstr ""
 msgid "Reading value"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:805
+#: includes/lib/class-kleingarten-post-meta.php:812
 msgid "Readings deleted."
 msgstr ""
 
@@ -1351,30 +1373,26 @@ msgstr ""
 msgid "Something went wrong. Could could not remove reading."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:918
+#: includes/lib/class-kleingarten-post-meta.php:925
 msgid "Something went wrong. Meter assignments could not be removed."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:668
+#: includes/lib/class-kleingarten-post-meta.php:675
 msgid "Something went wrong. Meter unit could not be set."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:887
+#: includes/lib/class-kleingarten-post-meta.php:894
 msgid "Something went wrong. Meters could not be assigned."
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:1187
 #: includes/class-kleingarten-tools.php:1192
-#: includes/lib/class-kleingarten-post-meta.php:778
+#: includes/lib/class-kleingarten-post-meta.php:785
 msgid "Something went wrong. Reading could not be saved."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:807
+#: includes/lib/class-kleingarten-post-meta.php:814
 msgid "Something went wrong. Some readings could not be deleted."
-msgstr ""
-
-#: includes/lib/class-kleingarten-post-meta.php:1138
-msgid "Something went wrong. Token could not be deleted."
 msgstr ""
 
 #: includes/lib/class-kleingarten-shortcodes.php:105
@@ -1544,10 +1562,6 @@ msgstr ""
 msgid "Token"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:1136
-msgid "Token deleted."
-msgstr ""
-
 #: includes/lib/class-kleingarten-meter.php:273
 msgid "Token expired."
 msgstr ""
@@ -1673,6 +1687,10 @@ msgstr ""
 msgid "You can read these posts exclusively as a registered member."
 msgstr ""
 
+#: includes/lib/class-kleingarten-meter.php:939
+msgid "You cannot activate an active token."
+msgstr ""
+
 #: includes/lib/class-kleingarten-shortcodes.php:306
 msgid "You do not have any positions in this club."
 msgstr ""
@@ -1683,6 +1701,7 @@ msgstr ""
 
 #: includes/lib/class-kleingarten-meter.php:829
 #: includes/lib/class-kleingarten-meter.php:880
+#: includes/lib/class-kleingarten-meter.php:929
 msgid "You have no permission to deactivate this token."
 msgstr ""
 

@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-03-21 14:37+0000\n"
+"PO-Revision-Date: 2025-03-21 20:38+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -102,25 +102,37 @@ msgid_plural "%s plots updated."
 msgstr[0] "%s Parzelle aktualisiert."
 msgstr[1] "%s Parzellen aktualisiert."
 
+#. Number of deleted tokens
+#: includes/lib/class-kleingarten-post-meta.php:1213
+msgid "%u token (re-)activated."
+msgstr "%u Schlüssel (re-)aktiviert."
+
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1064
+#: includes/lib/class-kleingarten-post-meta.php:1072
 msgid "%u token deactivated."
 msgstr "%u Token deaktiviert."
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1118
+#: includes/lib/class-kleingarten-post-meta.php:1133
+#: includes/lib/class-kleingarten-post-meta.php:1185
 msgid "%u token deleted."
 msgstr "%u Tokens deaktiviert."
 
+#. Number of deleted tokens
+#: includes/lib/class-kleingarten-post-meta.php:1210
+msgid "%u tokens (re-)activated."
+msgstr "%u Schlüssel (re-)aktiviert."
+
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1061
+#: includes/lib/class-kleingarten-post-meta.php:1069
 #, fuzzy
 #| msgid "Tokens deactivated."
 msgid "%u tokens deactivated."
 msgstr "Schlüssel deaktiviert."
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1115
+#: includes/lib/class-kleingarten-post-meta.php:1130
+#: includes/lib/class-kleingarten-post-meta.php:1182
 #, fuzzy
 #| msgid "Tokens deleted."
 msgid "%u tokens deleted."
@@ -140,7 +152,7 @@ msgid "A CSV file with all created tokens has been created"
 msgstr "Es ist eine CSV-Datei mit allen erzeugten Schlüsseln erstellt worden"
 
 #: includes/class-kleingarten-tools.php:1155
-#: includes/lib/class-kleingarten-post-meta.php:751
+#: includes/lib/class-kleingarten-post-meta.php:758
 #: includes/lib/class-kleingarten-meter.php:537
 msgid "A meter reading already exists for this date."
 msgstr "Für dieses Datum existiert schon ein Zählerstand."
@@ -287,7 +299,7 @@ msgid "Bottom"
 msgstr "Unten"
 
 #: includes/class-kleingarten-tools.php:1168
-#: includes/lib/class-kleingarten-post-meta.php:764
+#: includes/lib/class-kleingarten-post-meta.php:771
 #: includes/lib/class-kleingarten-meter.php:548
 msgid "Cannot save a reading for a date in the future."
 msgstr "Kann keinen Zählerstand mit Datum in der Zukunft speichern."
@@ -330,6 +342,10 @@ msgstr "Inhalte"
 #: includes/class-kleingarten-settings.php:179
 msgid "Control how the plugin handles user accounts."
 msgstr "Regele, wie das Plugin mit Benutzerkonten umgeht."
+
+#: includes/lib/class-kleingarten-meter.php:953
+msgid "Could not (re-)activate token."
+msgstr "Konnte Schlüssel nicht (re-)aktivieren."
 
 #: includes/class-kleingarten-tools.php:666
 msgid "Could not add CSV file to media library."
@@ -377,6 +393,7 @@ msgstr "Konnte kein temporäres Upload-Verzeichnis finden."
 
 #: includes/lib/class-kleingarten-meter.php:821
 #: includes/lib/class-kleingarten-meter.php:872
+#: includes/lib/class-kleingarten-meter.php:920
 msgid ""
 "Could not find token to deactivate. Please refresh the page and try again."
 msgstr ""
@@ -470,7 +487,8 @@ msgstr ""
 #: includes/class-kleingarten.php:359
 #: includes/lib/class-kleingarten-post-meta.php:274
 #: includes/lib/class-kleingarten-post-meta.php:559
-#: includes/lib/class-kleingarten-post-meta.php:571
+#: includes/lib/class-kleingarten-post-meta.php:573
+#: includes/lib/class-kleingarten-post-meta.php:579
 msgid "Delete"
 msgstr "Löschen"
 
@@ -769,7 +787,7 @@ msgstr "Zähler"
 msgid "Meter Assignment"
 msgstr "Zählerzuordnung"
 
-#: includes/lib/class-kleingarten-post-meta.php:916
+#: includes/lib/class-kleingarten-post-meta.php:923
 msgid "Meter assignments removed."
 msgstr "Zählerzuordnung aufgehoben."
 
@@ -846,7 +864,7 @@ msgstr "Zähler gesendet."
 msgid "Meter Unit"
 msgstr "Zählereinheit"
 
-#: includes/lib/class-kleingarten-post-meta.php:665
+#: includes/lib/class-kleingarten-post-meta.php:672
 msgid "Meter unit set."
 msgstr "Zählereinheit festgelegt."
 
@@ -855,7 +873,7 @@ msgstr "Zählereinheit festgelegt."
 msgid "Meter updated."
 msgstr "Zähler aktualisiert."
 
-#: includes/lib/class-kleingarten-post-meta.php:885
+#: includes/lib/class-kleingarten-post-meta.php:892
 msgid "Meters assigned."
 msgstr "Zähler zugeordnet."
 
@@ -889,7 +907,7 @@ msgstr "Nachrichtentext für Benachrichtigung bei neuem Beitrag"
 msgid "New post notification subject"
 msgstr "Betreff für Benachrichtigung bei neuem Beitrag"
 
-#: includes/lib/class-kleingarten-post-meta.php:776
+#: includes/lib/class-kleingarten-post-meta.php:783
 msgid "New reading saved."
 msgstr "Neuer Zählerstand gespeichert."
 
@@ -1076,7 +1094,7 @@ msgstr ""
 "Bitte wähle eine Einheit und speichere den Zähler, um Zählerstände eintragen "
 "zu können."
 
-#: includes/lib/class-kleingarten-post-meta.php:589
+#: includes/lib/class-kleingarten-post-meta.php:598
 msgid "Please select a unit and save the meter to add tokens."
 msgstr ""
 "Bitte wähle eine Einheit und speichere den Zähler, um Schlüssel anlegen zu "
@@ -1195,6 +1213,10 @@ msgstr "CSV-Datei vorbereiten"
 msgid "Put your message here."
 msgstr "Schreibe deine Nachricht hier rein."
 
+#: includes/lib/class-kleingarten-post-meta.php:571
+msgid "Reactivate"
+msgstr "Reaktivieren"
+
 #: includes/class-kleingarten.php:647
 msgid "Read now!"
 msgstr "Jetzt lesen!"
@@ -1223,7 +1245,7 @@ msgstr "Zählerstand erfolgreich übermittelt"
 msgid "Reading value"
 msgstr "Zählerstand"
 
-#: includes/lib/class-kleingarten-post-meta.php:805
+#: includes/lib/class-kleingarten-post-meta.php:812
 msgid "Readings deleted."
 msgstr "Zählerstände gelöscht."
 
@@ -1417,34 +1439,30 @@ msgstr "Mit deinem Schlüssel stimmt etwas nicht."
 msgid "Something went wrong. Could could not remove reading."
 msgstr "Etwas ist schief gelaufen. Konnte Zählerstand nicht entfernen."
 
-#: includes/lib/class-kleingarten-post-meta.php:918
+#: includes/lib/class-kleingarten-post-meta.php:925
 msgid "Something went wrong. Meter assignments could not be removed."
 msgstr ""
 "Etwas ist schiefgelaufen. Der Zählerzuordnung konnten nicht aufgelöst werden."
 
-#: includes/lib/class-kleingarten-post-meta.php:668
+#: includes/lib/class-kleingarten-post-meta.php:675
 msgid "Something went wrong. Meter unit could not be set."
 msgstr "Etwas ist schiefgelaufen. Der Zähler konnten nicht gesetzt werden."
 
-#: includes/lib/class-kleingarten-post-meta.php:887
+#: includes/lib/class-kleingarten-post-meta.php:894
 msgid "Something went wrong. Meters could not be assigned."
 msgstr "Etwas ist schiefgelaufen. Der Zähler konnten nicht zugewiesen werden."
 
 #: includes/class-kleingarten-tools.php:1187
 #: includes/class-kleingarten-tools.php:1192
-#: includes/lib/class-kleingarten-post-meta.php:778
+#: includes/lib/class-kleingarten-post-meta.php:785
 msgid "Something went wrong. Reading could not be saved."
 msgstr ""
 "Etwas ist schiefgelaufen. Der Zählerstand konnten nicht gespeichert werden."
 
-#: includes/lib/class-kleingarten-post-meta.php:807
+#: includes/lib/class-kleingarten-post-meta.php:814
 msgid "Something went wrong. Some readings could not be deleted."
 msgstr ""
 "Etwas ist schiefgelaufen. Einige Zählerstände konnten nicht gelöscht werden."
-
-#: includes/lib/class-kleingarten-post-meta.php:1138
-msgid "Something went wrong. Token could not be deleted."
-msgstr "Etwas ist schiefgelaufen. Der Schlüssel konnte nicht gelöscht werden."
 
 #: includes/lib/class-kleingarten-shortcodes.php:105
 msgid "Sorry, login failed."
@@ -1627,10 +1645,6 @@ msgstr "Titel"
 msgid "Token"
 msgstr "Schlüssel"
 
-#: includes/lib/class-kleingarten-post-meta.php:1136
-msgid "Token deleted."
-msgstr "Schlüssel gelöscht."
-
 #: includes/lib/class-kleingarten-meter.php:273
 msgid "Token expired."
 msgstr "Schlüssel abgelaufen."
@@ -1764,6 +1778,10 @@ msgstr ""
 msgid "You can read these posts exclusively as a registered member."
 msgstr "Diese Inhalte sind exklusiv für Mitglieder bestimmt."
 
+#: includes/lib/class-kleingarten-meter.php:939
+msgid "You cannot activate an active token."
+msgstr "Du kannst keinen aktiven Schlüssel aktivieren."
+
 #: includes/lib/class-kleingarten-shortcodes.php:306
 msgid "You do not have any positions in this club."
 msgstr "Du bekleidest kein Amt bzw. keine Funktion in diesem Verein."
@@ -1774,6 +1792,7 @@ msgstr "Du hast dich erfolgreich abgemeldet. Bis bald!"
 
 #: includes/lib/class-kleingarten-meter.php:829
 #: includes/lib/class-kleingarten-meter.php:880
+#: includes/lib/class-kleingarten-meter.php:929
 msgid "You have no permission to deactivate this token."
 msgstr "Du hast nicht die nötige Berechtigung, um diesen Token zu löschen."
 
