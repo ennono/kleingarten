@@ -719,8 +719,10 @@ class Kleingarten_Settings {
 		$html .= '</div>' . "\n";
 
 		$html .= '<div class="kleingarten-admin-sidebar">';
+		$html .= '<a target="_blank" href="https://www.wp-kleingarten.de">';
 		$html .= '<img src=' . esc_url( plugin_dir_url( __DIR__ ) )
 		         . 'assets/Kleingarten_Logo_200px.png>';
+		$html .= '</a>';
 		$html .= '</div>' . "\n";
 
 		$html .= '</div>' . "\n";

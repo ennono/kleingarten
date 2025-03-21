@@ -44,6 +44,9 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
+= 1.x.x =
+* Added a link to logo.
+
 = 1.1.7 =
 * Added a very simple antispam function to register form.
 * Minor bugfixes.
