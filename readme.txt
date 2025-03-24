@@ -3,7 +3,7 @@ Contributors: frickemedia
 Tags: kleingarten, schrebergarten, garten, allotment gardening
 Requires at least: 3.9
 Tested up to: 6.7
-Stable tag: 1.1.7
+Stable tag: 1.1.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,8 +45,6 @@ This plugin extends WordPress with useful functions for allotment garden associa
 == Changelog ==
 
 = 1.1.8 =
-* UNDER DEVELOPMENT! DON'T USE IN PRODUCTIVE ENVIRONMENT!
-*
 * Now it is possible to reactivate tokens that have been deactivated before.
 * Added a link to logo.
 * Register form antispam function now prints a note, if challenge and response are not configured.

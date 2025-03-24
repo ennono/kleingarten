@@ -568,9 +568,9 @@ class Kleingarten_Post_Meta {
                         } elseif ( $existing_token['token_data']['token_status'] == 'deactivated' ) {
                             echo '<td>';
                             // Activate Checkbox:
-                            echo    '<label for="kleingarten_activate_or_delete_tokens"><input name="kleingarten_activate_or_delete_tokens[' . $existing_token['meta_id'] . ']" type="radio" value="reactivate_' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Reactivate', 'kleingarten' ) ) . '</label><br>';
+                            echo    '<label for="kleingarten_activate_or_delete_tokens"><input name="kleingarten_activate_or_delete_tokens[' . absint( $existing_token['meta_id'] ) . ']" type="radio" value="reactivate_' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Reactivate', 'kleingarten' ) ) . '</label><br>';
                             // Delete Checkbox:
-                            echo    '<label for="kleingarten_activate_or_delete_tokens"><input name="kleingarten_activate_or_delete_tokens[' . $existing_token['meta_id'] . ']" type="radio" value="delete_' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Delete', 'kleingarten' ) ) . '</label>';
+                            echo    '<label for="kleingarten_activate_or_delete_tokens"><input name="kleingarten_activate_or_delete_tokens[' . absint( $existing_token['meta_id'] ) . ']" type="radio" value="delete_' . esc_attr( $existing_token['meta_id'] ) . '">' . esc_html( __( 'Delete', 'kleingarten' ) ) . '</label>';
                             echo '</td>';
                         // For used tokens:
                         } elseif ( $existing_token['token_data']['token_status'] == 'used' ) {
@@ -668,7 +668,7 @@ class Kleingarten_Post_Meta {
 
             if ( isset( $_POST['meter_unit'] ) ) {
 
-                if ( ! is_wp_error( $meter->set_unit( $_POST['meter_unit'] ) ) ) {
+                if ( ! is_wp_error( $meter->set_unit( sanitize_text_field( wp_unslash( $_POST['meter_unit'] ) ) ) ) ) {
                     $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Meter unit set.', 'kleingarten' ), 'success' );
                 } else {
                     $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Something went wrong. Meter unit could not be set.', 'kleingarten' ), 'error' );
