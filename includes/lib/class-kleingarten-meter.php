@@ -480,12 +480,41 @@ class Kleingarten_Meter {
 	}
 
 	/**
-	 * Return the meter's title.
+	 * Return the meter's unit.
 	 *
 	 * @return string
 	 */
 	public function get_unit() {
+
+		if ( ! metadata_exists( 'post', $this->post_ID, 'kleingarten_meter_unit' ) ) {
+			return null;
+		}
+
 		return get_post_meta( $this->post_ID, 'kleingarten_meter_unit', true );
+	}
+
+	/**
+	 * Set the meter's unit.
+	 *
+	 * @return WP_Error|int
+	 */
+	public function set_unit( $meter_unit ) {
+
+		$errors = new WP_Error();
+
+		// Meter unit can only be chosen once. So, if there already it a unit
+		// for this meter, stop here and return an error:
+		if ( metadata_exists( 'post', $this->post_ID, 'kleingarten_meter_unit' ) ) {
+			$errors->add( 'kleingarten_meter_set_unit',
+				__( 'Meter unit already set.',
+					'kleingarten' ), $this->post_ID );
+			return $errors;
+		}
+
+		$sanitized_data = sanitize_text_field( wp_unslash( $meter_unit ) );
+		$meta_id = update_post_meta( $this->post_ID, 'kleingarten_meter_unit', $sanitized_data );
+		return $meta_id;
+
 	}
 
 	/**

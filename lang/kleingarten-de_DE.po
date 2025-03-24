@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-03-21 20:38+0000\n"
+"PO-Revision-Date: 2025-03-24 18:56+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -1446,7 +1446,9 @@ msgstr ""
 
 #: includes/lib/class-kleingarten-post-meta.php:675
 msgid "Something went wrong. Meter unit could not be set."
-msgstr "Etwas ist schiefgelaufen. Der Zähler konnten nicht gesetzt werden."
+msgstr ""
+"Etwas ist schief gelaufen. Die Zählereinheit konnten nicht gespeichert "
+"werden."
 
 #: includes/lib/class-kleingarten-post-meta.php:894
 msgid "Something went wrong. Meters could not be assigned."

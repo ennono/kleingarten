@@ -662,9 +662,18 @@ class Kleingarten_Post_Meta {
 			return;
 		} else {
 
+            $meter = new Kleingarten_Meter( $post_id );
+
+            if ( $meter->get_unit() !== null ) return;
 
             if ( isset( $_POST['meter_unit'] ) ) {
 
+                if ( ! is_wp_error( $meter->set_unit( $_POST['meter_unit'] ) ) ) {
+                    $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Meter unit set.', 'kleingarten' ), 'success' );
+                } else {
+                    $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Something went wrong. Meter unit could not be set.', 'kleingarten' ), 'error' );
+                }
+/*
                 $sanitized_data = sanitize_text_field( wp_unslash( $_POST['meter_unit'] ) );
                 $meta_id = 0;
                 $meta_id = update_post_meta( $post_id, 'kleingarten_meter_unit', $sanitized_data );
@@ -674,6 +683,7 @@ class Kleingarten_Post_Meta {
                 } elseif ( metadata_exists( 'post', $meta_id, 'kleingarten_meter_unit' ) ) {
                     $this->add_message( 'kleingarten_meter_unit', 'kleingarten_meter_unit', __( 'Something went wrong. Meter unit could not be set.', 'kleingarten' ), 'error' );
                 }
+*/
 
             }
 

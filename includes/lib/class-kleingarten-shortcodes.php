@@ -204,6 +204,13 @@ class Kleingarten_Shortcodes {
 
 	}
 
+	/**
+	 * @param $user
+	 * @param $username
+	 * @param $password
+	 *
+	 * @return mixed
+	 */
 	public function handle_user_authentification( $user, $username, $password
 	) {
 		if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
@@ -895,11 +902,13 @@ class Kleingarten_Shortcodes {
 	}
 
 	/**
-	 * Callback for shortcode kleingarten_like_link
+	 * Callback for shortcode kleingarten_likes
 	 *
 	 * @return string HTML output
 	 */
 	public function kleingarten_likes_callback() {
+
+        //if ( doing_filter( 'default_excerpt' ) ) return '';
 
 		$html = '<div id="kleingarten-likes" class="kleingarten-likes">';
 
@@ -975,7 +984,6 @@ class Kleingarten_Shortcodes {
 			$label = $label_like;
 		}
 
-		//if ( $this->current_user_is_allowed_to_like() ) {
 		$gardener = new Kleingarten_Gardener( get_current_user_id() );
 		if ( $gardener->is_allowed_to_like() ) {
 			$html .= '&emsp;<span class="kleingarten-like-link"><a class="kleingarten-like" id="kleingartenlike">'
