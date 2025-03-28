@@ -44,6 +44,10 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
+= 1.x.x =
+* CONSTRUCTION AREA - DO NOT USE IN PRODUCTIVE ENVIRONMENT!!
+*
+
 = 1.1.8 =
 * Now it is possible to reactivate tokens that have been deactivated before.
 * Added a link to logo.

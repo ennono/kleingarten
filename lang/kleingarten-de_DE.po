@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2025-03-24 18:56+0000\n"
+"PO-Revision-Date: 2025-03-26 20:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: Deutsch\n"
 "Language: de_DE\n"
@@ -17,13 +17,13 @@ msgstr ""
 "X-Loco-Version: 2.7.1; wp-6.7.2"
 
 #. User's answer on antispam challenge.
-#: includes/lib/class-kleingarten-shortcodes.php:792
+#: includes/lib/class-kleingarten-shortcodes.php:799
 #, php-format
 msgid "%s is not the correct answer. Try again."
 msgstr "%s ist nicht die richtige Antwort. Versuch's nochmal."
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:557
+#: includes/lib/class-kleingarten-post-types.php:700
 #, php-format
 msgid "%s meter moved to the Trash."
 msgid_plural "%s meters moved to the Trash."
@@ -31,7 +31,7 @@ msgstr[0] "%s Zähler in den Papierkorb verschoben."
 msgstr[1] "%s Zähler in den Papierkorb verschoben."
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:549
+#: includes/lib/class-kleingarten-post-types.php:692
 #, php-format
 msgid "%s meter not updated, somebody is editing it."
 msgid_plural "%s meters not updated, somebody is editing them."
@@ -39,7 +39,7 @@ msgstr[0] "%s Zähler nicht aktualisiert, weil jemand daran arbeitet."
 msgstr[1] "%s Zähler nicht aktualisiert, weil jemand an diesen arbeitet."
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:553
+#: includes/lib/class-kleingarten-post-types.php:696
 #, php-format
 msgid "%s meter permanently deleted."
 msgid_plural "%s meters permanently deleted."
@@ -47,7 +47,7 @@ msgstr[0] "%s Zähler permanent gelöscht."
 msgstr[1] "%s Zähler permanent gelöscht."
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:561
+#: includes/lib/class-kleingarten-post-types.php:704
 #, php-format
 msgid "%s meter restored from the Trash."
 msgid_plural "%s meters restored from the Trash."
@@ -55,7 +55,7 @@ msgstr[0] "%s Zähler aus dem Papierkorb wiederhergestellt."
 msgstr[1] "%s Zähler aus dem Papierkorb wiederhergestellt."
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:546
+#: includes/lib/class-kleingarten-post-types.php:689
 #, php-format
 msgid "%s meter updated."
 msgid_plural "%s meters updated."
@@ -63,7 +63,7 @@ msgstr[0] "%s Zähler aktualisiert."
 msgstr[1] "%s Zähler aktualisiert."
 
 #. %s: Number of plots moved to trash
-#: includes/lib/class-kleingarten-post-types.php:521
+#: includes/lib/class-kleingarten-post-types.php:664
 #, php-format
 msgid "%s plot moved to the Trash."
 msgid_plural "%s plots moved to the Trash."
@@ -71,7 +71,7 @@ msgstr[0] "%s Parzelle in den Papierkorb verschoben."
 msgstr[1] "%s Parzellen in den Papierkorb verschoben."
 
 #. %s: Number of plots not updated
-#: includes/lib/class-kleingarten-post-types.php:513
+#: includes/lib/class-kleingarten-post-types.php:656
 #, php-format
 msgid "%s plot not updated, somebody is editing it."
 msgid_plural "%s plots not updated, somebody is editing them."
@@ -79,7 +79,7 @@ msgstr[0] "%s Parzelle nicht aktualisiert, weil jemand daran arbeitet."
 msgstr[1] "%s Parzellen nicht aktualisiert, weil jemand an diesen arbeitet."
 
 #. %s: Number of plots deleted
-#: includes/lib/class-kleingarten-post-types.php:517
+#: includes/lib/class-kleingarten-post-types.php:660
 #, php-format
 msgid "%s plot permanently deleted."
 msgid_plural "%s plots permanently deleted."
@@ -87,7 +87,7 @@ msgstr[0] "%s Parzelle permanent gelöscht."
 msgstr[1] "%s Parzellen permanent gelöscht."
 
 #. %s: Number of plots restored from trash
-#: includes/lib/class-kleingarten-post-types.php:525
+#: includes/lib/class-kleingarten-post-types.php:668
 #, php-format
 msgid "%s plot restored from the Trash."
 msgid_plural "%s plots restored from the Trash."
@@ -95,7 +95,7 @@ msgstr[0] "%s Parzelle aus dem Papierkorb wiederhergestellt."
 msgstr[1] "%s Parzellen aus dem Papierkorb wiederhergestellt."
 
 #. %s: Number of plots updated
-#: includes/lib/class-kleingarten-post-types.php:510
+#: includes/lib/class-kleingarten-post-types.php:653
 #, php-format
 msgid "%s plot updated."
 msgid_plural "%s plots updated."
@@ -103,47 +103,47 @@ msgstr[0] "%s Parzelle aktualisiert."
 msgstr[1] "%s Parzellen aktualisiert."
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1213
+#: includes/lib/class-kleingarten-post-meta.php:1223
 msgid "%u token (re-)activated."
 msgstr "%u Schlüssel (re-)aktiviert."
 
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1072
+#: includes/lib/class-kleingarten-post-meta.php:1082
 msgid "%u token deactivated."
 msgstr "%u Token deaktiviert."
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1133
-#: includes/lib/class-kleingarten-post-meta.php:1185
+#: includes/lib/class-kleingarten-post-meta.php:1143
+#: includes/lib/class-kleingarten-post-meta.php:1195
 msgid "%u token deleted."
 msgstr "%u Tokens deaktiviert."
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1210
+#: includes/lib/class-kleingarten-post-meta.php:1220
 msgid "%u tokens (re-)activated."
 msgstr "%u Schlüssel (re-)aktiviert."
 
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1069
+#: includes/lib/class-kleingarten-post-meta.php:1079
 #, fuzzy
 #| msgid "Tokens deactivated."
 msgid "%u tokens deactivated."
 msgstr "Schlüssel deaktiviert."
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1130
-#: includes/lib/class-kleingarten-post-meta.php:1182
+#: includes/lib/class-kleingarten-post-meta.php:1140
+#: includes/lib/class-kleingarten-post-meta.php:1192
 #, fuzzy
 #| msgid "Tokens deleted."
 msgid "%u tokens deleted."
 msgstr "Schlüssel gelöscht."
 
-#: includes/lib/class-kleingarten-shortcodes.php:744
+#: includes/lib/class-kleingarten-shortcodes.php:751
 msgid "* mandatory field"
 msgstr "* Pflichtfeld"
 
-#: includes/lib/class-kleingarten-post-types.php:315
-#: includes/lib/class-kleingarten-post-types.php:327
+#: includes/lib/class-kleingarten-post-types.php:458
+#: includes/lib/class-kleingarten-post-types.php:470
 msgid "-"
 msgstr "-"
 
@@ -152,8 +152,8 @@ msgid "A CSV file with all created tokens has been created"
 msgstr "Es ist eine CSV-Datei mit allen erzeugten Schlüsseln erstellt worden"
 
 #: includes/class-kleingarten-tools.php:1155
-#: includes/lib/class-kleingarten-post-meta.php:758
-#: includes/lib/class-kleingarten-meter.php:537
+#: includes/lib/class-kleingarten-post-meta.php:768
+#: includes/lib/class-kleingarten-meter.php:566
 msgid "A meter reading already exists for this date."
 msgstr "Für dieses Datum existiert schon ein Zählerstand."
 
@@ -183,28 +183,46 @@ msgstr "Betreff für Aktivierungsbenachrichtigung"
 msgid "Active"
 msgstr "Aktiv"
 
-#: includes/lib/class-kleingarten-post-types.php:78
-#: includes/lib/class-kleingarten-post-types.php:163
+#: includes/lib/class-kleingarten-post-types.php:88
+#: includes/lib/class-kleingarten-post-types.php:173
+#: includes/lib/class-kleingarten-post-types.php:258
 msgid "Add New"
 msgstr "Neu hinzufügen"
 
-#: includes/lib/class-kleingarten-post-types.php:164
+#: includes/lib/class-kleingarten-post-types.php:174
 msgid "Add New Meter"
 msgstr "Neuen Zähler hinzufügen"
 
-#: includes/lib/class-kleingarten-post-types.php:76
+#: includes/lib/class-kleingarten-post-types.php:86
 msgctxt "Add New on Toolbar"
 msgid "Allotment Plot"
 msgstr "Gartenparzelle"
 
-#: includes/lib/class-kleingarten-post-types.php:161
+#: includes/lib/class-kleingarten-post-types.php:171
 msgctxt "Add New on Toolbar"
 msgid "Meter"
 msgstr "Zähler"
 
-#: includes/lib/class-kleingarten-post-types.php:79
+#: includes/lib/class-kleingarten-post-types.php:256
+msgctxt "Add New on Toolbar"
+msgid "Task"
+msgstr "Aufgabe"
+
+#: includes/lib/class-kleingarten-post-types.php:89
 msgid "Add New Plot"
 msgstr "Neue Parzelle hinzufügen"
+
+#: includes/lib/class-kleingarten-post-types.php:324
+msgid "Add New Project"
+msgstr "Neues Projekt hinzufügen"
+
+#: includes/lib/class-kleingarten-post-types.php:357
+msgid "Add New Status"
+msgstr "Neuen Status hinzufügen"
+
+#: includes/lib/class-kleingarten-post-types.php:259
+msgid "Add New Task"
+msgstr "Neue Aufgabe hinzufügen"
 
 #: includes/class-kleingarten-tools.php:290
 msgid "Add one of the defined counters to each plot."
@@ -214,15 +232,20 @@ msgstr "Füge jeder Parzelle je einen der definierten Versorgungszähler hinzu."
 msgid "Add Token"
 msgstr "Schlüssel hinzufügen"
 
-#: includes/lib/class-kleingarten-post-types.php:74
+#: includes/lib/class-kleingarten-post-types.php:84
 msgctxt "Admin Menu text"
 msgid "Allotment Plots"
 msgstr "Gartenparzellen"
 
-#: includes/lib/class-kleingarten-post-types.php:159
+#: includes/lib/class-kleingarten-post-types.php:169
 msgctxt "Admin Menu text"
 msgid "Meters"
 msgstr "Zähler"
+
+#: includes/lib/class-kleingarten-post-types.php:254
+msgctxt "Admin Menu text"
+msgid "Tasks"
+msgstr "Aufgaben"
 
 #: includes/class-kleingarten-settings.php:417
 msgid "Advanced"
@@ -232,19 +255,31 @@ msgstr "Erweitert"
 msgid "Advanced settings for Kleingarten."
 msgstr "Erweiterte Einstellungen für Kleingarten."
 
-#: includes/lib/class-kleingarten-post-types.php:168
+#: includes/lib/class-kleingarten-post-types.php:178
 msgid "All Meters"
 msgstr "Alle Zähler"
 
-#: includes/lib/class-kleingarten-post-types.php:83
+#: includes/lib/class-kleingarten-post-types.php:93
 msgid "All Plots"
 msgstr "Alle Parzellen"
+
+#: includes/lib/class-kleingarten-post-types.php:319
+msgid "All Projects"
+msgstr "Alle Projekte"
+
+#: includes/lib/class-kleingarten-post-types.php:352
+msgid "All Statuses"
+msgstr "Alle Status"
+
+#: includes/lib/class-kleingarten-post-types.php:263
+msgid "All Tasks"
+msgstr "Alle Aufgaben"
 
 #: includes/lib/class-kleingarten-user-roles.php:54
 msgid "Allotment Gardener"
 msgstr "Kleingärtner:In"
 
-#: includes/lib/class-kleingarten-post-types.php:123
+#: includes/lib/class-kleingarten-post-types.php:133
 msgid "Allotment Plot Description"
 msgstr "Parzellenbeschreibung"
 
@@ -252,7 +287,7 @@ msgstr "Parzellenbeschreibung"
 msgid "Antispam Answer"
 msgstr "Anti-Spam-Antwort"
 
-#: includes/lib/class-kleingarten-shortcodes.php:697
+#: includes/lib/class-kleingarten-shortcodes.php:704
 msgid "Antispam is not configured."
 msgstr "Anti-Spam ist nicht konfiguriert."
 
@@ -262,19 +297,19 @@ msgstr "Anti-Spam-Frage"
 
 #: includes/class-kleingarten-tools.php:489
 #: includes/class-kleingarten-tools.php:793
-#: includes/lib/class-kleingarten-shortcodes.php:435
-#: includes/lib/class-kleingarten-shortcodes.php:1045
-#: includes/lib/class-kleingarten-shortcodes.php:1162
-#: includes/lib/class-kleingarten-shortcodes.php:1362
-#: includes/lib/class-kleingarten-shortcodes.php:1531
+#: includes/lib/class-kleingarten-shortcodes.php:442
+#: includes/lib/class-kleingarten-shortcodes.php:1053
+#: includes/lib/class-kleingarten-shortcodes.php:1170
+#: includes/lib/class-kleingarten-shortcodes.php:1370
+#: includes/lib/class-kleingarten-shortcodes.php:1539
 msgid "Are you trying something nasty here?"
 msgstr "Versuchst du hier etwas Verbotenes?"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1669
+#: includes/lib/class-kleingarten-shortcodes.php:1677
 msgid "as of"
 msgstr "vom"
 
-#: includes/lib/class-kleingarten-post-types.php:242
+#: includes/lib/class-kleingarten-post-types.php:385
 msgid "Associated parcels"
 msgstr "Verknüpfte Parzellen"
 
@@ -299,8 +334,8 @@ msgid "Bottom"
 msgstr "Unten"
 
 #: includes/class-kleingarten-tools.php:1168
-#: includes/lib/class-kleingarten-post-meta.php:771
-#: includes/lib/class-kleingarten-meter.php:548
+#: includes/lib/class-kleingarten-post-meta.php:781
+#: includes/lib/class-kleingarten-meter.php:577
 msgid "Cannot save a reading for a date in the future."
 msgstr "Kann keinen Zählerstand mit Datum in der Zukunft speichern."
 
@@ -343,7 +378,7 @@ msgstr "Inhalte"
 msgid "Control how the plugin handles user accounts."
 msgstr "Regele, wie das Plugin mit Benutzerkonten umgeht."
 
-#: includes/lib/class-kleingarten-meter.php:953
+#: includes/lib/class-kleingarten-meter.php:982
 msgid "Could not (re-)activate token."
 msgstr "Konnte Schlüssel nicht (re-)aktivieren."
 
@@ -351,15 +386,15 @@ msgstr "Konnte Schlüssel nicht (re-)aktivieren."
 msgid "Could not add CSV file to media library."
 msgstr "Konnte die CSV-Datei nicht zur Mediathek hinzufügen."
 
-#: includes/lib/class-kleingarten-meter.php:720
+#: includes/lib/class-kleingarten-meter.php:749
 msgid "Could not assign meter to plot."
 msgstr "Konnte Zähler nicht der Parzelle zuordnen."
 
-#: includes/lib/class-kleingarten-meter.php:558
+#: includes/lib/class-kleingarten-meter.php:587
 msgid "Could not create new reading."
 msgstr "Konnte keinen neuen Zählerstand erzeugen."
 
-#: includes/lib/class-kleingarten-meter.php:783
+#: includes/lib/class-kleingarten-meter.php:812
 msgid "Could not create new token."
 msgstr "Konnte keinen neuen Token erzeugen."
 
@@ -371,7 +406,7 @@ msgstr "Parzelle konnte nicht erzeugt werden."
 msgid "Could not create tokens."
 msgstr "Schlüssel konnten nicht erzeugt werden."
 
-#: includes/lib/class-kleingarten-meter.php:844
+#: includes/lib/class-kleingarten-meter.php:873
 msgid "Could not deactivate token."
 msgstr "Konnte Token nicht deaktivieren."
 
@@ -379,7 +414,7 @@ msgstr "Konnte Token nicht deaktivieren."
 msgid "Could not delete CSV file. Please delete it manually."
 msgstr "CSV-Datei konnte nicht gelöscht werden. Bitte lösche es händisch."
 
-#: includes/lib/class-kleingarten-meter.php:896
+#: includes/lib/class-kleingarten-meter.php:925
 msgid "Could not delete token."
 msgstr "Konnte Token nicht löschen."
 
@@ -391,9 +426,9 @@ msgstr "Kein Zähler gefunden"
 msgid "Could not find temporary upload directory."
 msgstr "Konnte kein temporäres Upload-Verzeichnis finden."
 
-#: includes/lib/class-kleingarten-meter.php:821
-#: includes/lib/class-kleingarten-meter.php:872
-#: includes/lib/class-kleingarten-meter.php:920
+#: includes/lib/class-kleingarten-meter.php:850
+#: includes/lib/class-kleingarten-meter.php:901
+#: includes/lib/class-kleingarten-meter.php:949
 msgid ""
 "Could not find token to deactivate. Please refresh the page and try again."
 msgstr ""
@@ -408,7 +443,7 @@ msgstr "CSV-Datei konnte nicht gelesen werden."
 msgid "Could not write CSV file."
 msgstr "CSV-Datei konnte nicht geschrieben werden."
 
-#: includes/lib/class-kleingarten-meter.php:745
+#: includes/lib/class-kleingarten-meter.php:774
 msgid "Could unassign meter from plot."
 msgstr "Konnte Zuordnung des Zählers zur Parzelle nicht lösen."
 
@@ -440,13 +475,13 @@ msgstr "Schlüssel erzeugen"
 msgid "CSV Import"
 msgstr "CSV-Import"
 
-#: includes/lib/class-kleingarten-post-types.php:438
-#: includes/lib/class-kleingarten-post-types.php:469
+#: includes/lib/class-kleingarten-post-types.php:581
+#: includes/lib/class-kleingarten-post-types.php:612
 msgid "Custom field deleted."
 msgstr "Benutzerdefiniertes Feld gelöscht."
 
-#: includes/lib/class-kleingarten-post-types.php:437
-#: includes/lib/class-kleingarten-post-types.php:468
+#: includes/lib/class-kleingarten-post-types.php:580
+#: includes/lib/class-kleingarten-post-types.php:611
 msgid "Custom field updated."
 msgstr "Benutzerdefiniertes Feld aktualisiert."
 
@@ -500,12 +535,12 @@ msgstr ""
 "Kleingarten zu entwickeln und zu pflegen erfordert Zeit und Geld. Bitte "
 "unterstütze die weitere Entwicklung durch einen Link in der Fußezeile."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1087
-#: includes/lib/class-kleingarten-shortcodes.php:1101
+#: includes/lib/class-kleingarten-shortcodes.php:1095
+#: includes/lib/class-kleingarten-shortcodes.php:1109
 msgid "Disliked"
 msgstr "Findest du nicht mehr gut"
 
-#: includes/lib/class-kleingarten-shortcodes.php:910
+#: includes/lib/class-kleingarten-shortcodes.php:919
 msgid "Dont like this post"
 msgstr "Finde ich nicht mehr gut"
 
@@ -513,8 +548,8 @@ msgstr "Finde ich nicht mehr gut"
 msgid "Download"
 msgstr "Herunterladen"
 
-#: includes/lib/class-kleingarten-shortcodes.php:260
-#: includes/lib/class-kleingarten-shortcodes.php:612
+#: includes/lib/class-kleingarten-shortcodes.php:267
+#: includes/lib/class-kleingarten-shortcodes.php:619
 #| msgid "E-Mail:"
 msgid "E-Mail"
 msgstr "E-Mail"
@@ -541,15 +576,27 @@ msgstr ""
 "m3\n"
 "..."
 
-#: includes/lib/class-kleingarten-post-types.php:166
+#: includes/lib/class-kleingarten-post-types.php:176
 msgid "Edit Meter"
 msgstr "Zähler bearbeiten"
 
-#: includes/lib/class-kleingarten-post-types.php:81
+#: includes/lib/class-kleingarten-post-types.php:91
 msgid "Edit Plot"
 msgstr "Parzelle bearbeiten"
 
-#: includes/lib/class-kleingarten-shortcodes.php:842
+#: includes/lib/class-kleingarten-post-types.php:322
+msgid "Edit Project"
+msgstr "Projekt bearbeiten"
+
+#: includes/lib/class-kleingarten-post-types.php:355
+msgid "Edit Status"
+msgstr "Status bearbeiten"
+
+#: includes/lib/class-kleingarten-post-types.php:261
+msgid "Edit Task"
+msgstr "Aufgabe bearbeiten"
+
+#: includes/lib/class-kleingarten-shortcodes.php:849
 msgid "Email address already in use."
 msgstr "E-Mail-Adresse schon in Benutzung."
 
@@ -557,11 +604,11 @@ msgstr "E-Mail-Adresse schon in Benutzung."
 msgid "Empty meter ID."
 msgstr "Leere Zähler ID."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1593
+#: includes/lib/class-kleingarten-shortcodes.php:1601
 msgid "Error"
 msgstr "Fehler"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1296
+#: includes/lib/class-kleingarten-shortcodes.php:1304
 msgid "Exclusive Posts"
 msgstr "Exklusive Inhalte für Mitglieder"
 
@@ -581,13 +628,13 @@ msgstr "Ablaufdatum"
 msgid "First Number"
 msgstr "Erste Nummer"
 
-#: includes/lib/class-kleingarten-shortcodes.php:269
-#: includes/lib/class-kleingarten-shortcodes.php:622
+#: includes/lib/class-kleingarten-shortcodes.php:276
+#: includes/lib/class-kleingarten-shortcodes.php:629
 #| msgid "Firstname:"
 msgid "Firstname"
 msgstr "Vorname"
 
-#: includes/lib/class-kleingarten-shortcodes.php:824
+#: includes/lib/class-kleingarten-shortcodes.php:831
 msgid "Firstname empty."
 msgstr "Vorname ist leer."
 
@@ -606,20 +653,20 @@ msgstr "Kleingarten"
 msgid "Garden No."
 msgstr "Gartennr."
 
-#: includes/lib/class-kleingarten-shortcodes.php:917
+#: includes/lib/class-kleingarten-shortcodes.php:926
 #, fuzzy
 #| msgid "gardener favs this post."
 msgid "gardener like this post."
 msgstr "Gartenfreund gefällt dieser Beitrag."
 
-#: includes/lib/class-kleingarten-shortcodes.php:915
+#: includes/lib/class-kleingarten-shortcodes.php:924
 #, fuzzy
 #| msgid "gardeners fav this post."
 msgid "gardeners like this post."
 msgstr "Gartenfreunden gefällt dieser Beitrag."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1059
-#: includes/lib/class-kleingarten-shortcodes.php:1175
+#: includes/lib/class-kleingarten-shortcodes.php:1067
+#: includes/lib/class-kleingarten-shortcodes.php:1183
 msgid "Hide"
 msgstr "Verbergen"
 
@@ -631,15 +678,15 @@ msgstr "Wie viele Tage soll ein Schlüssel verwendbar sein?"
 msgid "https://www.wp-kleingarten.de/"
 msgstr "https://www.wp-kleingarten.de/"
 
-#: includes/lib/class-kleingarten-shortcodes.php:724
+#: includes/lib/class-kleingarten-shortcodes.php:731
 msgid "I accept the"
 msgstr "Ich akzeptiere die"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1489
+#: includes/lib/class-kleingarten-shortcodes.php:1497
 msgid "I have checked the date and meter reading. Both are correct."
 msgstr "Ich habe Datum und Zählerstand geprüft. Beides ist korrekt."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1089
+#: includes/lib/class-kleingarten-shortcodes.php:1097
 msgid "I like this"
 msgstr "Finde ich gut"
 
@@ -660,15 +707,15 @@ msgstr "In welcher Stadt befindet sich unser Verein?"
 msgid "Invalid token."
 msgstr "Ungültiger Schlüssel."
 
-#: includes/lib/class-kleingarten-shortcodes.php:812
+#: includes/lib/class-kleingarten-shortcodes.php:819
 msgid "Invalid username."
 msgstr "Ungültiger Benutzername."
 
-#: includes/lib/class-kleingarten-shortcodes.php:883
+#: includes/lib/class-kleingarten-shortcodes.php:890
 msgid "Invalid value for user notifications"
 msgstr "Ungültiger Wert für Benutzerbenachrichtigungen"
 
-#: includes/lib/class-kleingarten-shortcodes.php:784
+#: includes/lib/class-kleingarten-shortcodes.php:791
 msgid "Kindly accept the terms of use."
 msgstr "Die Nutzungsbedingungen wurden nicht akzeptiert."
 
@@ -684,25 +731,33 @@ msgstr "Kleingarten"
 msgid "Kleingarten Tools"
 msgstr "Kleingarten Werkzeuge"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1664
+#: includes/lib/class-kleingarten-post-types.php:335
+msgid "kleingarten-project"
+msgstr "kleingarten-projekt"
+
+#: includes/lib/class-kleingarten-post-types.php:368
+msgid "kleingarten-status"
+msgstr "kleingarten-status"
+
+#: includes/lib/class-kleingarten-shortcodes.php:1672
 msgid "Last known reading"
 msgstr "Letzter bekannter Zählerstand"
 
-#: includes/lib/class-kleingarten-post-types.php:243
+#: includes/lib/class-kleingarten-post-types.php:386
 msgid "Last Reading"
 msgstr "Letzter Zählerstand"
 
-#: includes/lib/class-kleingarten-post-types.php:245
+#: includes/lib/class-kleingarten-post-types.php:388
 msgid "Last Reading Date"
 msgstr "Datum des letzten Zählerstand"
 
-#: includes/lib/class-kleingarten-shortcodes.php:278
-#: includes/lib/class-kleingarten-shortcodes.php:632
+#: includes/lib/class-kleingarten-shortcodes.php:285
+#: includes/lib/class-kleingarten-shortcodes.php:639
 #| msgid "Lastname:"
 msgid "Lastname"
 msgstr "Nachname"
 
-#: includes/lib/class-kleingarten-shortcodes.php:830
+#: includes/lib/class-kleingarten-shortcodes.php:837
 msgid "Lastname empty."
 msgstr "Nachname ist leer."
 
@@ -711,11 +766,11 @@ msgstr "Nachname ist leer."
 msgid "Like box position"
 msgstr "Position der Gefällt-mir-Box"
 
-#: includes/lib/class-kleingarten-shortcodes.php:908
+#: includes/lib/class-kleingarten-shortcodes.php:917
 msgid "Like this post"
 msgstr "Find ich gut"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1099
+#: includes/lib/class-kleingarten-shortcodes.php:1107
 msgid "Liked"
 msgstr "Findest du gut"
 
@@ -729,11 +784,11 @@ msgstr ""
 "Liste hier alle Positionen, Ämter und Funktionen auf, die ein Mitglied "
 "bekleiden kann. Ein Posten pro Zeile."
 
-#: includes/lib/class-kleingarten-shortcodes.php:906
+#: includes/lib/class-kleingarten-shortcodes.php:915
 msgid "Log in to like this post."
 msgstr "Anmelden und zeigen, dass dir das gefällt."
 
-#: includes/lib/class-kleingarten-shortcodes.php:913
+#: includes/lib/class-kleingarten-shortcodes.php:922
 #, fuzzy
 #| msgid "Log in to see who noted this post."
 msgid "Log in to see who likes this post."
@@ -750,7 +805,7 @@ msgstr "Angemeldet als"
 msgid "Logged in as %s"
 msgstr "Angemeldet als %s."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1261
+#: includes/lib/class-kleingarten-shortcodes.php:1269
 msgid "Login"
 msgstr "Anmelden"
 
@@ -763,8 +818,8 @@ msgid "Logout"
 msgstr "Abmelden"
 
 #. Publish box date format, see http://php.net/date
-#: includes/lib/class-kleingarten-post-types.php:456
-#: includes/lib/class-kleingarten-post-types.php:487
+#: includes/lib/class-kleingarten-post-types.php:599
+#: includes/lib/class-kleingarten-post-types.php:630
 msgid "M j, Y @ G:i"
 msgstr "m.d.y, H:i"
 
@@ -779,7 +834,7 @@ msgstr "Mitglieder"
 
 #. esc_html__( 'Tenant', 'kleingarten' ),
 #: includes/class-kleingarten-tools.php:566
-#: includes/lib/class-kleingarten-shortcodes.php:1642
+#: includes/lib/class-kleingarten-shortcodes.php:1650
 msgid "Meter"
 msgstr "Zähler"
 
@@ -787,11 +842,11 @@ msgstr "Zähler"
 msgid "Meter Assignment"
 msgstr "Zählerzuordnung"
 
-#: includes/lib/class-kleingarten-post-meta.php:923
+#: includes/lib/class-kleingarten-post-meta.php:933
 msgid "Meter assignments removed."
 msgstr "Zählerzuordnung aufgehoben."
 
-#: includes/lib/class-kleingarten-post-types.php:208
+#: includes/lib/class-kleingarten-post-types.php:218
 msgid "Meter Description"
 msgstr "Zählerbeschreibung"
 
@@ -800,7 +855,7 @@ msgstr "Zählerbeschreibung"
 msgid "Meter does not exist."
 msgstr "Zähler existiert nicht."
 
-#: includes/lib/class-kleingarten-post-types.php:491
+#: includes/lib/class-kleingarten-post-types.php:634
 msgid "Meter draft updated."
 msgstr "Zählerentwurf aktualisiert."
 
@@ -820,7 +875,7 @@ msgstr "Zählernr."
 msgid "Meter No."
 msgstr "Zählernummer"
 
-#: includes/lib/class-kleingarten-post-types.php:479
+#: includes/lib/class-kleingarten-post-types.php:622
 msgid "Meter published."
 msgstr "Zähler angelegt."
 
@@ -828,7 +883,7 @@ msgstr "Zähler angelegt."
 msgid "Meter Reading Submission Tokens"
 msgstr "Schlüssel zum Übermitteln von Zählerständen"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1415
+#: includes/lib/class-kleingarten-shortcodes.php:1423
 msgid "Meter reading submitted."
 msgstr "Zählerstand gesendet"
 
@@ -837,17 +892,17 @@ msgid "Meter Readings"
 msgstr "Zählerstände"
 
 #. Revision the post is being restored from
-#: includes/lib/class-kleingarten-post-types.php:474
+#: includes/lib/class-kleingarten-post-types.php:617
 #, php-format
 msgid "Meter restored to revision from %s"
 msgstr "Zähler aus Revision von %s wiederhergestellt."
 
-#: includes/lib/class-kleingarten-post-types.php:480
+#: includes/lib/class-kleingarten-post-types.php:623
 msgid "Meter saved."
 msgstr "Zähler gespeichert."
 
 #. %1$s: date and time the meter is scheduled for
-#: includes/lib/class-kleingarten-post-types.php:484
+#: includes/lib/class-kleingarten-post-types.php:627
 #, php-format
 msgid ""
 "Meter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
@@ -856,7 +911,7 @@ msgstr ""
 "Zähler geplant für: <strong>%1$s</strong>. <a target=\"_blank\" "
 "href=\"%2$s\">Vorschau</a>"
 
-#: includes/lib/class-kleingarten-post-types.php:482
+#: includes/lib/class-kleingarten-post-types.php:625
 msgid "Meter submitted."
 msgstr "Zähler gesendet."
 
@@ -864,16 +919,20 @@ msgstr "Zähler gesendet."
 msgid "Meter Unit"
 msgstr "Zählereinheit"
 
+#: includes/lib/class-kleingarten-meter.php:509
+msgid "Meter unit already set."
+msgstr "Zählereinheit ist schon festgelegt."
+
 #: includes/lib/class-kleingarten-post-meta.php:672
 msgid "Meter unit set."
 msgstr "Zählereinheit festgelegt."
 
-#: includes/lib/class-kleingarten-post-types.php:467
-#: includes/lib/class-kleingarten-post-types.php:470
+#: includes/lib/class-kleingarten-post-types.php:610
+#: includes/lib/class-kleingarten-post-types.php:613
 msgid "Meter updated."
 msgstr "Zähler aktualisiert."
 
-#: includes/lib/class-kleingarten-post-meta.php:892
+#: includes/lib/class-kleingarten-post-meta.php:902
 msgid "Meters assigned."
 msgstr "Zähler zugeordnet."
 
@@ -881,11 +940,11 @@ msgstr "Zähler zugeordnet."
 msgid "New members must answer this question on registration."
 msgstr "Neue Mitglieder müssen diese Frage bei der Registrierung beantworten."
 
-#: includes/lib/class-kleingarten-post-types.php:165
+#: includes/lib/class-kleingarten-post-types.php:175
 msgid "New Meter"
 msgstr "Neuer Zähler"
 
-#: includes/lib/class-kleingarten-post-types.php:80
+#: includes/lib/class-kleingarten-post-types.php:90
 msgid "New Plot"
 msgstr "Neue Parzelle"
 
@@ -907,9 +966,21 @@ msgstr "Nachrichtentext für Benachrichtigung bei neuem Beitrag"
 msgid "New post notification subject"
 msgstr "Betreff für Benachrichtigung bei neuem Beitrag"
 
-#: includes/lib/class-kleingarten-post-meta.php:783
+#: includes/lib/class-kleingarten-post-types.php:325
+msgid "New Project Name"
+msgstr "Name des neuen Projekts"
+
+#: includes/lib/class-kleingarten-post-meta.php:793
 msgid "New reading saved."
 msgstr "Neuer Zählerstand gespeichert."
+
+#: includes/lib/class-kleingarten-post-types.php:358
+msgid "New Status Name"
+msgstr "Name des neuen Status"
+
+#: includes/lib/class-kleingarten-post-types.php:260
+msgid "New Task"
+msgstr "Neue Aufgabe"
 
 #: includes/class-kleingarten-tools.php:951
 msgid "No file uploaded."
@@ -919,32 +990,40 @@ msgstr "Keine Datei hochgeladen."
 msgid "No longer available!"
 msgstr "Nicht mehr verfügbar!"
 
-#: includes/lib/class-kleingarten-post-types.php:172
+#: includes/lib/class-kleingarten-post-types.php:182
 msgid "No meters found in Trash."
 msgstr "Keine Zähler im Papierkorb gefunden."
 
 #: includes/class-kleingarten-tools.php:675
-#: includes/lib/class-kleingarten-post-types.php:171
+#: includes/lib/class-kleingarten-post-types.php:181
 msgid "No meters found."
 msgstr "Keine Zähler gefunden."
 
-#: includes/lib/class-kleingarten-shortcodes.php:321
+#: includes/lib/class-kleingarten-shortcodes.php:328
 msgid "No plot is assign to you."
 msgstr "Dir ist keine Parzelle zugeordnet."
 
-#: includes/lib/class-kleingarten-post-types.php:87
+#: includes/lib/class-kleingarten-post-types.php:97
 msgid "No plots found in Trash."
 msgstr "Keine Parzelle im Papierkorb gefunden."
 
-#: includes/lib/class-kleingarten-post-types.php:86
+#: includes/lib/class-kleingarten-post-types.php:96
 msgid "No plots found."
 msgstr "Keine Parzellen gefunden."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1677
+#: includes/lib/class-kleingarten-shortcodes.php:1685
 msgid "No reading so far."
 msgstr "Bisher kein Zählerstand bekannt."
 
-#: includes/lib/class-kleingarten-post-types.php:306
+#: includes/lib/class-kleingarten-post-types.php:267
+msgid "No tasks found in Trash."
+msgstr "Keine Aufgaben im Papierkorb gefunden."
+
+#: includes/lib/class-kleingarten-post-types.php:266
+msgid "No tasks found."
+msgstr "Keine Aufgaben gefunden."
+
+#: includes/lib/class-kleingarten-post-types.php:449
 msgid "No unit defined."
 msgstr "Keine Einheit definiert."
 
@@ -956,7 +1035,7 @@ msgstr "Benachrichtigungen"
 #: includes/lib/class-kleingarten-admin-api.php:109
 #: includes/lib/class-kleingarten-userfields.php:78
 #: includes/lib/class-kleingarten-userfields.php:91
-#: includes/lib/class-kleingarten-shortcodes.php:649
+#: includes/lib/class-kleingarten-shortcodes.php:656
 msgid "None"
 msgstr "Keine"
 
@@ -972,39 +1051,39 @@ msgstr "Benachrichtigungen"
 msgid "Number"
 msgstr "Anzahl"
 
-#: includes/lib/class-kleingarten-post-types.php:89
+#: includes/lib/class-kleingarten-post-types.php:99
 msgctxt ""
 "Overrides the “Featured Image” phrase for this post type. Added in 4.3"
 msgid "Plot Cover Image"
 msgstr "Parzellenbild"
 
-#: includes/lib/class-kleingarten-post-types.php:104
+#: includes/lib/class-kleingarten-post-types.php:114
 msgctxt ""
 "Overrides the “Insert into post”/”Insert into page” phrase (used when "
 "inserting media into a post). Added in 4.4"
 msgid "Insert into plot"
 msgstr "In Parzelle einfügen"
 
-#: includes/lib/class-kleingarten-post-types.php:95
+#: includes/lib/class-kleingarten-post-types.php:105
 msgctxt ""
 "Overrides the “Remove featured image” phrase for this post type. Added in 4.3"
 msgid "Remove plot image"
 msgstr "Parzellenbild löschen"
 
-#: includes/lib/class-kleingarten-post-types.php:92
+#: includes/lib/class-kleingarten-post-types.php:102
 msgctxt ""
 "Overrides the “Set featured image” phrase for this post type. Added in 4.3"
 msgid "Set plot image"
 msgstr "Parzellenbild wählen"
 
-#: includes/lib/class-kleingarten-post-types.php:107
+#: includes/lib/class-kleingarten-post-types.php:117
 msgctxt ""
 "Overrides the “Uploaded to this post”/”Uploaded to this page” phrase (used "
 "when viewing media attached to a post). Added in 4.4"
 msgid "Uploaded to this plot"
 msgstr "Zu dieser Parzelle hochgeladen"
 
-#: includes/lib/class-kleingarten-post-types.php:98
+#: includes/lib/class-kleingarten-post-types.php:108
 msgctxt ""
 "Overrides the “Use as featured image” phrase for this post type. Added in 4.3"
 msgid "Use as plot image"
@@ -1014,40 +1093,40 @@ msgstr "Als Parzellenbild verwenden"
 msgid "Page with login shortcode."
 msgstr "Seite mit dem Anmelden-Shortcode."
 
-#: includes/lib/class-kleingarten-post-types.php:85
+#: includes/lib/class-kleingarten-post-types.php:95
 msgid "Parent Plots:"
 msgstr "Übergeordnete Parzellen:"
 
 #: includes/lib/class-kleingarten-shortcodes.php:126
-#: includes/lib/class-kleingarten-shortcodes.php:663
+#: includes/lib/class-kleingarten-shortcodes.php:670
 msgid "Password"
 msgstr "Passwort"
 
-#: includes/lib/class-kleingarten-shortcodes.php:670
+#: includes/lib/class-kleingarten-shortcodes.php:677
 msgid "Password again"
 msgstr "Passwort wiederholen"
 
-#: includes/lib/class-kleingarten-shortcodes.php:848
+#: includes/lib/class-kleingarten-shortcodes.php:855
 msgid "Password is empty."
 msgstr "Passwort ist leer."
 
-#: includes/lib/class-kleingarten-shortcodes.php:853
+#: includes/lib/class-kleingarten-shortcodes.php:860
 msgid "Password is too short."
 msgstr "Passwort zu kurz."
 
-#: includes/lib/class-kleingarten-shortcodes.php:864
+#: includes/lib/class-kleingarten-shortcodes.php:871
 msgid "Password must contain at least one letter."
 msgstr "Passwörter müssen min. einen Buchstaben enthalten."
 
-#: includes/lib/class-kleingarten-shortcodes.php:858
+#: includes/lib/class-kleingarten-shortcodes.php:865
 msgid "Password must contain at least one number."
 msgstr "Passwörter müssen min. eine Zahl enthalten."
 
-#: includes/lib/class-kleingarten-shortcodes.php:876
+#: includes/lib/class-kleingarten-shortcodes.php:883
 msgid "Passwords do not match."
 msgstr "Passwörter sind nicht gleich."
 
-#: includes/lib/class-kleingarten-shortcodes.php:870
+#: includes/lib/class-kleingarten-shortcodes.php:877
 msgid "Passwords must contain at least one special charachter."
 msgstr "Passwörter müssen min. ein Sonderzeichen enthalten."
 
@@ -1080,11 +1159,11 @@ msgstr "Bitte Benachrichtigung bei neuem Beitrag zuerst aktivieren."
 msgid "Please activate registration notification first."
 msgstr "Bitte Benachrichtigung bei Registrierung zuerst aktivieren."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1809
+#: includes/lib/class-kleingarten-shortcodes.php:1817
 msgid "Please confirm that you checked the data for correctness."
 msgstr "Bitte bestätige mit dem Häkchen die Richtigkeit deiner Angaben."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1802
+#: includes/lib/class-kleingarten-shortcodes.php:1810
 msgid "Please fill out the form completely."
 msgstr "Bitte fülle das ganze Formular aus."
 
@@ -1101,9 +1180,9 @@ msgstr ""
 "können."
 
 #: includes/class-kleingarten-tools.php:564
-#: includes/lib/class-kleingarten-shortcodes.php:315
-#: includes/lib/class-kleingarten-shortcodes.php:642
-#: includes/lib/class-kleingarten-shortcodes.php:1615
+#: includes/lib/class-kleingarten-shortcodes.php:322
+#: includes/lib/class-kleingarten-shortcodes.php:649
+#: includes/lib/class-kleingarten-shortcodes.php:1623
 msgid "Plot"
 msgstr "Parzelle"
 
@@ -1111,26 +1190,26 @@ msgstr "Parzelle"
 msgid "Plot Assignment"
 msgstr "Parzellenzuordnung"
 
-#: includes/lib/class-kleingarten-post-types.php:460
+#: includes/lib/class-kleingarten-post-types.php:603
 msgid "Plot draft updated."
 msgstr "Parzellenentwurf aktualisiert."
 
-#: includes/lib/class-kleingarten-post-types.php:448
+#: includes/lib/class-kleingarten-post-types.php:591
 msgid "Plot published."
 msgstr "Parzelle erstellt."
 
 #. Revision the posed is being restored from
-#: includes/lib/class-kleingarten-post-types.php:443
+#: includes/lib/class-kleingarten-post-types.php:586
 #, php-format
 msgid "Plot restored to revision from %s"
 msgstr "Parzelle aus Revision vom %s wiederhergestellt"
 
-#: includes/lib/class-kleingarten-post-types.php:449
+#: includes/lib/class-kleingarten-post-types.php:592
 msgid "Plot saved."
 msgstr "Parzelle gespeichert."
 
 #. %1$s: date and time the plot is scheduled for
-#: includes/lib/class-kleingarten-post-types.php:453
+#: includes/lib/class-kleingarten-post-types.php:596
 #, php-format
 msgid ""
 "Plot scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
@@ -1139,12 +1218,12 @@ msgstr ""
 "Parzelle geplant für: <strong>%1$s</strong>. <a target=\"_blank\" "
 "href=\"%2$s\">Vorschau</a>"
 
-#: includes/lib/class-kleingarten-post-types.php:451
+#: includes/lib/class-kleingarten-post-types.php:594
 msgid "Plot submitted."
 msgstr "Parzelle gesendet."
 
-#: includes/lib/class-kleingarten-post-types.php:436
-#: includes/lib/class-kleingarten-post-types.php:439
+#: includes/lib/class-kleingarten-post-types.php:579
+#: includes/lib/class-kleingarten-post-types.php:582
 msgid "Plot updated."
 msgstr "Parzelle aktualisiert."
 
@@ -1157,7 +1236,7 @@ msgid "Plots created successfully."
 msgstr "Parzellen erfolgreich erzeugt."
 
 #: includes/lib/class-kleingarten-userfields.php:101
-#: includes/lib/class-kleingarten-shortcodes.php:288
+#: includes/lib/class-kleingarten-shortcodes.php:295
 msgid "Positions"
 msgstr "Ämter und Funktionen"
 
@@ -1165,25 +1244,35 @@ msgstr "Ämter und Funktionen"
 msgid "Positions in the club."
 msgstr "Ämter/Funktionen im Verein."
 
-#: includes/lib/class-kleingarten-post-types.php:70
+#: includes/lib/class-kleingarten-post-types.php:80
 msgctxt "Post type general name"
 msgid "Allotment Plots"
 msgstr "Gartenparzellen"
 
-#: includes/lib/class-kleingarten-post-types.php:155
+#: includes/lib/class-kleingarten-post-types.php:165
 msgctxt "Post type general name"
 msgid "Meters"
 msgstr "Zähler"
 
-#: includes/lib/class-kleingarten-post-types.php:72
+#: includes/lib/class-kleingarten-post-types.php:250
+msgctxt "Post type general name"
+msgid "Tasks"
+msgstr "Aufgaben"
+
+#: includes/lib/class-kleingarten-post-types.php:82
 msgctxt "Post type singular name"
 msgid "Allotment Plot"
 msgstr "Gartenparzellen"
 
-#: includes/lib/class-kleingarten-post-types.php:157
+#: includes/lib/class-kleingarten-post-types.php:167
 msgctxt "Post type singular name"
 msgid "Meter"
 msgstr "Zähler"
+
+#: includes/lib/class-kleingarten-post-types.php:252
+msgctxt "Post type singular name"
+msgid "Task"
+msgstr "Aufgabe"
 
 #: includes/class-kleingarten-settings.php:227
 #| msgid "Post type with note function"
@@ -1207,6 +1296,10 @@ msgstr "Präfix"
 msgid "Prepare CSV file"
 msgstr "CSV-Datei vorbereiten"
 
+#: includes/lib/class-kleingarten-post-types.php:326
+msgid "Projects"
+msgstr "Projekte"
+
 #: includes/class-kleingarten-settings.php:294
 #: includes/class-kleingarten-settings.php:345
 #: includes/class-kleingarten-settings.php:404
@@ -1225,7 +1318,7 @@ msgstr "Jetzt lesen!"
 msgid "Reading"
 msgstr "Zählerstand"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1437
+#: includes/lib/class-kleingarten-shortcodes.php:1445
 msgid "Reading date"
 msgstr "Ablesedatum"
 
@@ -1237,15 +1330,15 @@ msgstr "Zählerstand ist leer."
 msgid "Reading is not a number."
 msgstr "Zählerstand ist keine Zahl."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1605
+#: includes/lib/class-kleingarten-shortcodes.php:1613
 msgid "Reading submitted successfully"
 msgstr "Zählerstand erfolgreich übermittelt"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1449
+#: includes/lib/class-kleingarten-shortcodes.php:1457
 msgid "Reading value"
 msgstr "Zählerstand"
 
-#: includes/lib/class-kleingarten-post-meta.php:812
+#: includes/lib/class-kleingarten-post-meta.php:822
 msgid "Readings deleted."
 msgstr "Zählerstände gelöscht."
 
@@ -1253,7 +1346,7 @@ msgstr "Zählerstände gelöscht."
 msgid "Readings imported successfully."
 msgstr "Zählerstände erfolgreich importiert."
 
-#: includes/lib/class-kleingarten-shortcodes.php:394
+#: includes/lib/class-kleingarten-shortcodes.php:401
 msgid "Receive email notifications."
 msgstr "E-Mail-Benachrichtigungen erhalten."
 
@@ -1265,7 +1358,7 @@ msgstr "Empfänger"
 msgid "Register now!"
 msgstr "Jetzt registrieren!"
 
-#: includes/lib/class-kleingarten-shortcodes.php:594
+#: includes/lib/class-kleingarten-shortcodes.php:601
 msgid ""
 "Registration form submitted. Your account needs to be approved by your club "
 "now."
@@ -1296,7 +1389,7 @@ msgid "Remember me"
 msgstr "Angemeldet bleiben"
 
 #: includes/class-kleingarten-settings.php:715
-#: includes/lib/class-kleingarten-shortcodes.php:409
+#: includes/lib/class-kleingarten-shortcodes.php:416
 msgid "Save Settings"
 msgstr "Einstellungen speichern"
 
@@ -1312,55 +1405,80 @@ msgstr ""
 "vorsichtig, keinen Müll zu produzieren! Es gibt keine weitere Überprüfung. "
 "Wenn du das Formular abschickst, werden die Parzellen erzeugt."
 
-#: includes/lib/class-kleingarten-post-types.php:195
+#: includes/lib/class-kleingarten-post-types.php:205
 msgctxt ""
 "Screen reader text for the filter links heading on the post type listing "
 "screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4"
 msgid "Filter meters list"
 msgstr "Zählerliste filtern"
 
-#: includes/lib/class-kleingarten-post-types.php:110
+#: includes/lib/class-kleingarten-post-types.php:120
 msgctxt ""
 "Screen reader text for the filter links heading on the post type listing "
 "screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4"
 msgid "Filter plots list"
 msgstr "Parzellenliste filtern"
 
-#: includes/lib/class-kleingarten-post-types.php:201
+#: includes/lib/class-kleingarten-post-types.php:272
+msgctxt ""
+"Screen reader text for the filter links heading on the post type listing "
+"screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4"
+msgid "Filter tasks list"
+msgstr "Aufgabenliste filtern"
+
+#: includes/lib/class-kleingarten-post-types.php:211
 msgctxt ""
 "Screen reader text for the items list heading on the post type listing "
 "screen. Default “Posts list”/”Pages list”. Added in 4.4"
 msgid "Meters list"
 msgstr "Zählerliste"
 
-#: includes/lib/class-kleingarten-post-types.php:116
+#: includes/lib/class-kleingarten-post-types.php:126
 msgctxt ""
 "Screen reader text for the items list heading on the post type listing "
 "screen. Default “Posts list”/”Pages list”. Added in 4.4"
 msgid "Plots list"
 msgstr "Parzellenliste"
 
-#: includes/lib/class-kleingarten-post-types.php:198
+#: includes/lib/class-kleingarten-post-types.php:278
+msgctxt ""
+"Screen reader text for the items list heading on the post type listing "
+"screen. Default “Posts list”/”Pages list”. Added in 4.4"
+msgid "Tasks list"
+msgstr "Aufgabenliste"
+
+#: includes/lib/class-kleingarten-post-types.php:208
 msgctxt ""
 "Screen reader text for the pagination heading on the post type listing "
 "screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4"
 msgid "Meters list navigation"
 msgstr "Zählerlistennavigation"
 
-#: includes/lib/class-kleingarten-post-types.php:113
+#: includes/lib/class-kleingarten-post-types.php:123
 msgctxt ""
 "Screen reader text for the pagination heading on the post type listing "
 "screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4"
 msgid "Plots list navigation"
 msgstr "Parzellennavigation"
 
-#: includes/lib/class-kleingarten-post-types.php:169
+#: includes/lib/class-kleingarten-post-types.php:275
+msgctxt ""
+"Screen reader text for the pagination heading on the post type listing "
+"screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4"
+msgid "Tasks list navigation"
+msgstr "Aufgabenlistennavigation"
+
+#: includes/lib/class-kleingarten-post-types.php:179
 msgid "Search Meters"
 msgstr "Zähler durchsuchen"
 
-#: includes/lib/class-kleingarten-post-types.php:84
+#: includes/lib/class-kleingarten-post-types.php:94
 msgid "Search Plots"
 msgstr "Parzellen durchsuchen"
+
+#: includes/lib/class-kleingarten-post-types.php:264
+msgid "Search Tasks"
+msgstr "Aufgaben durchsuchen"
 
 #: includes/class-kleingarten-settings.php:229
 #, fuzzy
@@ -1400,7 +1518,7 @@ msgstr ""
 msgid "Send email notifications."
 msgstr "E-Mail-Benachrichtigung empfangen."
 
-#: includes/lib/class-kleingarten-shortcodes.php:708
+#: includes/lib/class-kleingarten-shortcodes.php:715
 msgid "Send me an E-Mail notification whenever there is something new."
 msgstr "Ich möchte per E-Mail über neue Beiträge informiert werden."
 
@@ -1416,13 +1534,13 @@ msgstr "Entscheide, wie Kleingarten mit Inhalten umgehen wird."
 
 #: includes/class-kleingarten-settings.php:539
 #: includes/class-kleingarten-settings.php:649
-#: includes/lib/class-kleingarten-shortcodes.php:359
+#: includes/lib/class-kleingarten-shortcodes.php:366
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: includes/lib/class-kleingarten-shortcodes.php:965
-#: includes/lib/class-kleingarten-shortcodes.php:1061
-#: includes/lib/class-kleingarten-shortcodes.php:1177
+#: includes/lib/class-kleingarten-shortcodes.php:974
+#: includes/lib/class-kleingarten-shortcodes.php:1069
+#: includes/lib/class-kleingarten-shortcodes.php:1185
 msgid "Show all"
 msgstr "Alle anzeigen"
 
@@ -1435,33 +1553,33 @@ msgstr "Zeige Hinweis auf Kleingarten in Fußzeile"
 msgid "Something is wrong with your token."
 msgstr "Mit deinem Schlüssel stimmt etwas nicht."
 
-#: includes/lib/class-kleingarten-meter.php:583
+#: includes/lib/class-kleingarten-meter.php:612
 msgid "Something went wrong. Could could not remove reading."
 msgstr "Etwas ist schief gelaufen. Konnte Zählerstand nicht entfernen."
 
-#: includes/lib/class-kleingarten-post-meta.php:925
+#: includes/lib/class-kleingarten-post-meta.php:935
 msgid "Something went wrong. Meter assignments could not be removed."
 msgstr ""
 "Etwas ist schiefgelaufen. Der Zählerzuordnung konnten nicht aufgelöst werden."
 
-#: includes/lib/class-kleingarten-post-meta.php:675
+#: includes/lib/class-kleingarten-post-meta.php:674
 msgid "Something went wrong. Meter unit could not be set."
 msgstr ""
 "Etwas ist schief gelaufen. Die Zählereinheit konnten nicht gespeichert "
 "werden."
 
-#: includes/lib/class-kleingarten-post-meta.php:894
+#: includes/lib/class-kleingarten-post-meta.php:904
 msgid "Something went wrong. Meters could not be assigned."
 msgstr "Etwas ist schiefgelaufen. Der Zähler konnten nicht zugewiesen werden."
 
 #: includes/class-kleingarten-tools.php:1187
 #: includes/class-kleingarten-tools.php:1192
-#: includes/lib/class-kleingarten-post-meta.php:785
+#: includes/lib/class-kleingarten-post-meta.php:795
 msgid "Something went wrong. Reading could not be saved."
 msgstr ""
 "Etwas ist schiefgelaufen. Der Zählerstand konnten nicht gespeichert werden."
 
-#: includes/lib/class-kleingarten-post-meta.php:814
+#: includes/lib/class-kleingarten-post-meta.php:824
 msgid "Something went wrong. Some readings could not be deleted."
 msgstr ""
 "Etwas ist schiefgelaufen. Einige Zählerstände konnten nicht gelöscht werden."
@@ -1470,13 +1588,13 @@ msgstr ""
 msgid "Sorry, login failed."
 msgstr "Sorry, Anmeldung fehlgeschlagen."
 
-#: includes/lib/class-kleingarten-shortcodes.php:569
+#: includes/lib/class-kleingarten-shortcodes.php:576
 #, fuzzy
 #| msgid "Sorry, seems fav something strange going on here."
 msgid "Sorry, seems like something strange going on here."
 msgstr "Hoppla, das ist merkwürdig."
 
-#: includes/lib/class-kleingarten-shortcodes.php:928
+#: includes/lib/class-kleingarten-shortcodes.php:937
 msgid "Sorry, you can not use this shortcode here."
 msgstr "Sorry, du kannst diesen Shortcode hier nicht verwenden."
 
@@ -1485,17 +1603,21 @@ msgstr "Sorry, du kannst diesen Shortcode hier nicht verwenden."
 msgid "Status"
 msgstr "Status"
 
+#: includes/lib/class-kleingarten-post-types.php:359
+msgid "Statuses"
+msgstr "Status"
+
 #: includes/class-kleingarten-settings.php:277
 #: includes/class-kleingarten-settings.php:324
 #: includes/class-kleingarten-settings.php:384
 msgid "Subject"
 msgstr "Betreff"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1461
+#: includes/lib/class-kleingarten-shortcodes.php:1469
 msgid "Submit"
 msgstr "Senden"
 
-#: includes/lib/class-kleingarten-shortcodes.php:1710
+#: includes/lib/class-kleingarten-shortcodes.php:1718
 msgid "Submit Reading"
 msgstr "Zählerstand senden"
 
@@ -1507,7 +1629,31 @@ msgstr "Übermitteld von"
 msgid "Suffix"
 msgstr "Suffix"
 
-#: includes/lib/class-kleingarten-shortcodes.php:727
+#: includes/lib/class-kleingarten-post-types.php:285
+msgid "Task Description"
+msgstr "Aufgabenbeschreibung"
+
+#: includes/lib/class-kleingarten-post-types.php:316
+msgctxt "taxonomy general name"
+msgid "Projects"
+msgstr "Projekte"
+
+#: includes/lib/class-kleingarten-post-types.php:349
+msgctxt "taxonomy general name"
+msgid "Statuses"
+msgstr "Status"
+
+#: includes/lib/class-kleingarten-post-types.php:317
+msgctxt "taxonomy singular name"
+msgid "Project"
+msgstr "Projekt"
+
+#: includes/lib/class-kleingarten-post-types.php:350
+msgctxt "taxonomy singular name"
+msgid "Status"
+msgstr "Status"
+
+#: includes/lib/class-kleingarten-shortcodes.php:734
 msgid "terms of use"
 msgstr "Nutzungsbedingungen"
 
@@ -1517,7 +1663,7 @@ msgstr "Nutzungsbedingungen"
 msgid "Thank you for your registration on %s."
 msgstr "Danke für deine Registrierung auf %s."
 
-#: includes/lib/class-kleingarten-shortcodes.php:836
+#: includes/lib/class-kleingarten-shortcodes.php:843
 msgid "That is not a valid email address."
 msgstr "Das ist keine gültige E-Mail-Adresse"
 
@@ -1533,7 +1679,7 @@ msgstr ""
 "Die Datei wurde auch der Mediathek hinzugefügt. Bitte lade die Datei sofort "
 "herunter und lösche sie anschließend dauerhaft."
 
-#: includes/lib/class-kleingarten-shortcodes.php:246
+#: includes/lib/class-kleingarten-shortcodes.php:253
 msgid "The following data is stored under your user account on this website."
 msgstr ""
 "Unter deinem Benutzerkonto auf dieser Website sind folgende Daten "
@@ -1543,19 +1689,26 @@ msgstr ""
 msgid "The number of the allotment plot."
 msgstr "Die Nummer der Gartenparzelle."
 
-#: includes/lib/class-kleingarten-post-types.php:186
+#: includes/lib/class-kleingarten-post-types.php:196
 msgctxt ""
 "The post type archive label used in nav menus. Default “Post Archives”. "
 "Added in 4.4"
 msgid "Meter archives"
 msgstr "Zählerarchiv"
 
-#: includes/lib/class-kleingarten-post-types.php:101
+#: includes/lib/class-kleingarten-post-types.php:111
 msgctxt ""
 "The post type archive label used in nav menus. Default “Post Archives”. "
 "Added in 4.4"
 msgid "Plot archives"
 msgstr "Parzellenarchiv"
+
+#: includes/lib/class-kleingarten-post-types.php:269
+msgctxt ""
+"The post type archive label used in nav menus. Default “Post Archives”. "
+"Added in 4.4"
+msgid "Task archives"
+msgstr "Aufgabenarchiv"
 
 #: includes/lib/class-kleingarten-post-meta.php:457
 msgid ""
@@ -1569,7 +1722,7 @@ msgstr ""
 msgid "There already is a meter reading for this date."
 msgstr "Für dieses Datum gibt es schon einen Zählerstand."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1322
+#: includes/lib/class-kleingarten-shortcodes.php:1330
 msgid "There are no exclusive posts currently."
 msgstr "Es gibt aktuell keine exklusiven Inhalte für Mitglieder."
 
@@ -1607,7 +1760,7 @@ msgstr ""
 "Es gibt keine aktiven Schlüssel. Mitglieder können keine Zählerstände per "
 "Formular übermitteln."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1623
+#: includes/lib/class-kleingarten-shortcodes.php:1631
 msgid "There is no plot assigned to you."
 msgstr "Dir ist keine Parzelle zugeordnet."
 
@@ -1616,11 +1769,11 @@ msgid "This is not a CSV file."
 msgstr "Das ist keine CSV-Datei."
 
 #. User's answer on antispam challenge.
-#: includes/lib/class-kleingarten-shortcodes.php:797
+#: includes/lib/class-kleingarten-shortcodes.php:804
 msgid "This is not the correct answer. Try again."
 msgstr "Das ist nicht die richtige Antwort. Versuch's nochmal."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1575
+#: includes/lib/class-kleingarten-shortcodes.php:1583
 msgid "This plot is assigned to you."
 msgstr "Dir ist folgende Parzelle zugeordnet."
 
@@ -1643,7 +1796,7 @@ msgstr "Titel"
 #: includes/class-kleingarten.php:360 includes/class-kleingarten-tools.php:567
 #: includes/lib/class-kleingarten-post-meta.php:263
 #: includes/lib/class-kleingarten-post-meta.php:496
-#: includes/lib/class-kleingarten-shortcodes.php:1426
+#: includes/lib/class-kleingarten-shortcodes.php:1434
 msgid "Token"
 msgstr "Schlüssel"
 
@@ -1651,7 +1804,7 @@ msgstr "Schlüssel"
 msgid "Token expired."
 msgstr "Schlüssel abgelaufen."
 
-#: includes/lib/class-kleingarten-meter.php:889
+#: includes/lib/class-kleingarten-meter.php:918
 msgid "Token must be deactivated first."
 msgstr "Token muss zuerst deaktiviert werden."
 
@@ -1678,7 +1831,7 @@ msgstr ""
 msgid "Top"
 msgstr "Oben"
 
-#: includes/lib/class-kleingarten-post-types.php:244
+#: includes/lib/class-kleingarten-post-types.php:387
 msgid "Unit/Type"
 msgstr "Einheit/Art"
 
@@ -1694,6 +1847,14 @@ msgstr "Das Deserialisieren von Instanzen von Kleingarten ist verboten."
 #: includes/class-kleingarten-settings.php:752
 msgid "Unserializing instances of Kleingarten_API is forbidden."
 msgstr "Das Deserialisieren von Instanzen von Kleingarten_API ist verboten."
+
+#: includes/lib/class-kleingarten-post-types.php:323
+msgid "Update Project"
+msgstr "Projekt aktualisieren"
+
+#: includes/lib/class-kleingarten-post-types.php:356
+msgid "Update Status"
+msgstr "Status aktualisieren"
 
 #: includes/class-kleingarten-tools.php:129
 msgid ""
@@ -1725,22 +1886,22 @@ msgstr "Benutzt"
 msgid "User"
 msgstr "Benutzer"
 
-#: includes/lib/class-kleingarten-shortcodes.php:481
+#: includes/lib/class-kleingarten-shortcodes.php:488
 msgid "User registration is disabled."
 msgstr "Benutzerregistrierung ist deaktiviert."
 
 #: includes/lib/class-kleingarten-shortcodes.php:119
-#: includes/lib/class-kleingarten-shortcodes.php:251
-#: includes/lib/class-kleingarten-shortcodes.php:603
+#: includes/lib/class-kleingarten-shortcodes.php:258
+#: includes/lib/class-kleingarten-shortcodes.php:610
 #| msgid "Username:"
 msgid "Username"
 msgstr "Benutzername"
 
-#: includes/lib/class-kleingarten-shortcodes.php:806
+#: includes/lib/class-kleingarten-shortcodes.php:813
 msgid "Username already taken."
 msgstr "Benutzername schon vergeben."
 
-#: includes/lib/class-kleingarten-shortcodes.php:818
+#: includes/lib/class-kleingarten-shortcodes.php:825
 msgid "Username empty."
 msgstr "Benutzername ist leer."
 
@@ -1748,13 +1909,17 @@ msgstr "Benutzername ist leer."
 msgid "Value read"
 msgstr "Abgelesener Wert"
 
-#: includes/lib/class-kleingarten-post-types.php:167
+#: includes/lib/class-kleingarten-post-types.php:177
 msgid "View Meter"
 msgstr "Zähler ansehen"
 
-#: includes/lib/class-kleingarten-post-types.php:82
+#: includes/lib/class-kleingarten-post-types.php:92
 msgid "View Plot"
 msgstr "Parzelle ansehen"
+
+#: includes/lib/class-kleingarten-post-types.php:262
+msgid "View Task"
+msgstr "Aufgabe ansehen"
 
 #: includes/lib/class-kleingarten-admin-api.php:502
 msgid "Warning! These users hold unavailble positions:"
@@ -1764,7 +1929,7 @@ msgstr "Achtung! Diese Benutzer haben nicht verfügbare Ämter/Funktionen:"
 msgid "We have a new post for you"
 msgstr "Wir haben einen neuen Beitrag für dich"
 
-#: includes/lib/class-kleingarten-shortcodes.php:760
+#: includes/lib/class-kleingarten-shortcodes.php:767
 msgid "You are already logged in. No need to register for you.."
 msgstr "Du bist schon angemeldet. Kein Bedarf, dich nochmal zu registrieren."
 
@@ -1776,15 +1941,15 @@ msgstr ""
 "Du kannst diese Tabelle kopieren, um deine CSV-Datei vorzubereiten. Entferne "
 "die Überschriften, bevor du sie hochlädtst."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1303
+#: includes/lib/class-kleingarten-shortcodes.php:1311
 msgid "You can read these posts exclusively as a registered member."
 msgstr "Diese Inhalte sind exklusiv für Mitglieder bestimmt."
 
-#: includes/lib/class-kleingarten-meter.php:939
+#: includes/lib/class-kleingarten-meter.php:968
 msgid "You cannot activate an active token."
 msgstr "Du kannst keinen aktiven Schlüssel aktivieren."
 
-#: includes/lib/class-kleingarten-shortcodes.php:306
+#: includes/lib/class-kleingarten-shortcodes.php:313
 msgid "You do not have any positions in this club."
 msgstr "Du bekleidest kein Amt bzw. keine Funktion in diesem Verein."
 
@@ -1792,9 +1957,9 @@ msgstr "Du bekleidest kein Amt bzw. keine Funktion in diesem Verein."
 msgid "You have been logged out. See you soon!"
 msgstr "Du hast dich erfolgreich abgemeldet. Bis bald!"
 
-#: includes/lib/class-kleingarten-meter.php:829
-#: includes/lib/class-kleingarten-meter.php:880
-#: includes/lib/class-kleingarten-meter.php:929
+#: includes/lib/class-kleingarten-meter.php:858
+#: includes/lib/class-kleingarten-meter.php:909
+#: includes/lib/class-kleingarten-meter.php:958
 msgid "You have no permission to deactivate this token."
 msgstr "Du hast nicht die nötige Berechtigung, um diesen Token zu löschen."
 
@@ -1810,21 +1975,21 @@ msgstr ""
 msgid "You have to create at least one plot."
 msgstr "Du musst mindestens eine Parzelle erzeugen."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1769
+#: includes/lib/class-kleingarten-shortcodes.php:1777
 msgid "You may not send readings for plots that are not assigned to you."
 msgstr ""
 "Du darfst keine Zählerstände für Zähler übermitteln, die dir nicht "
 "zugewiesen sind."
 
-#: includes/lib/class-kleingarten-shortcodes.php:244
+#: includes/lib/class-kleingarten-shortcodes.php:251
 msgid "Your Member Profile"
 msgstr "Dein Benutzerprofil"
 
-#: includes/lib/class-kleingarten-shortcodes.php:361
+#: includes/lib/class-kleingarten-shortcodes.php:368
 msgid "Your member profile contains these settings."
 msgstr "Dein Benutzerprofil enthält die folgenden Einstellungen."
 
-#: includes/lib/class-kleingarten-shortcodes.php:1573
+#: includes/lib/class-kleingarten-shortcodes.php:1581
 msgid "Your Plot"
 msgstr "Deine Parzelle"
 

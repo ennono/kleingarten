@@ -27,12 +27,14 @@ class Kleingarten_Post_Meta {
 		add_action( 'add_meta_boxes', array( $this, 'add_plot_assignment_meta_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meter_assignment_meta_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meter_reading_submission_token_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_task_status_meta_box' ) );
 
         add_action( 'save_post', array( $this, 'save_likes_meta_box' ) );
         add_action( 'save_post', array( $this, 'save_meter_unit_meta_box' ) );
         add_action( 'save_post', array( $this, 'save_meter_readings_meta_box' ) );
         add_action( 'save_post', array( $this, 'save_meter_assignment_meta_box' ) );
         add_action( 'save_post', array( $this, 'save_meter_reading_submission_token_meta_box' ) );
+        add_action( 'save_post', array( $this, 'save_task_status_meta_box' ) );
 
         add_action( 'admin_notices', array( $this, 'print_admin_notices' ) );
 
@@ -51,7 +53,7 @@ class Kleingarten_Post_Meta {
 
 		add_meta_box( 'kleingarten_likes_meta_box', __( 'Likes', 'kleingarten' ),
 			array( $this, 'render_likes_meta_box_content' ), $post_type,
-			'side');
+			'side' );
 
 	}
 
@@ -131,6 +133,50 @@ class Kleingarten_Post_Meta {
 			array( $this, 'render_meter_reading_submission_token_meta_box_content' ), $post_type );
 
 	}
+
+    /**
+	 * Adds task status meta box to meters.
+	 *
+	 * @return void
+	 * @since 1.1.0
+	 */
+    public function add_task_status_meta_box() {
+
+		$post_type = 'kleingarten_task';
+
+		add_meta_box( 'kleingarten_task_status_meta_box', __( 'Status', 'kleingarten' ),
+			array( $this, 'render_task_status_meta_box_content' ), $post_type,
+			'side' );
+
+    }
+
+
+    /**
+    * Renders the task status meta box.
+    *
+    * @param $post
+    *
+    * @return void
+    */
+    public function render_task_status_meta_box_content( $post ) {
+
+        $terms = wp_get_post_terms( $post->ID, 'kleingarten_status' );
+        echo var_dump( $terms );
+
+        $available_terms = get_terms( array(
+            'order' => 'DESC',
+            'taxonomy' => 'kleingarten_status',
+            'hide_empty' => false,
+        ) );
+
+        //echo '<p>' . esc_html( '', 'kleingarten' ) . '</p>';
+        echo '<select name="kleingarten_task_status">';
+        foreach ( $available_terms as $term ) {
+            echo '<option value="' . $term->slug . '">' . $term->name . '</option>';
+        }
+        echo '</select>';
+
+    }
 
 	/**
 	* Build like meta box content.
@@ -1228,6 +1274,24 @@ class Kleingarten_Post_Meta {
            }
 
         }
+
+    }
+
+
+    /**
+    * Sets task status.
+    *
+    * @param $task_ID
+    *
+    * @return void
+    */
+    public function save_task_status_meta_box( $task_ID ) {
+
+        /*
+        if ( isset( $_POST['kleingarten_task_status'] ) ) {
+            wp_set_post_terms( $task_ID, sanitize_text_field( $_POST['kleingarten_task_status'] ), 'kleingarten_task_status' );
+        }
+        */
 
     }
 

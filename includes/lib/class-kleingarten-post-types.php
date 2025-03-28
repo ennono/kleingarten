@@ -18,6 +18,8 @@ class Kleingarten_Post_Types {
 	private $allotment_plot_labels;
 	private $meter_labels;
 	private $meter_args;
+	private $task_labels;
+	private $task_args;
 
 	/**
 	 * Post types constructor.
@@ -33,6 +35,16 @@ class Kleingarten_Post_Types {
 			array( $this, 'register_allotment_plot_post_type' ) );
 		add_action( 'init',
 			array( $this, 'register_meter_post_type' ) );
+		add_action( 'init',
+			array( $this, 'register_task_post_type' ) );
+
+		add_action( 'init',
+			array( $this, 'register_project_taxonomy' ) );
+
+		add_action( 'init',
+			array( $this, 'register_status_taxonomy' ) );
+		add_action( 'init',
+			array( $this, 'create_default_status' ) );
 
 		add_action( 'wp_trash_post',
 			array( 'Kleingarten_Meter', 'purge_meter' ) );
@@ -137,7 +149,7 @@ class Kleingarten_Post_Types {
 			'show_in_rest'        => false,
 			'supports'            => array( 'title' ),
 			'menu_position'       => 30,
-			'menu_icon'           => 'dashicons-layout',
+			'menu_icon'           => 'dashicons-tagcloud',
 		);
 
 		register_post_type( 'kleingarten_plot', $this->allotment_plot_args );
@@ -226,6 +238,161 @@ class Kleingarten_Post_Types {
 		);
 
 		register_post_type( 'kleingarten_meter', $this->meter_args );
+	}
+
+	/**
+	 * Register task post type
+	 *
+	 * @return void
+	 * @since 1.1.0
+	 */
+	public function register_task_post_type() {
+
+		$this->task_labels = array(
+			'name'                  => _x( 'Tasks',
+				'Post type general name', 'kleingarten' ),
+			'singular_name'         => _x( 'Task',
+				'Post type singular name', 'kleingarten' ),
+			'menu_name'             => _x( 'Tasks', 'Admin Menu text',
+				'kleingarten' ),
+			'name_admin_bar'        => _x( 'Task',
+				'Add New on Toolbar', 'kleingarten' ),
+			'add_new'               => __( 'Add New', 'kleingarten' ),
+			'add_new_item'          => __( 'Add New Task', 'kleingarten' ),
+			'new_item'              => __( 'New Task', 'kleingarten' ),
+			'edit_item'             => __( 'Edit Task', 'kleingarten' ),
+			'view_item'             => __( 'View Task', 'kleingarten' ),
+			'all_items'             => __( 'All Tasks', 'kleingarten' ),
+			'search_items'          => __( 'Search Tasks', 'kleingarten' ),
+			//'parent_item_colon'     => __( 'Parent Meters:', 'kleingarten' ),
+			'not_found'             => __( 'No tasks found.', 'kleingarten' ),
+			'not_found_in_trash'    => __( 'No tasks found in Trash.',
+				'kleingarten' ),
+			'archives'              => _x( 'Task archives',
+				'The post type archive label used in nav menus. Default “Post Archives”. Added in 4.4',
+				'kleingarten' ),
+			'filter_items_list'     => _x( 'Filter tasks list',
+				'Screen reader text for the filter links heading on the post type listing screen. Default “Filter posts list”/”Filter pages list”. Added in 4.4',
+				'kleingarten' ),
+			'items_list_navigation' => _x( 'Tasks list navigation',
+				'Screen reader text for the pagination heading on the post type listing screen. Default “Posts list navigation”/”Pages list navigation”. Added in 4.4',
+				'kleingarten' ),
+			'items_list'            => _x( 'Tasks list',
+				'Screen reader text for the items list heading on the post type listing screen. Default “Posts list”/”Pages list”. Added in 4.4',
+				'kleingarten' ),
+		);
+
+		$this->task_args = array(
+			'labels'              => $this->task_labels,
+			'description'         => __( 'Task Description',
+				'kleingarten' ),
+			'public'              => false,
+			'publicly_queryable'  => false,
+			'exclude_from_search' => true,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'show_in_nav_menus'   => false,
+			'query_var'           => true,
+			'can_export'          => false,
+			'rewrite'             => false,
+			'capability_type'     => 'post',
+			'has_archive'         => false,
+			'hierarchical'        => false,
+			'show_in_rest'        => false,
+			'supports'            => array( 'title' ),
+			'menu_position'       => 30,
+			'menu_icon'           => 'dashicons-hammer',
+		);
+
+		register_post_type( 'kleingarten_task', $this->task_args );
+	}
+
+	/**
+	 * Registers project taxonomy for tasks.
+	 *
+	 * @return void
+	 */
+	public function register_project_taxonomy() {
+
+		$labels = array(
+			'name'              => _x( 'Projects', 'taxonomy general name', 'kleingarten' ),
+			'singular_name'     => _x( 'Project', 'taxonomy singular name', 'kleingarten' ),
+			'search_items'      => __( 'Search Projects' ),
+			'all_items'         => __( 'All Projects', 'kleingarten' ),
+			//'parent_item'       => __( 'Parent Projects', 'kleingarten' ),
+			//'parent_item_colon' => __( 'Parent Project:', 'kleingarten' ),
+			'edit_item'         => __( 'Edit Project', 'kleingarten' ),
+			'update_item'       => __( 'Update Project', 'kleingarten' ),
+			'add_new_item'      => __( 'Add New Project', 'kleingarten' ),
+			'new_item_name'     => __( 'New Project Name', 'kleingarten' ),
+			'menu_name'         => __( 'Projects', 'kleingarten' ),
+		);
+
+		$args   = array(
+			'hierarchical'      => false,
+			'labels'            => $labels,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'query_var'         => true,
+			'rewrite'           => [ 'slug' => __( 'kleingarten-project', 'kleingarten' ) ],
+		);
+
+		register_taxonomy( 'kleingarten_project', [ 'kleingarten_task' ], $args );
+	}
+
+	/**
+	 * Registers status taxonomy for tasks.
+	 *
+	 * @return void
+	 */
+	public function register_status_taxonomy() {
+
+		$labels = array(
+			'name'              => _x( 'Statuses', 'taxonomy general name', 'kleingarten' ),
+			'singular_name'     => _x( 'Status', 'taxonomy singular name', 'kleingarten' ),
+			'search_items'      => __( 'Search Statuses' ),
+			'all_items'         => __( 'All Statuses', 'kleingarten' ),
+			//'parent_item'       => __( 'Parent Projects', 'kleingarten' ),
+			//'parent_item_colon' => __( 'Parent Project:', 'kleingarten' ),
+			'edit_item'         => __( 'Edit Status', 'kleingarten' ),
+			'update_item'       => __( 'Update Status', 'kleingarten' ),
+			'add_new_item'      => __( 'Add New Status', 'kleingarten' ),
+			'new_item_name'     => __( 'New Status Name', 'kleingarten' ),
+			'menu_name'         => __( 'Statuses', 'kleingarten' ),
+		);
+
+		$args   = array(
+			'hierarchical'      => false,
+			'labels'            => $labels,
+			'show_ui'           => false,
+			//'show_in_menu'      => false,
+			//'show_admin_column' => false,
+			'query_var'         => true,
+			'rewrite'           => [ 'slug' => __( 'kleingarten-status', 'kleingarten' ) ],
+		);
+
+		register_taxonomy( 'kleingarten_status', [ 'kleingarten_task' ], $args );
+	}
+
+	public function create_default_status() {
+
+		if ( ! term_exists( 'todo', 'kleingarten_status' ) ) {
+			wp_insert_term( __( 'To Do', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'todo' ) );
+		}
+
+		if ( ! term_exists( 'next', 'kleingarten_status' ) ) {
+			wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'next' ) );
+		}
+
+		if ( ! term_exists( 'done', 'kleingarten_status' ) ) {
+			wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'done' ) );
+		}
+
+		$term = term_exists( 'Untagged', 'post_tag' );
+		if ( $term !== 0 && $term !== null ) {
+			echo __( "'Untagged' post_tag exists!", "textdomain" );
+		}
+
 	}
 
 	/**
