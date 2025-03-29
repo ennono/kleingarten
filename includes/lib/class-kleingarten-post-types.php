@@ -388,6 +388,10 @@ class Kleingarten_Post_Types {
 			wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'done' ) );
 		}
 
+		if ( ! term_exists( 'waiting', 'kleingarten_status' ) ) {
+			wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'waiting' ) );
+		}
+
 		$term = term_exists( 'Untagged', 'post_tag' );
 		if ( $term !== 0 && $term !== null ) {
 			echo __( "'Untagged' post_tag exists!", "textdomain" );

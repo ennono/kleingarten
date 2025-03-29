@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Taxonomy functions class.
+ * Post meta functions class.
  */
 class Kleingarten_Post_Meta {
 
@@ -160,20 +160,26 @@ class Kleingarten_Post_Meta {
     */
     public function render_task_status_meta_box_content( $post ) {
 
-        $terms = wp_get_post_terms( $post->ID, 'kleingarten_status' );
-        echo var_dump( $terms );
+        $task = new Kleingarten_Task( $post->ID );
+        $current_status = $task->get_status();
 
-        $available_terms = get_terms( array(
-            'order' => 'DESC',
-            'taxonomy' => 'kleingarten_status',
-            'hide_empty' => false,
-        ) );
+        $all_available_status = Kleingarten_Tasks::get_all_available_status();
+        //echo var_dump( $current_status );
 
         //echo '<p>' . esc_html( '', 'kleingarten' ) . '</p>';
         echo '<select name="kleingarten_task_status">';
-        foreach ( $available_terms as $term ) {
-            echo '<option value="' . $term->slug . '">' . $term->name . '</option>';
+
+        if ( in_array( $current_status, $all_available_status ) ) {
+            echo '<option value="' . $current_status->slug . '">' . $current_status->name . '</option>';
         }
+
+        foreach ( $all_available_status as $status ) {
+
+            if ( $current_status != $status ) {
+                echo '<option value="' . $status->slug . '">' . $status->name . '</option>';
+            }
+        }
+
         echo '</select>';
 
     }
@@ -1287,11 +1293,24 @@ class Kleingarten_Post_Meta {
     */
     public function save_task_status_meta_box( $task_ID ) {
 
-        /*
         if ( isset( $_POST['kleingarten_task_status'] ) ) {
-            wp_set_post_terms( $task_ID, sanitize_text_field( $_POST['kleingarten_task_status'] ), 'kleingarten_task_status' );
+
+            $all_available_status = Kleingarten_Tasks::get_all_available_status();
+            $all_available_status_slugs = array();
+            foreach ( $all_available_status as $status ) {
+                $all_available_status_slugs[] = $status->slug;
+            }
+
+            $new_status = sanitize_text_field( $_POST['kleingarten_task_status'] );
+
+		    //if ( $new_status == 'todo' || $new_status == 'next' || $new_status == 'done'  ) {
+            if ( in_array( $new_status, $all_available_status_slugs ) ) {
+
+                $task = new Kleingarten_Task( $task_ID );
+                $task->set_status( $new_status );
+
+            }
         }
-        */
 
     }
 
