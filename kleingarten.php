@@ -25,6 +25,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once 'includes/class-kleingarten.php';
 require_once 'includes/class-kleingarten-settings.php';
 require_once 'includes/class-kleingarten-tools.php';
+require_once 'includes/class-kleingarten-admin-pages.php';
 
 // Load plugin libraries.
 require_once 'includes/lib/class-kleingarten-admin-api.php';
@@ -49,16 +50,20 @@ require_once 'includes/lib/class-kleingarten-tasks.php';
  * @since  1.0.0
  */
 function kleingarten() {
+
 	$instance = Kleingarten::instance( __FILE__, '1.1.8' );
 
 	if ( is_null( $instance->settings ) ) {
 		$instance->settings = Kleingarten_Settings::instance( $instance );
 	}
 
-	//if ( is_null( $instance->tools ) ) {
-	$instance->tools = Kleingarten_Tools::instance( $instance );
+	if ( is_null( $instance->tools ) ) {
+		$instance->tools = Kleingarten_Tools::instance( $instance );
+	}
 
-	//}
+	if ( is_null( $instance->admin_pages ) ) {
+		$instance->admin_pages = Kleingarten_Admin_Pages::instance( $instance );
+	}
 
 	return $instance;
 }

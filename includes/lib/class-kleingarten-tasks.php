@@ -38,4 +38,37 @@ class Kleingarten_Tasks {
 
 	}
 
+	/**
+	 * Returns all available projects.
+	 *
+	 * @return array
+	 */
+	public static function get_all_available_projects() {
+
+		return get_terms( array(
+			'order' => 'DESC',
+			'taxonomy' => 'kleingarten_project',
+			'hide_empty' => false,
+		) );
+
+	}
+
+	public static function get_tasks_with_status( $status_slug ) {
+
+		$args = array(
+			'post_type' => 'kleingarten_task',
+			'tax_query' => array(
+				'relation' => 'AND',
+				array(
+					'taxonomy' => 'kleingarten_status',
+					'field' => 'slug',
+					'terms' => array( $status_slug ),
+				),
+			)
+		);
+
+		return get_posts( $args );
+
+	}
+
 }

@@ -41,6 +41,8 @@ class Kleingarten_Post_Types {
 		add_action( 'init',
 			array( $this, 'register_project_taxonomy' ) );
 
+		add_action( 'kleingarten_project_add_form_fields', array( $this, 'add_color_selection_to_project_taxonomy' ) );
+
 		add_action( 'init',
 			array( $this, 'register_status_taxonomy' ) );
 		add_action( 'init',
@@ -397,6 +399,22 @@ class Kleingarten_Post_Types {
 			echo __( "'Untagged' post_tag exists!", "textdomain" );
 		}
 
+	}
+
+	public function add_color_selection_to_project_taxonomy( $taxonomy) {
+		// add a nonce for security
+		wp_nonce_field( 'book_meta_new', 'book_meta_new_nonce' );
+		?>
+		<tr class="form-field">
+			<th>
+				<lable for="sort"><?php _e('Sort', 'my_domain'); ?></lable>
+			</th>
+			<td>
+				<input name="sort" id="sort" type="number" value="<?php echo esc_attr($sort); ?>"/>
+				<p class="description"><?php _e('Enter the position within the menu. Negativ values are allowed.', 'my_domain'); ?></p>
+			</td>
+		</tr>
+		<?php
 	}
 
 	/**

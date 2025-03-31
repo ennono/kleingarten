@@ -164,9 +164,7 @@ class Kleingarten_Post_Meta {
         $current_status = $task->get_status();
 
         $all_available_status = Kleingarten_Tasks::get_all_available_status();
-        //echo var_dump( $current_status );
 
-        //echo '<p>' . esc_html( '', 'kleingarten' ) . '</p>';
         echo '<select name="kleingarten_task_status">';
 
         if ( in_array( $current_status, $all_available_status ) ) {

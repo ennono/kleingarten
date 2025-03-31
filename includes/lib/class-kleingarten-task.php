@@ -14,6 +14,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Kleingarten_Task {
 
+	/**
+	 * @var int
+	 */
 	private $post_ID;
 
 	/**
@@ -38,6 +41,15 @@ class Kleingarten_Task {
 	 */
 	public static function create_new() {
 
+	}
+
+	/**
+	 * Returns the post ID.
+	 *
+	 * @return int
+	 */
+	public function get_post_ID() {
+		return $this->post_ID;
 	}
 
 	/**
@@ -86,6 +98,30 @@ class Kleingarten_Task {
 
 	}
 
+	/**
+	 * Returns the task title.
+	 *
+	 * @return string
+	 */
+	public function get_title() {
 
+		$post = get_post( $this->post_ID );
+
+		if ( $post ) {
+			return $post->post_title;
+		}
+
+	}
+
+	/**
+	 * Returns a list of associated projects as WP_Term objects.
+	 *
+	 * @return mixed
+	 */
+	public function get_associated_projects() {
+
+		return get_the_terms( $this->post_ID, 'kleingarten_project' );
+
+	}
 
 }

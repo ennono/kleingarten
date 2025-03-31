@@ -29,3 +29,23 @@
     -webkit-columns: 3;
     -moz-columns: 3;
 }
+
+.kleingarten-tasks-kanban-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.kleingarten-tasks-kanban-list-wrapper {
+    margin-top: 20px;
+    padding: .7em 2em 1em;
+    min-width: 320px;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.kleingarten-tasks-kanban-list-item {
+    margin-bottom: 1rem;
+}

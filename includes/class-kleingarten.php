@@ -49,6 +49,15 @@ class Kleingarten {
 	public $tools = null;
 
 	/**
+	 * Admin pages class object
+	 *
+	 * @var     object
+	 * @access  public
+	 * @since   1.1.2
+	 */
+	public $admin_pages = null;
+
+	/**
 	 * The version number.
 	 *
 	 * @var     string

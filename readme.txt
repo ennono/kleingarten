@@ -47,6 +47,7 @@ This plugin extends WordPress with useful functions for allotment garden associa
 = 1.x.x =
 * CONSTRUCTION AREA - DO NOT USE IN PRODUCTIVE ENVIRONMENT!!
 *
+* Introducing Tasks.
 
 = 1.1.8 =
 * Now it is possible to reactivate tokens that have been deactivated before.
