@@ -41,7 +41,11 @@ class Kleingarten_Post_Types {
 		add_action( 'init',
 			array( $this, 'register_project_taxonomy' ) );
 
-		add_action( 'kleingarten_project_add_form_fields', array( $this, 'add_color_selection_to_project_taxonomy' ) );
+		add_action( 'kleingarten_project_add_form_fields', array( $this, 'add_color_selection_to_project_taxonomy_for_new_projects' ) );
+		add_action( 'kleingarten_project_edit_form_fields', array( $this, 'add_color_selection_to_project_taxonomy_for_existing_projects' ) );
+
+		add_action( 'created_kleingarten_project', array( $this, 'save_project_color' ) );
+		add_action( 'edited_kleingarten_project', array( $this, 'save_project_color' ) );
 
 		add_action( 'init',
 			array( $this, 'register_status_taxonomy' ) );
@@ -401,21 +405,60 @@ class Kleingarten_Post_Types {
 
 	}
 
-	public function add_color_selection_to_project_taxonomy( $taxonomy) {
-		// add a nonce for security
-		wp_nonce_field( 'book_meta_new', 'book_meta_new_nonce' );
+	public function add_color_selection_to_project_taxonomy_for_new_projects( $term ) {
+
+		wp_nonce_field( 'save_kleingarten_project', 'save_kleingarten_project_nonce' );
+
 		?>
-		<tr class="form-field">
-			<th>
-				<lable for="sort"><?php _e('Sort', 'my_domain'); ?></lable>
-			</th>
-			<td>
-				<input name="sort" id="sort" type="number" value="<?php echo esc_attr($sort); ?>"/>
-				<p class="description"><?php _e('Enter the position within the menu. Negativ values are allowed.', 'my_domain'); ?></p>
-			</td>
-		</tr>
+        <div class="form-field kleingarten-project-color-wrap">
+            <label for="kleingarten-project-color"><?php esc_html_e( 'Color', 'kleingarten' ); ?></label>
+            <input type="text" name="kleingarten-project-color" value="#00FF00" class="kleingarten-color-field kleingarten-project-color" />
+            <p id="description-description"><?php esc_html_e( 'The colour selection helps you to distinguish projects in the overview.', 'kleingarten' ); ?></p>
+        </div>
+
 		<?php
 	}
+	public function add_color_selection_to_project_taxonomy_for_existing_projects( $term ) {
+
+        wp_nonce_field( 'save_kleingarten_project', 'save_kleingarten_project_nonce' );
+
+		$current_color = get_term_meta( $term->term_id, 'kleingarten_project_color', true );
+
+		?>
+        <tr class="form-field form-required term-name-wrap">
+            <th scope="row"><label for="kleingarten-project-color"><?php esc_html_e( 'Color', 'kleingarten' ); ?></label></th>
+            <td><input type="text" name="kleingarten-project-color" value="<?php echo esc_attr( $current_color ); ?>" class="kleingarten-color-field kleingarten-project-color" />
+                <p id="description-description"><?php esc_html_e( 'The colour selection helps you to distinguish projects in the overview.', 'kleingarten' ); ?></p>
+            </td>
+        </tr>
+
+		<?php
+	}
+
+    public function save_project_color( $term_id ) {
+
+	    if ( ! isset ( $_POST['save_kleingarten_project_nonce'] )
+	         || ! wp_verify_nonce( sanitize_key( wp_unslash ( $_POST['save_kleingarten_project_nonce'] ) ),
+			    'save_kleingarten_project' )
+	    ) {
+		    return;
+	    } else {
+
+		    $new_color = '#00FF00';
+		    $regex = '/#(?:[A-Fa-f0-9]{3}){1,2}\\b/i';
+		    if ( preg_match( $regex, $_POST['kleingarten-project-color'] ) ) {
+			    $new_color = $_POST['kleingarten-project-color'];
+		    }
+
+		    update_term_meta(
+			    $term_id,
+			    'kleingarten_project_color',
+			    $new_color,
+		    );
+
+	    }
+
+    }
 
 	/**
 	 * Callback to customize columns for meter post type in admin area.

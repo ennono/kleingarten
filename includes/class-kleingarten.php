@@ -299,11 +299,13 @@ class Kleingarten {
 	 * @since   1.0.0
 	 */
 	public function enqueue_styles() {
+
 		wp_register_style( $this->_token . '-frontend',
 			esc_url( $this->assets_url ) . 'css/frontend.css', array(),
 			$this->_version );
 		wp_enqueue_style( $this->_token . '-frontend' );
-	} // End admin_enqueue_styles ()
+
+	}
 
 	/**
 	 * Load frontend Javascript.
@@ -335,10 +337,14 @@ class Kleingarten {
 	 * @return void
 	 */
 	public function admin_enqueue_styles( $hook = '' ) {
+
+		wp_enqueue_style( 'wp-color-picker' );
+
 		wp_register_style( $this->_token . '-admin',
 			esc_url( $this->assets_url ) . 'css/admin.css', array(),
 			$this->_version );
 		wp_enqueue_style( $this->_token . '-admin' );
+
 	} // End load_localisation ()
 
 	/**
@@ -371,6 +377,8 @@ class Kleingarten {
 				'trans_action'     => esc_html( __( 'Action', 'kleingarten' ) ),
 			)
 		);
+
+		wp_enqueue_script( $this->_token . '-admin-color-picker', esc_url( $this->assets_url ) . 'js/admin' . 'colorpicker' . $this->script_suffix . '.js', array( 'wp-color-picker' ), false, true );
 
 	}
 

@@ -138,11 +138,11 @@ class Kleingarten_Admin_Pages {
 
         // Build a list of all projects:
         $projects = Kleingarten_Tasks::get_all_available_projects();
-        //echo '<pre>' . var_dump ( $projects ) . '</pre>';
         if ( $projects ) {
             echo '<ul>';
             foreach ( $projects as $project ) {
-	            echo '<li>' . $project->name . '</li>';
+	            $color = get_term_meta( $project->term_id, 'kleingarten_project_color', true );
+	            echo '<li><span style="margin-right: 5px; color: ' . $color . ';">&#9632;</span>' . $project->name . '</li>';
             }
             echo '</ul>';
         }
