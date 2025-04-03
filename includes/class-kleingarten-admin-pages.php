@@ -120,9 +120,9 @@ class Kleingarten_Admin_Pages {
                     if ( $projects && ! is_wp_error( $projects ) ) {
 	                    echo '<ul>';
                         foreach ( $projects as $project ) {
-                            echo '<li>';
-                            echo $project->name;
-                            echo '</li>';
+	                        $project_obj = new Kleingarten_Project( $project->term_id );
+	                        $color = $project_obj->get_color();
+	                        echo '<li><span style="margin-right: 5px; color: ' . $color . ';">&#9632;</span>' . $project->name . '</li>';
                         }
 	                    echo '</ul>';
                     }
@@ -141,7 +141,8 @@ class Kleingarten_Admin_Pages {
         if ( $projects ) {
             echo '<ul>';
             foreach ( $projects as $project ) {
-	            $color = get_term_meta( $project->term_id, 'kleingarten_project_color', true );
+				$project_obj = new Kleingarten_Project( $project->term_id );
+				$color = $project_obj->get_color();
 	            echo '<li><span style="margin-right: 5px; color: ' . $color . ';">&#9632;</span>' . $project->name . '</li>';
             }
             echo '</ul>';

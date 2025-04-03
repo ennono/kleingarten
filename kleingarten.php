@@ -42,6 +42,7 @@ require_once 'includes/lib/class-kleingarten-gardener.php';
 require_once 'includes/lib/class-kleingarten-gardeners.php';
 require_once 'includes/lib/class-kleingarten-task.php';
 require_once 'includes/lib/class-kleingarten-tasks.php';
+require_once 'includes/lib/class-kleingarten-project.php';
 
 /**
  * Returns the main instance of Kleingarten to prevent the need to use globals.

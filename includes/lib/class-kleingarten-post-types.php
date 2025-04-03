@@ -444,17 +444,8 @@ class Kleingarten_Post_Types {
 		    return;
 	    } else {
 
-		    $new_color = '#00FF00';
-		    $regex = '/#(?:[A-Fa-f0-9]{3}){1,2}\\b/i';
-		    if ( preg_match( $regex, $_POST['kleingarten-project-color'] ) ) {
-			    $new_color = $_POST['kleingarten-project-color'];
-		    }
-
-		    update_term_meta(
-			    $term_id,
-			    'kleingarten_project_color',
-			    $new_color,
-		    );
+            $project = new Kleingarten_Project( $term_id );
+            $project->set_color( $_POST['kleingarten-project-color'] );
 
 	    }
 

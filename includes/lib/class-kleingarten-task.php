@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Taxonomy functions class.
+ * Task handler class.
  */
 class Kleingarten_Task {
 
