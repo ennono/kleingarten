@@ -370,7 +370,7 @@ class Kleingarten_Post_Types {
 		$args   = array(
 			'hierarchical'      => false,
 			'labels'            => $labels,
-			'show_ui'           => false,
+			'show_ui'           => true,
 			//'show_in_menu'      => false,
 			//'show_admin_column' => false,
 			'query_var'         => true,
@@ -380,31 +380,60 @@ class Kleingarten_Post_Types {
 		register_taxonomy( 'kleingarten_status', [ 'kleingarten_task' ], $args );
 	}
 
+	/**
+     * Re-creates project terms if the do not exist to provide something like
+     * undeletable default projects. To be used with a hook.
+     *
+	 * @return void
+	 */
 	public function create_default_status() {
 
+        // If status has been deleted...
 		if ( ! term_exists( 'todo', 'kleingarten_status' ) ) {
-			wp_insert_term( __( 'To Do', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'todo' ) );
+            // ... re-insert it:
+			$term_data = wp_insert_term( __( 'To Do', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'todo' ) );
+            // ... an set its order:
+			if ( ! is_wp_error( $term_data ) ) {
+				update_term_meta( $term_data['term_id'],
+					'kleingarten_project_order', 1 );
+			}
 		}
+        update_term_meta( $term_id, 'kleingarten_project_order', 1 );
 
 		if ( ! term_exists( 'next', 'kleingarten_status' ) ) {
-			wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'next' ) );
-		}
-
-		if ( ! term_exists( 'done', 'kleingarten_status' ) ) {
-			wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'done' ) );
+			$term_data = wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'next' ) );
+			if ( ! is_wp_error( $term_data ) ) {
+				update_term_meta( $term_data['term_id'],
+					'kleingarten_project_order', 2 );
+			}
 		}
 
 		if ( ! term_exists( 'waiting', 'kleingarten_status' ) ) {
-			wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'waiting' ) );
+			$term_data = wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'waiting' ) );
+			if ( ! is_wp_error( $term_data ) ) {
+				update_term_meta( $term_data['term_id'],
+					'kleingarten_project_order', 3 );
+			}
 		}
 
-		$term = term_exists( 'Untagged', 'post_tag' );
-		if ( $term !== 0 && $term !== null ) {
-			echo __( "'Untagged' post_tag exists!", "textdomain" );
+		if ( ! term_exists( 'done', 'kleingarten_status' ) ) {
+			$term_data = wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'done' ) );
+			if ( ! is_wp_error( $term_data ) ) {
+				update_term_meta( $term_data['term_id'],
+					'kleingarten_project_order', 4 );
+			}
 		}
 
 	}
 
+	/**
+	 * Builds HTML of a color selection. To be used as a callback for project
+	 * terms being created.
+	 *
+	 * @param $term
+	 *
+	 * @return void
+	 */
 	public function add_color_selection_to_project_taxonomy_for_new_projects( $term ) {
 
 		wp_nonce_field( 'save_kleingarten_project', 'save_kleingarten_project_nonce' );
@@ -418,6 +447,15 @@ class Kleingarten_Post_Types {
 
 		<?php
 	}
+
+	/**
+	 * Builds HTML of a color selection. To be used as a callback for project
+     * terms being edited.
+	 *
+	 * @param $term
+	 *
+	 * @return void
+	 */
 	public function add_color_selection_to_project_taxonomy_for_existing_projects( $term ) {
 
         wp_nonce_field( 'save_kleingarten_project', 'save_kleingarten_project_nonce' );
@@ -435,7 +473,15 @@ class Kleingarten_Post_Types {
 		<?php
 	}
 
-    public function save_project_color( $term_id ) {
+	/**
+     * Saves a given project color. To be used as callback for project colors
+     * being saved.
+     *
+	 * @param $term_id
+	 *
+	 * @return void
+	 */
+	public function save_project_color( $term_id ) {
 
 	    if ( ! isset ( $_POST['save_kleingarten_project_nonce'] )
 	         || ! wp_verify_nonce( sanitize_key( wp_unslash ( $_POST['save_kleingarten_project_nonce'] ) ),

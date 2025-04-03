@@ -31,7 +31,9 @@ class Kleingarten_Tasks {
 	public static function get_all_available_status() {
 
 		return get_terms( array(
-			'order' => 'DESC',
+			'orderby' => 'meta_value',
+			'meta_key' => 'kleingarten_project_order',
+			'order' => 'ASC',
 			'taxonomy' => 'kleingarten_status',
 			'hide_empty' => false,
 		) );
