@@ -323,7 +323,7 @@ class Kleingarten_Post_Types {
 		$labels = array(
 			'name'              => _x( 'Projects', 'taxonomy general name', 'kleingarten' ),
 			'singular_name'     => _x( 'Project', 'taxonomy singular name', 'kleingarten' ),
-			'search_items'      => __( 'Search Projects' ),
+			'search_items'      => __( 'Search Projects', 'kleingarten' ),
 			'all_items'         => __( 'All Projects', 'kleingarten' ),
 			//'parent_item'       => __( 'Parent Projects', 'kleingarten' ),
 			//'parent_item_colon' => __( 'Parent Project:', 'kleingarten' ),
@@ -356,7 +356,7 @@ class Kleingarten_Post_Types {
 		$labels = array(
 			'name'              => _x( 'Statuses', 'taxonomy general name', 'kleingarten' ),
 			'singular_name'     => _x( 'Status', 'taxonomy singular name', 'kleingarten' ),
-			'search_items'      => __( 'Search Statuses' ),
+			'search_items'      => __( 'Search Statuses', 'kleingarten' ),
 			'all_items'         => __( 'All Statuses', 'kleingarten' ),
 			//'parent_item'       => __( 'Parent Projects', 'kleingarten' ),
 			//'parent_item_colon' => __( 'Parent Project:', 'kleingarten' ),
@@ -370,7 +370,7 @@ class Kleingarten_Post_Types {
 		$args   = array(
 			'hierarchical'      => false,
 			'labels'            => $labels,
-			'show_ui'           => true,
+			'show_ui'           => false,
 			//'show_in_menu'      => false,
 			//'show_admin_column' => false,
 			'query_var'         => true,
@@ -398,7 +398,6 @@ class Kleingarten_Post_Types {
 					'kleingarten_project_order', 1 );
 			}
 		}
-        update_term_meta( $term_id, 'kleingarten_project_order', 1 );
 
 		if ( ! term_exists( 'next', 'kleingarten_status' ) ) {
 			$term_data = wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'next' ) );
@@ -488,10 +487,10 @@ class Kleingarten_Post_Types {
 			    'save_kleingarten_project' )
 	    ) {
 		    return;
-	    } else {
+	    } elseif ( isset( $_POST['kleingarten-project-color'] )) {
 
             $project = new Kleingarten_Project( $term_id );
-            $project->set_color( $_POST['kleingarten-project-color'] );
+            $project->set_color( sanitize_text_field( wp_unslash( $_POST['kleingarten-project-color'] ) ) );
 
 	    }
 

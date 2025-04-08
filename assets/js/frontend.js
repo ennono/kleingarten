@@ -26,8 +26,8 @@ jQuery(document).ready(function ($) {
             },
             success: function (data) {
 
-                console.log(data.data.label);								// Print "liked" or "Disliked" in console
-                console.log(data);
+                //console.log(data.data.label);								// Print "liked" or "Disliked" in console
+                //console.log(data);
 
                 // Set link text to "liked" oder "Disliked"
                 $("#kleingartenlike").text(data.data.label);
@@ -68,7 +68,7 @@ jQuery(document).ready(function ($) {
             },
             success: function (data) {
 
-                console.log(data);
+                //console.log(data);
 
                 if (!$('#kleingarten-list-of-likes').is(':visible')) {
                     $("#kleingarten-list-of-likes").show();

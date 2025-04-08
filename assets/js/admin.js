@@ -6,7 +6,7 @@
 
 jQuery(document).ready(function ($) {
 
-    jQuery('#kleingarten_import_meter_readings_form').attr('enctype','multipart/form-data');
+    jQuery('#kleingarten_import_meter_readings_form').attr('enctype', 'multipart/form-data');
     jQuery('#kleingarten_import_meter_readings_form').attr('encoding', 'multipart/form-data');
 
     $(document).on("click", "#kleingarten-add-meter-reading-submission-tokens #kleingarten-add-token-link", function (event) {
@@ -51,6 +51,31 @@ jQuery(document).ready(function ($) {
                 console.log(errorThrown);
             }
         });
+
+    });
+
+
+    $(document).on("click", "#kleingarten-set-task-status", function (event) {
+
+        $.ajax({
+            url: kleingarten_admin.ajaxurl, // this is the object instantiated in wp_localize_script function
+            type: "post",
+            dataType: "json",
+            data: {
+                action: "kleingarten_set_task_status_token", // this is the action in your functions.php that will be triggered
+                //nonce: kleingarten_admin.nonce,
+                //task_ID: $("#task_ID").val()
+            },
+            success: function (data) {
+
+                console.log("Test");
+
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                console.log(errorThrown);
+            }
+        });
+
     });
 
 });

@@ -33,12 +33,13 @@
 .kleingarten-tasks-kanban-wrapper {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .kleingarten-tasks-kanban-list-wrapper {
     margin-top: 20px;
-    padding: .7em 2em 1em;
+    margin-right: 20px;
+    padding: 0.7em 2em 2em;
     min-width: 320px;
     border: 1px solid #c3c4c7;
     box-shadow: 0 1px 1px rgba(0, 0, 0, .04);
@@ -48,4 +49,28 @@
 
 .kleingarten-tasks-kanban-list-item {
     margin-bottom: 1rem;
+    padding: 10px 10px 20px 10px;
+    border: 1px solid #c3c4c7;
+    background-color: #ffffe0;
+}
+
+.kleingarten-kanban-project-list-item {
+    display: inline;
+    margin-right: 1rem;
+}
+
+.kleingarten-kanban-project-list-label {
+    margin-right: 1rem;
+}
+
+.kleingarten-tasks-kanban-list-item-status-list {
+
+}
+
+.kleingarten-tasks-kanban-list-item-status-list-item {
+    margin-right: 1rem;
+}
+
+.kleingarten-tasks-kanban-list-item-status-list-item::before {
+    content: '>> ';
 }

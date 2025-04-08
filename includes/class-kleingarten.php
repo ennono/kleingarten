@@ -378,7 +378,7 @@ class Kleingarten {
 			)
 		);
 
-		wp_enqueue_script( $this->_token . '-admin-color-picker', esc_url( $this->assets_url ) . 'js/admin' . 'colorpicker' . $this->script_suffix . '.js', array( 'wp-color-picker' ), false, true );
+		wp_enqueue_script( $this->_token . '-admin-color-picker', esc_url( $this->assets_url ) . 'js/' . 'colorpicker.min.js', array( 'wp-color-picker' ), false, true );
 
 	}
 

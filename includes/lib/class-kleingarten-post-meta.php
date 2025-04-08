@@ -165,16 +165,19 @@ class Kleingarten_Post_Meta {
 
         $all_available_status = Kleingarten_Tasks::get_all_available_status();
 
+        wp_nonce_field( 'kleingarten_save_task_status_nonce_action',
+				'kleingarten_save_task_status_nonce' );
+
         echo '<select name="kleingarten_task_status">';
 
         if ( in_array( $current_status, $all_available_status ) ) {
-            echo '<option value="' . $current_status->slug . '">' . $current_status->name . '</option>';
+            echo '<option value="' . esc_attr( $current_status->slug ) . '">' . esc_html( $current_status->name ) . '</option>';
         }
 
         foreach ( $all_available_status as $status ) {
 
             if ( $current_status != $status ) {
-                echo '<option value="' . $status->slug . '">' . $status->name . '</option>';
+                echo '<option value="' . esc_attr(  $status->slug ) . '">' . esc_html( $status->name ) . '</option>';
             }
         }
 
@@ -1057,7 +1060,6 @@ class Kleingarten_Post_Meta {
             die ( 'Busted!');
         }
 
-
         if ( isset ( $_POST['meter_id'] ) ) {
 
             // Create a token...
@@ -1291,6 +1293,13 @@ class Kleingarten_Post_Meta {
     */
     public function save_task_status_meta_box( $task_ID ) {
 
+        if ( ! isset ( $_POST['kleingarten_save_task_status_nonce'] )
+	         || ! wp_verify_nonce( sanitize_key( wp_unslash ( $_POST['kleingarten_save_task_status_nonce'] ) ),
+			    'kleingarten_save_task_status_nonce_action' )
+	    ) {
+		    return;
+        }
+
         if ( isset( $_POST['kleingarten_task_status'] ) ) {
 
             $all_available_status = Kleingarten_Tasks::get_all_available_status();
@@ -1299,7 +1308,7 @@ class Kleingarten_Post_Meta {
                 $all_available_status_slugs[] = $status->slug;
             }
 
-            $new_status = sanitize_text_field( $_POST['kleingarten_task_status'] );
+            $new_status = sanitize_text_field( wp_unslash( $_POST['kleingarten_task_status'] ) );
 
 		    //if ( $new_status == 'todo' || $new_status == 'next' || $new_status == 'done'  ) {
             if ( in_array( $new_status, $all_available_status_slugs ) ) {

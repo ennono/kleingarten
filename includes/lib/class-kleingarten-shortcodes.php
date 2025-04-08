@@ -1385,7 +1385,7 @@ class Kleingarten_Shortcodes {
 				$submitted_date = '';
 				if ( isset( $_POST['kleingarten_meter_reading_date'] ) ) {
 					$submitted_date
-						= sanitize_text_field( $_POST['kleingarten_meter_reading_date'] );
+						= sanitize_text_field( wp_unslash( $_POST['kleingarten_meter_reading_date'] ) );
 				}
 
 				// ... and finally try to save it:
@@ -1561,7 +1561,7 @@ class Kleingarten_Shortcodes {
 						$submitted_date = '';
 						if ( isset( $_POST['kleingarten_inline_meter_reading_submission_form_date'] ) ) {
 							$submitted_date
-								= sanitize_text_field( $_POST['kleingarten_inline_meter_reading_submission_form_date'] );
+								= sanitize_text_field( wp_unslash( $_POST['kleingarten_inline_meter_reading_submission_form_date'] ) );
 						}
 
 						// Finally try to save it an save the result for later:
