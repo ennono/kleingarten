@@ -187,9 +187,8 @@ class Kleingarten_Admin_Pages {
 		if ( isset ( $_POST['task_ID'] ) ) {
 
 			// Set the task status...
-			$task_ID = absint( $_POST['task_ID'] );
-			$task = new Kleingarten_Task( $task_ID );
-			$task->set_status( $task_ID );
+			$task = new Kleingarten_Task( absint( $_POST['task_ID'] ) );
+			$task->set_status( $_POST['new_status'] );
 
 		}
 

@@ -57,18 +57,24 @@ jQuery(document).ready(function ($) {
 
     $(document).on("click", "#kleingarten-set-task-status", function (event) {
 
+        var me = this;  // Store a copy of "this" to use it later
         $.ajax({
             url: kleingarten_admin.ajaxurl, // this is the object instantiated in wp_localize_script function
             type: "post",
             dataType: "json",
             data: {
                 action: "kleingarten_set_task_status_token", // this is the action in your functions.php that will be triggered
-                //nonce: kleingarten_admin.nonce,
-                //task_ID: $("#task_ID").val()
+                nonce: kleingarten_admin.nonce,
+                task_ID: me.dataset.task_id,
+                new_status: me.dataset.status
             },
             success: function (data) {
 
-                console.log("Test");
+                //console.log(me.dataset.task_id);
+                //console.log(me.dataset.status);
+                //console.log(data);
+
+                $( ".kleingarten-task-id-" + data.data.task_ID_updated ).appendTo( $( ".kleingarten-status-slug-" + data.data.new_status.slug ) );
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

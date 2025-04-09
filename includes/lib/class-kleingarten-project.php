@@ -88,6 +88,29 @@ class Kleingarten_Project {
 
 	}
 
+	/**
+	 * Returns the number of tasks tagged with this project.
+	 *
+	 * @return int
+	 */
+	public function count_tasks() {
 
+		$args = array(
+			'post_type' => 'kleingarten_task',
+			'posts_per_page' => -1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'kleingarten_project',
+					'field' => 'id',
+					'terms' => $this->term_ID,
+				)
+			)
+		);
+
+		$posts = get_posts( $args );
+
+		return count($posts);
+
+	}
 
 }
