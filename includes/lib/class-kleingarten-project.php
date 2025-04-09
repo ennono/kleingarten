@@ -113,4 +113,15 @@ class Kleingarten_Project {
 
 	}
 
+	/**
+	 * Returns the edit link.
+	 *
+	 * @return string
+	 */
+	public function get_edit_term_url() {
+
+		return get_edit_term_link( $this->term_ID );
+
+	}
+
 }

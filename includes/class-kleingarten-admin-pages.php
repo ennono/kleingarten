@@ -90,6 +90,10 @@ class Kleingarten_Admin_Pages {
 
         // Build a page header:
 		echo '<div class="wrap">';
+
+		echo '<div class="kleingarten-admin-wrapper">';
+		echo '<div class="kleingarten-admin-main-section">';
+
 		echo    '<h1 class="wp-heading-inline">' . esc_html( $title ) . '</h1>';
 		echo '<a href="' . esc_attr( admin_url('post-new.php?post_type=kleingarten_task') ) . '" class="page-title-action">' . esc_html( __( 'Add New Task', 'kleingarten' ) ) . '</a>';
 		echo    '<hr class="wp-header-end">';
@@ -106,7 +110,7 @@ class Kleingarten_Admin_Pages {
 			foreach ( $projects as $project ) {
 				$project_obj = new Kleingarten_Project( $project->term_id );
 				$color = $project_obj->get_color();
-				echo '<li class="kleingarten-kanban-project-list-item"><span style="margin-right: 5px; color: ' . esc_attr( $color ) . ';">&#9632;</span>' . esc_htmL( $project->name ) . '(' . $project_obj->count_tasks() . ')' . '</li>';
+				echo '<li class="kleingarten-kanban-project-list-item"><span style="margin-right: 5px; color: ' . esc_attr( $color ) . ';">&#9632;</span><a href="' . esc_url( $project_obj->get_edit_term_url() ) . '">' . esc_htmL( $project->name ) . '</a> (' . $project_obj->count_tasks() . ')' . '</li>';
 			}
 			echo '</ul>';
 		} else {
@@ -154,8 +158,10 @@ class Kleingarten_Admin_Pages {
 		            // Build a list of all status this task can be moved to:
 		            echo '<p>' . esc_html( __( 'Move', 'kleingarten' ) ) . ':</p>';
 		            echo '<ul class="kleingarten-tasks-kanban-list-item-status-list">';
-					foreach ( $all_available_status as $available_status ) {
-						echo '<li class="kleingarten-tasks-kanban-list-item-status-list-item"><a data-task_id="' . esc_attr( $post_with_current_status->ID ) . '" data-status="' . esc_attr( $available_status->slug ) . '" id="kleingarten-set-task-status" href="#">' . esc_html( $available_status->name )  . '</a></li>';
+					foreach ( $all_available_status as $available_status_to_move ) {
+						if ( $available_status->slug != $available_status_to_move->slug ) {
+							echo '<li class="kleingarten-tasks-kanban-list-item-status-list-item"><a data-task_id="' . esc_attr( $post_with_current_status->ID ) . '" data-status="' . esc_attr( $available_status_to_move->slug ) . '" id="kleingarten-set-task-status" href="#">' . esc_html( $available_status_to_move->name )  . '</a></li>';
+						}
 					}
 					echo '</ul>';
 
@@ -166,9 +172,24 @@ class Kleingarten_Admin_Pages {
 
 			echo '</div>';
 		}
-        echo    '</div>';
 
 		echo '</div>';
+		echo '</div>';
+
+		echo '<div class="kleingarten-admin-sidebar">';
+		echo '<a target="_blank" href="https://www.wp-kleingarten.de">';
+		echo '<img src=' . esc_url( plugin_dir_url( __DIR__ ) )
+		     . 'assets/Kleingarten_Logo_200px.png>';
+		echo '</a>';
+		echo '</div>';  // class="kleingarten-admin-main-section"
+
+		echo '</div>';  // class="kleingarten-admin-wrapper"
+
+        echo    '</div>';
+
+
+
+		//echo '</div>';
 	}
 
 	/**
