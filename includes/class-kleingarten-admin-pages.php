@@ -106,7 +106,7 @@ class Kleingarten_Admin_Pages {
 			foreach ( $projects as $project ) {
 				$project_obj = new Kleingarten_Project( $project->term_id );
 				$color = $project_obj->get_color();
-				echo '<li class="kleingarten-kanban-project-list-item"><span style="margin-right: 5px; color: ' . esc_attr( $color ) . ';">&#9632;</span>' . esc_htmL( $project->name ) . '</li>';
+				echo '<li class="kleingarten-kanban-project-list-item"><span style="margin-right: 5px; color: ' . esc_attr( $color ) . ';">&#9632;</span>' . esc_htmL( $project->name ) . '(' . $project_obj->count_tasks() . ')' . '</li>';
 			}
 			echo '</ul>';
 		} else {
