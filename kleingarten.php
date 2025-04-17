@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Kleingarten
- * Version: 1.1.8
+ * Version: 1.2.0
  * Plugin URI: https://www.wp-kleingarten.de/
  * Description: Make your website the digital home for your allotment garden association.
  * Author: Timo Fricke
