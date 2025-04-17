@@ -94,7 +94,7 @@ class Kleingarten_Admin_Pages {
 		echo '<div class="kleingarten-admin-wrapper">';
 		echo '<div class="kleingarten-admin-main-section">';
 
-		echo    '<h1 class="wp-heading-inline">' . esc_html( $title ) . '</h1>';
+		echo '<h1 class="wp-heading-inline">' . esc_html( $title ) . '</h1>';
 		echo '<a href="' . esc_attr( admin_url('post-new.php?post_type=kleingarten_task') ) . '" class="page-title-action">' . esc_html( __( 'Add New Task', 'kleingarten' ) ) . '</a>';
 		echo    '<hr class="wp-header-end">';
 
@@ -120,16 +120,17 @@ class Kleingarten_Admin_Pages {
         // Build a list for every available status:
 		echo    '<div class="kleingarten-tasks-kanban-wrapper">';
 		$all_available_status = Kleingarten_Tasks::get_all_available_status();
-		/*
+
 		echo '<pre>';
 		echo var_dump( $all_available_status );
 		echo '</pre>';
-		*/
+
 		foreach ( $all_available_status as $available_status ) {
 
             // Print a list header:
 			echo '<div class="kleingarten-tasks-kanban-list-wrapper">';
 			echo    '<h2>' . esc_html( $available_status->name ) . '</h2>';
+			echo    '<p>' . esc_html( $available_status->description ) . '</p>';
 			if ( $available_status->slug == 'todo' ) {
 				echo '<a href="' . esc_attr( admin_url('post-new.php?post_type=kleingarten_task') ) . '">+ ' . esc_html( __( 'Add New Task', 'kleingarten' ) ) . '</a>';
 			}

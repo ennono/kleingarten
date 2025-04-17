@@ -370,7 +370,7 @@ class Kleingarten_Post_Types {
 		);
 
 		$args   = array(
-			'public'                => false,
+			'public'                => true,
 			'hierarchical'      => false,
 			'labels'            => $labels,
 			//'show_ui'           => false,
@@ -391,10 +391,25 @@ class Kleingarten_Post_Types {
 	 */
 	public function create_default_status() {
 
+		// Check if term description exists and delete the term if not.
+        // Non existing terms will be re-created including description
+        // in the next step. This is important for updated Kleingarten
+		// installations.
+		$all_available_status = Kleingarten_Tasks::get_all_available_status();
+		foreach ( $all_available_status as $j => $available_status ) {
+			if ( empty( $available_status->description ) ) {
+				wp_delete_term( $available_status->term_id, 'kleingarten_status' );
+			}
+		}
+
         // If status has been deleted...
 		if ( ! term_exists( 'todo', 'kleingarten_status' ) ) {
             // ... re-insert it:
-			$term_data = wp_insert_term( __( 'To Do', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'todo' ) );
+			$args = array(
+                    'slug' => 'todo',
+                    'description' => __( 'Test', 'kleingarten' ),
+            );
+			$term_data = wp_insert_term( __( 'To Do', 'kleingarten' ), 'kleingarten_status', $args );
             // ... an set its order:
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
@@ -403,7 +418,11 @@ class Kleingarten_Post_Types {
 		}
 
 		if ( ! term_exists( 'next', 'kleingarten_status' ) ) {
-			$term_data = wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'next' ) );
+			$args = array(
+				'slug' => 'next',
+				'description' => __( 'Test', 'kleingarten' ),
+			);
+			$term_data = wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
 					'kleingarten_project_order', 2 );
@@ -411,7 +430,11 @@ class Kleingarten_Post_Types {
 		}
 
 		if ( ! term_exists( 'waiting', 'kleingarten_status' ) ) {
-			$term_data = wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'waiting' ) );
+			$args = array(
+				'slug' => 'waiting',
+				'description' => __( 'Test', 'kleingarten' ),
+			);
+			$term_data = wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
 					'kleingarten_project_order', 3 );
@@ -419,7 +442,11 @@ class Kleingarten_Post_Types {
 		}
 
 		if ( ! term_exists( 'done', 'kleingarten_status' ) ) {
-			$term_data = wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', array( 'slug' => 'done' ) );
+			$args = array(
+				'slug' => 'done',
+				'description' => __( 'Test', 'kleingarten' ),
+			);
+			$term_data = wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
 					'kleingarten_project_order', 4 );
