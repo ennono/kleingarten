@@ -110,7 +110,7 @@ class Kleingarten_Admin_Pages {
 			foreach ( $projects as $project ) {
 				$project_obj = new Kleingarten_Project( $project->term_id );
 				$color = $project_obj->get_color();
-				echo '<li class="kleingarten-kanban-project-list-item"><span style="margin-right: 5px; color: ' . esc_attr( $color ) . ';">&#9632;</span><a href="' . esc_url( $project_obj->get_edit_term_url() ) . '">' . esc_htmL( $project->name ) . '</a> (' . $project_obj->count_tasks() . ')' . '</li>';
+				echo '<li class="kleingarten-kanban-project-list-item"><span style="margin-right: 5px; color: ' . esc_attr( $color ) . ';">&#9632;</span><a href="' . esc_url( $project_obj->get_edit_term_url() ) . '">' . esc_htmL( $project->name ) . '</a> (' . esc_html( $project_obj->count_tasks() ) . ')' . '</li>';
 			}
 			echo '</ul>';
 		} else {
@@ -131,7 +131,7 @@ class Kleingarten_Admin_Pages {
 			echo '<div class="kleingarten-tasks-kanban-list-wrapper">';
 			echo    '<h2>' . esc_html( $available_status->name ) . '</h2>';
 			if ( $available_status->slug == 'todo' ) {
-				echo '<a href="' . esc_attr( admin_url('post-new.php?post_type=kleingarten_task') ) . '">' . esc_html( __( 'Add New Task', 'kleingarten' ) ) . '</a>';
+				echo '<a href="' . esc_attr( admin_url('post-new.php?post_type=kleingarten_task') ) . '">+ ' . esc_html( __( 'Add New Task', 'kleingarten' ) ) . '</a>';
 			}
             // Build a list of all tasks associated with the status we are
             // currently looking at:
@@ -144,7 +144,7 @@ class Kleingarten_Admin_Pages {
                     // Print the task:
                     $task = new Kleingarten_Task( $post_with_current_status->ID );
 		            echo '<li id="" class="kleingarten-tasks-kanban-list-item kleingarten-task-id-' . esc_attr( $post_with_current_status->ID ) . '">';
-                    echo '<a href="' . esc_attr( get_edit_post_link( $task->get_post_ID() ) ) . '">' . esc_html( $task->get_title() ) . '</a>';
+                    echo '<strong><a href="' . esc_attr( get_edit_post_link( $task->get_post_ID() ) ) . '">' . esc_html( $task->get_title() ) . '</a></strong>';
 
 		            // Build a list of all projekts associated with the task we
 		            // are currently looking at:
@@ -210,7 +210,7 @@ class Kleingarten_Admin_Pages {
 			die ( 'Busted!');
 		}
 
-		if ( isset ( $_POST['task_ID'] ) ) {
+		if ( isset ( $_POST['task_ID'] ) && isset ( $_POST['new_status'] ) ) {
 
 			// Set the task status...
 			$task = new Kleingarten_Task( absint( $_POST['task_ID'] ) );
