@@ -196,7 +196,7 @@ class Kleingarten_Tools {
 		echo '<div class="kleingarten-admin-sidebar">';
 		echo '<a target="_blank" href="https://www.wp-kleingarten.de">';
 		echo '<img src=' . esc_url( plugin_dir_url( __DIR__ ) )
-		         . 'assets/Kleingarten_Logo_200px.png>';
+		     . 'assets/Kleingarten_Logo_200px.png>';
 		echo '</a>';
 		echo '</div>';  // class="kleingarten-admin-main-section"
 

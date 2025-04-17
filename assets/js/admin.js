@@ -70,11 +70,16 @@ jQuery(document).ready(function ($) {
             },
             success: function (data) {
 
-                //console.log(me.dataset.task_id);
-                //console.log(me.dataset.status);
                 //console.log(data);
 
+                // Move task to new status list:
                 $( ".kleingarten-task-id-" + data.data.task_ID_updated ).appendTo( $( ".kleingarten-status-slug-" + data.data.new_status.slug ) );
+
+                // Remove new status from "Move To" list:
+                $( '.kleingarten-status-list-item-' + data.data.task_ID_updated + '-' + data.data.new_status.slug ).remove();
+
+                // Add old status to "Move To" List:
+                $( '.kleingarten-status-list-' + data.data.task_ID_updated ).append( $( '<li class="kleingarten-tasks-kanban-list-item-status-list-item kleingarten-status-list-item-' + data.data.task_ID_updated + '-' + data.data.status_to_add_to_list.slug + '"> <a id="kleingarten-set-task-status" data-task_id="' + data.data.task_ID_updated + '" data-status="' + data.data.status_to_add_to_list.slug + '" href="#">' + data.data.status_to_add_to_list.name + '</a></li>' ));
 
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {

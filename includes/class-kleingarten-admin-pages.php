@@ -120,6 +120,11 @@ class Kleingarten_Admin_Pages {
         // Build a list for every available status:
 		echo    '<div class="kleingarten-tasks-kanban-wrapper">';
 		$all_available_status = Kleingarten_Tasks::get_all_available_status();
+		/*
+		echo '<pre>';
+		echo var_dump( $all_available_status );
+		echo '</pre>';
+		*/
 		foreach ( $all_available_status as $available_status ) {
 
             // Print a list header:
@@ -133,7 +138,7 @@ class Kleingarten_Admin_Pages {
             $posts_with_current_status = Kleingarten_Tasks::get_tasks_with_status( $available_status->slug );
 			echo '<ul class="kleingarten-tasks-kanban-list kleingarten-status-slug-' . esc_attr( $available_status->slug ) . '">';
             if ( ! empty( $posts_with_current_status ) ) {
-                echo '<ul class="kleingarten-tasks-kanban-list kleingarten-status-slug-' . esc_attr( $available_status->slug ) . '">';
+                //echo '<ul class="kleingarten-tasks-kanban-list kleingarten-status-slug-' . esc_attr( $available_status->slug ) . '">';
 	            foreach ( $posts_with_current_status as $post_with_current_status ) {
 
                     // Print the task:
@@ -157,10 +162,10 @@ class Kleingarten_Admin_Pages {
 
 		            // Build a list of all status this task can be moved to:
 		            echo '<p>' . esc_html( __( 'Move', 'kleingarten' ) ) . ':</p>';
-		            echo '<ul class="kleingarten-tasks-kanban-list-item-status-list">';
+		            echo '<ul class="kleingarten-tasks-kanban-list-item-status-list kleingarten-status-list-' . esc_attr( $post_with_current_status->ID ) . '">';
 					foreach ( $all_available_status as $available_status_to_move ) {
 						if ( $available_status->slug != $available_status_to_move->slug ) {
-							echo '<li class="kleingarten-tasks-kanban-list-item-status-list-item"><a data-task_id="' . esc_attr( $post_with_current_status->ID ) . '" data-status="' . esc_attr( $available_status_to_move->slug ) . '" id="kleingarten-set-task-status" href="#">' . esc_html( $available_status_to_move->name )  . '</a></li>';
+							echo '<li class="kleingarten-tasks-kanban-list-item-status-list-item kleingarten-status-list-item-' . esc_attr( $post_with_current_status->ID ) . '-'. esc_attr( $available_status_to_move->slug ) .'"><a data-task_id="' . esc_attr( $post_with_current_status->ID ) . '" data-status="' . esc_attr( $available_status_to_move->slug ) . '" id="kleingarten-set-task-status" href="#">' . esc_html( $available_status_to_move->name )  . '</a></li>';
 						}
 					}
 					echo '</ul>';
@@ -209,13 +214,47 @@ class Kleingarten_Admin_Pages {
 
 			// Set the task status...
 			$task = new Kleingarten_Task( absint( $_POST['task_ID'] ) );
+			$old_status =  $task->get_status();
 			$task->set_status( $_POST['new_status'] );
+			$new_status = $task->get_status();
 
 		}
 
+		// Find the status we have to remove from "Move To" list and find
+		// the status we have to add:
+		/*
+		$all_available_status = Kleingarten_Tasks::get_all_available_status();
+		foreach ( $all_available_status as $available_status ) {
+
+			if ( $available_status->slug == $new_status->slug ) {
+
+				$status_to_remove_from_list['slug'] = $available_status->slug;
+				$status_to_remove_from_list['name'] = $available_status->name;
+				$status_to_remove_from_list['ID'] = $available_status->term_id;
+
+				$status_to_add_to_list['slug'] = $available_status->slug;
+				$status_to_add_to_list['name'] = $available_status->name;
+				$status_to_add_to_list['ID'] = $available_status->term_id;
+
+			}
+
+		}
+		*/
+
+		$status_to_remove_from_list['slug'] = $new_status->slug;
+		$status_to_remove_from_list['name'] = $new_status->name;
+		$status_to_remove_from_list['ID'] = $new_status->term_id;
+
+		$status_to_add_to_list['slug'] = $old_status->slug;
+		$status_to_add_to_list['name'] = $old_status->name;
+		$status_to_add_to_list['ID'] = $old_status->term_id;
+
 		$json_response['task_ID_updated'] = $task->get_post_ID();
 		$json_response['new_status'] = $task->get_status();
+		$json_response['status_to_remove_from_list'] = $status_to_remove_from_list;
+		$json_response['status_to_add_to_list'] = $status_to_add_to_list;
 		wp_send_json_success( $json_response, 200 );
+
 		wp_die(); // Ajax call must die to avoid trailing 0 in your response.
 
 	}
