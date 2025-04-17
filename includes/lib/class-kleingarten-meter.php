@@ -54,7 +54,7 @@ class Kleingarten_Meter {
 			// Get readings:
 			// (Initially $readings contains all meta data. We will remove any
 			// other entries.)
-			$readings = has_meta( $this->post_ID, 'kleingarten_meter_reading' );
+			$readings = has_meta( $this->post_ID );
 			foreach ( $readings as $j => $reading ) {
 
 				if ( $reading['meta_key'] == 'kleingarten_meter_reading' ) {
@@ -807,7 +807,7 @@ class Kleingarten_Meter {
 			$token_data_set_to_save );
 
 		if ( ! $meta_id ) {
-			$errors = WP_Errors();
+			$errors = new WP_Error();
 			$errors->add( 'kleingarten_meter_assignment_could_not_create_meter_reading_submission_token',
 				__( 'Could not create new token.', 'kleingarten' ) );
 

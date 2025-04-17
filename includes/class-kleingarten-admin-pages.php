@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUndefinedConstantInspection */
+<?php
 /* Admin pages class file. */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -190,9 +190,7 @@ class Kleingarten_Admin_Pages {
 
 		echo '</div>';  // class="kleingarten-admin-wrapper"
 
-        echo    '</div>';
-
-
+        echo  '</div>';
 
 		//echo '</div>';
 	}
@@ -219,27 +217,6 @@ class Kleingarten_Admin_Pages {
 			$new_status = $task->get_status();
 
 		}
-
-		// Find the status we have to remove from "Move To" list and find
-		// the status we have to add:
-		/*
-		$all_available_status = Kleingarten_Tasks::get_all_available_status();
-		foreach ( $all_available_status as $available_status ) {
-
-			if ( $available_status->slug == $new_status->slug ) {
-
-				$status_to_remove_from_list['slug'] = $available_status->slug;
-				$status_to_remove_from_list['name'] = $available_status->name;
-				$status_to_remove_from_list['ID'] = $available_status->term_id;
-
-				$status_to_add_to_list['slug'] = $available_status->slug;
-				$status_to_add_to_list['name'] = $available_status->name;
-				$status_to_add_to_list['ID'] = $available_status->term_id;
-
-			}
-
-		}
-		*/
 
 		$status_to_remove_from_list['slug'] = $new_status->slug;
 		$status_to_remove_from_list['name'] = $new_status->name;

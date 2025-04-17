@@ -44,6 +44,13 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
+= 1.2.1 =
+* UNDER CONSTRUCTION! DO NOT USE IN PRODUCTIVE ENVIRONMENT!
+*
+* Projects and task are available for public query now.
+* Added some missing translations.
+* Minor bugfixes.
+
 = 1.2.0 =
 * Introducing Tasks: Now you can manage projects and tasks on your website!
 * Minor bugfixes.

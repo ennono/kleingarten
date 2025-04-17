@@ -292,8 +292,8 @@ class Kleingarten_Post_Types {
 			'labels'              => $this->task_labels,
 			'description'         => __( 'Task Description',
 				'kleingarten' ),
-			'public'              => false,
-			'publicly_queryable'  => false,
+			'public'              => true,
+			'publicly_queryable'  => true,
 			'exclude_from_search' => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
@@ -335,12 +335,14 @@ class Kleingarten_Post_Types {
 		);
 
 		$args   = array(
-			'hierarchical'      => false,
-			'labels'            => $labels,
-			'show_ui'           => true,
-			'show_admin_column' => true,
-			'query_var'         => true,
-			'rewrite'           => [ 'slug' => __( 'kleingarten-project', 'kleingarten' ) ],
+			'public'                => true,
+			'publicly_queryable'    => false,
+			'hierarchical'          => false,
+			'labels'                => $labels,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'query_var'             => true,
+			'rewrite'               => [ 'slug' => __( 'kleingarten-project', 'kleingarten' ) ],
 		);
 
 		register_taxonomy( 'kleingarten_project', [ 'kleingarten_task' ], $args );
@@ -356,7 +358,7 @@ class Kleingarten_Post_Types {
 		$labels = array(
 			'name'              => _x( 'Statuses', 'taxonomy general name', 'kleingarten' ),
 			'singular_name'     => _x( 'Status', 'taxonomy singular name', 'kleingarten' ),
-			'search_items'      => __( 'Search Statuses', 'kleingarten' ),
+			'search_items'      => __( 'Search Status', 'kleingarten' ),
 			'all_items'         => __( 'All Statuses', 'kleingarten' ),
 			//'parent_item'       => __( 'Parent Projects', 'kleingarten' ),
 			//'parent_item_colon' => __( 'Parent Project:', 'kleingarten' ),
@@ -368,9 +370,10 @@ class Kleingarten_Post_Types {
 		);
 
 		$args   = array(
+			'public'                => false,
 			'hierarchical'      => false,
 			'labels'            => $labels,
-			'show_ui'           => false,
+			//'show_ui'           => false,
 			//'show_in_menu'      => false,
 			//'show_admin_column' => false,
 			'query_var'         => true,

@@ -76,7 +76,7 @@ class Kleingarten_Task {
 	/**
 	 * Returns the task status slug.
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function get_status() {
 
@@ -110,6 +110,8 @@ class Kleingarten_Task {
 		if ( $post ) {
 			return $post->post_title;
 		}
+
+		return null;
 
 	}
 

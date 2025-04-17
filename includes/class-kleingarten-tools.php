@@ -1,4 +1,4 @@
-<?php /** @noinspection PhpUndefinedConstantInspection */
+<?php
 /* Tools class file. */
 
 if ( ! defined( 'ABSPATH' ) ) {

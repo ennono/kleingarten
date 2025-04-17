@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kleingarten 1.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/WordPress-Plugin-Template\n"
-"POT-Creation-Date: 2025-04-04 17:53+0000\n"
+"POT-Creation-Date: 2025-04-17 08:09+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,7 +23,7 @@ msgid "%s is not the correct answer. Try again."
 msgstr ""
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:826
+#: includes/lib/class-kleingarten-post-types.php:825
 #, php-format
 msgid "%s meter moved to the Trash."
 msgid_plural "%s meters moved to the Trash."
@@ -31,7 +31,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:818
+#: includes/lib/class-kleingarten-post-types.php:817
 #, php-format
 msgid "%s meter not updated, somebody is editing it."
 msgid_plural "%s meters not updated, somebody is editing them."
@@ -39,7 +39,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:822
+#: includes/lib/class-kleingarten-post-types.php:821
 #, php-format
 msgid "%s meter permanently deleted."
 msgid_plural "%s meters permanently deleted."
@@ -47,7 +47,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:830
+#: includes/lib/class-kleingarten-post-types.php:829
 #, php-format
 msgid "%s meter restored from the Trash."
 msgid_plural "%s meters restored from the Trash."
@@ -55,7 +55,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of meters updated
-#: includes/lib/class-kleingarten-post-types.php:815
+#: includes/lib/class-kleingarten-post-types.php:814
 #, php-format
 msgid "%s meter updated."
 msgid_plural "%s meters updated."
@@ -63,7 +63,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of plots moved to trash
-#: includes/lib/class-kleingarten-post-types.php:790
+#: includes/lib/class-kleingarten-post-types.php:789
 #, php-format
 msgid "%s plot moved to the Trash."
 msgid_plural "%s plots moved to the Trash."
@@ -71,7 +71,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of plots not updated
-#: includes/lib/class-kleingarten-post-types.php:782
+#: includes/lib/class-kleingarten-post-types.php:781
 #, php-format
 msgid "%s plot not updated, somebody is editing it."
 msgid_plural "%s plots not updated, somebody is editing them."
@@ -79,7 +79,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of plots deleted
-#: includes/lib/class-kleingarten-post-types.php:786
+#: includes/lib/class-kleingarten-post-types.php:785
 #, php-format
 msgid "%s plot permanently deleted."
 msgid_plural "%s plots permanently deleted."
@@ -87,7 +87,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of plots restored from trash
-#: includes/lib/class-kleingarten-post-types.php:794
+#: includes/lib/class-kleingarten-post-types.php:793
 #, php-format
 msgid "%s plot restored from the Trash."
 msgid_plural "%s plots restored from the Trash."
@@ -95,7 +95,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. %s: Number of plots updated
-#: includes/lib/class-kleingarten-post-types.php:779
+#: includes/lib/class-kleingarten-post-types.php:778
 #, php-format
 msgid "%s plot updated."
 msgid_plural "%s plots updated."
@@ -103,34 +103,34 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1273
+#: includes/lib/class-kleingarten-post-meta.php:1275
 msgid "%u token (re-)activated."
 msgstr ""
 
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1132
+#: includes/lib/class-kleingarten-post-meta.php:1134
 msgid "%u token deactivated."
 msgstr ""
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1193
-#: includes/lib/class-kleingarten-post-meta.php:1245
+#: includes/lib/class-kleingarten-post-meta.php:1195
+#: includes/lib/class-kleingarten-post-meta.php:1247
 msgid "%u token deleted."
 msgstr ""
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1270
+#: includes/lib/class-kleingarten-post-meta.php:1272
 msgid "%u tokens (re-)activated."
 msgstr ""
 
 #. Number of deactivated tokens
-#: includes/lib/class-kleingarten-post-meta.php:1129
+#: includes/lib/class-kleingarten-post-meta.php:1131
 msgid "%u tokens deactivated."
 msgstr ""
 
 #. Number of deleted tokens
-#: includes/lib/class-kleingarten-post-meta.php:1190
-#: includes/lib/class-kleingarten-post-meta.php:1242
+#: includes/lib/class-kleingarten-post-meta.php:1192
+#: includes/lib/class-kleingarten-post-meta.php:1244
 msgid "%u tokens deleted."
 msgstr ""
 
@@ -138,8 +138,8 @@ msgstr ""
 msgid "* mandatory field"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:584
-#: includes/lib/class-kleingarten-post-types.php:596
+#: includes/lib/class-kleingarten-post-types.php:583
+#: includes/lib/class-kleingarten-post-types.php:595
 msgid "-"
 msgstr ""
 
@@ -148,7 +148,7 @@ msgid "A CSV file with all created tokens has been created"
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:1155
-#: includes/lib/class-kleingarten-post-meta.php:818
+#: includes/lib/class-kleingarten-post-meta.php:821
 #: includes/lib/class-kleingarten-meter.php:566
 msgid "A meter reading already exists for this date."
 msgstr ""
@@ -157,8 +157,8 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:284
-#: includes/lib/class-kleingarten-post-meta.php:549
+#: includes/lib/class-kleingarten-post-meta.php:287
+#: includes/lib/class-kleingarten-post-meta.php:552
 msgid "Actions"
 msgstr ""
 
@@ -175,7 +175,7 @@ msgid "Activation notification subject"
 msgstr ""
 
 #: includes/class-kleingarten.php:371
-#: includes/lib/class-kleingarten-post-meta.php:576
+#: includes/lib/class-kleingarten-post-meta.php:579
 msgid "Active"
 msgstr ""
 
@@ -216,7 +216,8 @@ msgstr ""
 msgid "Add New Status"
 msgstr ""
 
-#: includes/class-kleingarten-admin-pages.php:93
+#: includes/class-kleingarten-admin-pages.php:98
+#: includes/class-kleingarten-admin-pages.php:134
 #: includes/lib/class-kleingarten-post-types.php:267
 msgid "Add New Task"
 msgstr ""
@@ -225,7 +226,7 @@ msgstr ""
 msgid "Add one of the defined counters to each plot."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:542
+#: includes/lib/class-kleingarten-post-meta.php:545
 msgid "Add Token"
 msgstr ""
 
@@ -306,7 +307,7 @@ msgstr ""
 msgid "as of"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:511
+#: includes/lib/class-kleingarten-post-types.php:510
 msgid "Associated parcels"
 msgstr ""
 
@@ -322,7 +323,7 @@ msgstr ""
 msgid "Available postitions in the club. One position per line."
 msgstr ""
 
-#: includes/class-kleingarten-admin-pages.php:138
+#: includes/class-kleingarten-admin-pages.php:153
 msgid "Belongs to projects"
 msgstr ""
 
@@ -335,7 +336,7 @@ msgid "Bottom"
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:1168
-#: includes/lib/class-kleingarten-post-meta.php:831
+#: includes/lib/class-kleingarten-post-meta.php:834
 #: includes/lib/class-kleingarten-meter.php:577
 msgid "Cannot save a reading for a date in the future."
 msgstr ""
@@ -365,8 +366,8 @@ msgstr ""
 msgid "Club"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:443
-#: includes/lib/class-kleingarten-post-types.php:467
+#: includes/lib/class-kleingarten-post-types.php:442
+#: includes/lib/class-kleingarten-post-types.php:466
 msgid "Color"
 msgstr ""
 
@@ -475,17 +476,17 @@ msgstr ""
 msgid "Create Tokens"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:316
+#: includes/lib/class-kleingarten-post-meta.php:319
 msgid "CSV Import"
-msgstr ""
-
-#: includes/lib/class-kleingarten-post-types.php:707
-#: includes/lib/class-kleingarten-post-types.php:738
-msgid "Custom field deleted."
 msgstr ""
 
 #: includes/lib/class-kleingarten-post-types.php:706
 #: includes/lib/class-kleingarten-post-types.php:737
+msgid "Custom field deleted."
+msgstr ""
+
+#: includes/lib/class-kleingarten-post-types.php:705
+#: includes/lib/class-kleingarten-post-types.php:736
 msgid "Custom field updated."
 msgstr ""
 
@@ -494,7 +495,7 @@ msgid "Customise the plugin to suit the circumstances of your club."
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:901
-#: includes/lib/class-kleingarten-post-meta.php:280
+#: includes/lib/class-kleingarten-post-meta.php:283
 msgid "Date"
 msgstr ""
 
@@ -503,11 +504,11 @@ msgid "Date cannot be in the future."
 msgstr ""
 
 #: includes/class-kleingarten.php:372
-#: includes/lib/class-kleingarten-post-meta.php:616
+#: includes/lib/class-kleingarten-post-meta.php:619
 msgid "Deactivate"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:579
+#: includes/lib/class-kleingarten-post-meta.php:582
 msgid "Deactivated"
 msgstr ""
 
@@ -518,10 +519,10 @@ msgid ""
 msgstr ""
 
 #: includes/class-kleingarten.php:374
-#: includes/lib/class-kleingarten-post-meta.php:324
-#: includes/lib/class-kleingarten-post-meta.php:609
-#: includes/lib/class-kleingarten-post-meta.php:623
-#: includes/lib/class-kleingarten-post-meta.php:629
+#: includes/lib/class-kleingarten-post-meta.php:327
+#: includes/lib/class-kleingarten-post-meta.php:612
+#: includes/lib/class-kleingarten-post-meta.php:626
+#: includes/lib/class-kleingarten-post-meta.php:632
 msgid "Delete"
 msgstr ""
 
@@ -536,7 +537,7 @@ msgstr ""
 msgid "Disliked"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:420
+#: includes/lib/class-kleingarten-post-types.php:419
 msgid "Done"
 msgstr ""
 
@@ -604,11 +605,11 @@ msgstr ""
 msgid "Exclusive Posts"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:595
+#: includes/lib/class-kleingarten-post-meta.php:598
 msgid "Expired"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:548
+#: includes/lib/class-kleingarten-post-meta.php:551
 msgid "Expires"
 msgstr ""
 
@@ -734,11 +735,11 @@ msgstr ""
 msgid "Last known reading"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:512
+#: includes/lib/class-kleingarten-post-types.php:511
 msgid "Last Reading"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:514
+#: includes/lib/class-kleingarten-post-types.php:513
 msgid "Last Reading Date"
 msgstr ""
 
@@ -802,8 +803,8 @@ msgid "Logout"
 msgstr ""
 
 #. Publish box date format, see http://php.net/date
-#: includes/lib/class-kleingarten-post-types.php:725
-#: includes/lib/class-kleingarten-post-types.php:756
+#: includes/lib/class-kleingarten-post-types.php:724
+#: includes/lib/class-kleingarten-post-types.php:755
 msgid "M j, Y @ G:i"
 msgstr ""
 
@@ -826,7 +827,7 @@ msgstr ""
 msgid "Meter Assignment"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:983
+#: includes/lib/class-kleingarten-post-meta.php:986
 msgid "Meter assignments removed."
 msgstr ""
 
@@ -839,15 +840,15 @@ msgstr ""
 msgid "Meter does not exist."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:760
+#: includes/lib/class-kleingarten-post-types.php:759
 msgid "Meter draft updated."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:370
+#: includes/lib/class-kleingarten-post-meta.php:373
 msgid "Meter is assigned to"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:385
+#: includes/lib/class-kleingarten-post-meta.php:388
 msgid "Meter is currently not assigned to a plot."
 msgstr ""
 
@@ -855,11 +856,11 @@ msgstr ""
 msgid "Meter No"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:282
+#: includes/lib/class-kleingarten-post-meta.php:285
 msgid "Meter No."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:748
+#: includes/lib/class-kleingarten-post-types.php:747
 msgid "Meter published."
 msgstr ""
 
@@ -876,24 +877,24 @@ msgid "Meter Readings"
 msgstr ""
 
 #. Revision the post is being restored from
-#: includes/lib/class-kleingarten-post-types.php:743
+#: includes/lib/class-kleingarten-post-types.php:742
 #, php-format
 msgid "Meter restored to revision from %s"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:749
+#: includes/lib/class-kleingarten-post-types.php:748
 msgid "Meter saved."
 msgstr ""
 
 #. %1$s: date and time the meter is scheduled for
-#: includes/lib/class-kleingarten-post-types.php:753
+#: includes/lib/class-kleingarten-post-types.php:752
 #, php-format
 msgid ""
 "Meter scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
 "href=\"%2$s\">Preview meter</a>"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:751
+#: includes/lib/class-kleingarten-post-types.php:750
 msgid "Meter submitted."
 msgstr ""
 
@@ -905,20 +906,20 @@ msgstr ""
 msgid "Meter unit already set."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:722
+#: includes/lib/class-kleingarten-post-meta.php:725
 msgid "Meter unit set."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:736
-#: includes/lib/class-kleingarten-post-types.php:739
+#: includes/lib/class-kleingarten-post-types.php:735
+#: includes/lib/class-kleingarten-post-types.php:738
 msgid "Meter updated."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:952
+#: includes/lib/class-kleingarten-post-meta.php:955
 msgid "Meters assigned."
 msgstr ""
 
-#: includes/class-kleingarten-admin-pages.php:149
+#: includes/class-kleingarten-admin-pages.php:164
 msgid "Move"
 msgstr ""
 
@@ -956,7 +957,7 @@ msgstr ""
 msgid "New Project Name"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:843
+#: includes/lib/class-kleingarten-post-meta.php:846
 msgid "New reading saved."
 msgstr ""
 
@@ -968,7 +969,7 @@ msgstr ""
 msgid "New Task"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:404
+#: includes/lib/class-kleingarten-post-types.php:403
 msgid "Next"
 msgstr ""
 
@@ -1013,7 +1014,7 @@ msgstr ""
 msgid "No tasks found."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:575
+#: includes/lib/class-kleingarten-post-types.php:574
 msgid "No unit defined."
 msgstr ""
 
@@ -1155,11 +1156,11 @@ msgstr ""
 msgid "Please fill out the form completely."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:340
+#: includes/lib/class-kleingarten-post-meta.php:343
 msgid "Please select a unit and save the meter to add meter readings."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:648
+#: includes/lib/class-kleingarten-post-meta.php:651
 msgid "Please select a unit and save the meter to add tokens."
 msgstr ""
 
@@ -1174,38 +1175,38 @@ msgstr ""
 msgid "Plot Assignment"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:729
+#: includes/lib/class-kleingarten-post-types.php:728
 msgid "Plot draft updated."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:717
+#: includes/lib/class-kleingarten-post-types.php:716
 msgid "Plot published."
 msgstr ""
 
 #. Revision the posed is being restored from
-#: includes/lib/class-kleingarten-post-types.php:712
+#: includes/lib/class-kleingarten-post-types.php:711
 #, php-format
 msgid "Plot restored to revision from %s"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:718
+#: includes/lib/class-kleingarten-post-types.php:717
 msgid "Plot saved."
 msgstr ""
 
 #. %1$s: date and time the plot is scheduled for
-#: includes/lib/class-kleingarten-post-types.php:722
+#: includes/lib/class-kleingarten-post-types.php:721
 #, php-format
 msgid ""
 "Plot scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
 "href=\"%2$s\">Preview plot</a>"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:720
+#: includes/lib/class-kleingarten-post-types.php:719
 msgid "Plot submitted."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:705
-#: includes/lib/class-kleingarten-post-types.php:708
+#: includes/lib/class-kleingarten-post-types.php:704
+#: includes/lib/class-kleingarten-post-types.php:707
 msgid "Plot updated."
 msgstr ""
 
@@ -1277,7 +1278,7 @@ msgstr ""
 msgid "Prepare CSV file"
 msgstr ""
 
-#: includes/class-kleingarten-admin-pages.php:102
+#: includes/class-kleingarten-admin-pages.php:107
 #: includes/lib/class-kleingarten-post-types.php:334
 msgid "Projects"
 msgstr ""
@@ -1288,7 +1289,7 @@ msgstr ""
 msgid "Put your message here."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:621
+#: includes/lib/class-kleingarten-post-meta.php:624
 msgid "Reactivate"
 msgstr ""
 
@@ -1320,7 +1321,7 @@ msgstr ""
 msgid "Reading value"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:872
+#: includes/lib/class-kleingarten-post-meta.php:875
 msgid "Readings deleted."
 msgstr ""
 
@@ -1452,6 +1453,14 @@ msgstr ""
 msgid "Search Plots"
 msgstr ""
 
+#: includes/lib/class-kleingarten-post-types.php:326
+msgid "Search Projects"
+msgstr ""
+
+#: includes/lib/class-kleingarten-post-types.php:359
+msgid "Search Status"
+msgstr ""
+
 #: includes/lib/class-kleingarten-post-types.php:272
 msgid "Search Tasks"
 msgstr ""
@@ -1522,25 +1531,25 @@ msgstr ""
 msgid "Something went wrong. Could could not remove reading."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:985
+#: includes/lib/class-kleingarten-post-meta.php:988
 msgid "Something went wrong. Meter assignments could not be removed."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:724
+#: includes/lib/class-kleingarten-post-meta.php:727
 msgid "Something went wrong. Meter unit could not be set."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:954
+#: includes/lib/class-kleingarten-post-meta.php:957
 msgid "Something went wrong. Meters could not be assigned."
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:1187
 #: includes/class-kleingarten-tools.php:1192
-#: includes/lib/class-kleingarten-post-meta.php:845
+#: includes/lib/class-kleingarten-post-meta.php:848
 msgid "Something went wrong. Reading could not be saved."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:874
+#: includes/lib/class-kleingarten-post-meta.php:877
 msgid "Something went wrong. Some readings could not be deleted."
 msgstr ""
 
@@ -1558,7 +1567,7 @@ msgstr ""
 
 #: includes/class-kleingarten.php:376
 #: includes/lib/class-kleingarten-post-meta.php:147
-#: includes/lib/class-kleingarten-post-meta.php:547
+#: includes/lib/class-kleingarten-post-meta.php:550
 msgid "Status"
 msgstr ""
 
@@ -1580,7 +1589,7 @@ msgstr ""
 msgid "Submit Reading"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:283
+#: includes/lib/class-kleingarten-post-meta.php:286
 msgid "Submitted by"
 msgstr ""
 
@@ -1592,8 +1601,8 @@ msgstr ""
 msgid "Task Description"
 msgstr ""
 
-#: includes/class-kleingarten-admin-pages.php:76
 #: includes/class-kleingarten-admin-pages.php:77
+#: includes/class-kleingarten-admin-pages.php:78
 msgid "Tasks Overview"
 msgstr ""
 
@@ -1631,8 +1640,8 @@ msgstr ""
 msgid "That is not a valid email address."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:445
-#: includes/lib/class-kleingarten-post-types.php:469
+#: includes/lib/class-kleingarten-post-types.php:444
+#: includes/lib/class-kleingarten-post-types.php:468
 msgid "The colour selection helps you to distinguish projects in the overview."
 msgstr ""
 
@@ -1675,7 +1684,7 @@ msgctxt ""
 msgid "Task archives"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:507
+#: includes/lib/class-kleingarten-post-meta.php:510
 msgid ""
 "The unit cannot be changed. Please create a new meter if you need something "
 "else."
@@ -1689,7 +1698,7 @@ msgstr ""
 msgid "There are no exclusive posts currently."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:453
+#: includes/lib/class-kleingarten-post-meta.php:456
 msgid "There are no meters defined yet."
 msgstr ""
 
@@ -1697,7 +1706,7 @@ msgstr ""
 msgid "There are no positions defined yet."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:480
+#: includes/lib/class-kleingarten-post-meta.php:483
 msgid "There are no units defined yet. Go to settings to define some."
 msgstr ""
 
@@ -1713,7 +1722,7 @@ msgstr ""
 msgid "There is a new post! - %s"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:559
+#: includes/lib/class-kleingarten-post-meta.php:562
 msgid ""
 "There is no active token. Gardeners cannot submit a reading using the web "
 "form."
@@ -1736,7 +1745,7 @@ msgstr ""
 msgid "This plot is assigned to you."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:509
+#: includes/lib/class-kleingarten-post-meta.php:512
 msgid ""
 "This selection will be disabled as soon as meter was published. You cannot "
 "change the meters unit later."
@@ -1755,8 +1764,8 @@ msgid "To Do"
 msgstr ""
 
 #: includes/class-kleingarten.php:375 includes/class-kleingarten-tools.php:567
-#: includes/lib/class-kleingarten-post-meta.php:313
-#: includes/lib/class-kleingarten-post-meta.php:546
+#: includes/lib/class-kleingarten-post-meta.php:316
+#: includes/lib/class-kleingarten-post-meta.php:549
 #: includes/lib/class-kleingarten-shortcodes.php:1434
 msgid "Token"
 msgstr ""
@@ -1790,12 +1799,12 @@ msgstr ""
 msgid "Top"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:513
+#: includes/lib/class-kleingarten-post-types.php:512
 msgid "Unit/Type"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:321
-#: includes/lib/class-kleingarten-post-meta.php:585
+#: includes/lib/class-kleingarten-post-meta.php:324
+#: includes/lib/class-kleingarten-post-meta.php:588
 msgid "Unknown"
 msgstr ""
 
@@ -1833,12 +1842,12 @@ msgstr ""
 msgid "Use %s as a placeholder for your website title."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:582
-#: includes/lib/class-kleingarten-post-meta.php:592
+#: includes/lib/class-kleingarten-post-meta.php:585
+#: includes/lib/class-kleingarten-post-meta.php:595
 msgid "Used"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:319
+#: includes/lib/class-kleingarten-post-meta.php:322
 msgid "User"
 msgstr ""
 
@@ -1860,7 +1869,7 @@ msgstr ""
 msgid "Username empty."
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-meta.php:281
+#: includes/lib/class-kleingarten-post-meta.php:284
 msgid "Value read"
 msgstr ""
 
@@ -1876,7 +1885,7 @@ msgstr ""
 msgid "View Task"
 msgstr ""
 
-#: includes/lib/class-kleingarten-post-types.php:412
+#: includes/lib/class-kleingarten-post-types.php:411
 msgid "Waiting"
 msgstr ""
 
@@ -1918,6 +1927,10 @@ msgstr ""
 #: includes/lib/class-kleingarten-meter.php:909
 #: includes/lib/class-kleingarten-meter.php:958
 msgid "You have no permission to deactivate this token."
+msgstr ""
+
+#: includes/class-kleingarten-admin-pages.php:117
+msgid "You have not created any projects yet."
 msgstr ""
 
 #: includes/class-kleingarten-tools.php:813
