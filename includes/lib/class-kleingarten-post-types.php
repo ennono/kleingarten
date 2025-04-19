@@ -370,7 +370,7 @@ class Kleingarten_Post_Types {
 		);
 
 		$args   = array(
-			'public'                => true,
+			'public'            => false,
 			'hierarchical'      => false,
 			'labels'            => $labels,
 			//'show_ui'           => false,
@@ -407,7 +407,7 @@ class Kleingarten_Post_Types {
             // ... re-insert it:
 			$args = array(
                     'slug' => 'todo',
-                    'description' => __( 'Test', 'kleingarten' ),
+                    'description' => __( 'The task bucket: Collect all the tasks that need to be completed.', 'kleingarten' ),
             );
 			$term_data = wp_insert_term( __( 'To Do', 'kleingarten' ), 'kleingarten_status', $args );
             // ... an set its order:
@@ -420,7 +420,7 @@ class Kleingarten_Post_Types {
 		if ( ! term_exists( 'next', 'kleingarten_status' ) ) {
 			$args = array(
 				'slug' => 'next',
-				'description' => __( 'Test', 'kleingarten' ),
+				'description' => __( 'List the specific tasks that need to be completed next.', 'kleingarten' ),
 			);
 			$term_data = wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
@@ -432,7 +432,7 @@ class Kleingarten_Post_Types {
 		if ( ! term_exists( 'waiting', 'kleingarten_status' ) ) {
 			$args = array(
 				'slug' => 'waiting',
-				'description' => __( 'Test', 'kleingarten' ),
+				'description' => __( 'Park tasks that cannot be completed at the moment, e.g. because something is missing.', 'kleingarten' ),
 			);
 			$term_data = wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
@@ -444,7 +444,7 @@ class Kleingarten_Post_Types {
 		if ( ! term_exists( 'done', 'kleingarten_status' ) ) {
 			$args = array(
 				'slug' => 'done',
-				'description' => __( 'Test', 'kleingarten' ),
+				'description' => __( 'Collect all tasks that have been successfully completed. Congratulations!', 'kleingarten' ),
 			);
 			$term_data = wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
