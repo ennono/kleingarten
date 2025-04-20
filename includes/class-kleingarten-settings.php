@@ -249,6 +249,17 @@ class Kleingarten_Settings {
 			),
 		);
 
+		/*
+		$settings['kleingarten-tasks'] = array(
+			'title'       => esc_html( __( 'Tasks', 'kleingarten' ) ),
+			'description' => esc_html( __( 'Set up how you want to organize your tasks.',
+				'kleingarten' ) ),
+			'fields'      => array(
+				//...
+			),
+		);
+		*/
+
 		$settings['kleingarten-nofifications'] = array(
 			'title'       => esc_html( __( 'Nofifications', 'kleingarten' ) ),
 			'description' => esc_html( __( 'Set up email notifications.',
