@@ -120,6 +120,11 @@ class Kleingarten_Admin_Pages {
         // Build a list for every available status:
 		echo    '<div class="kleingarten-tasks-kanban-wrapper">';
 		$all_available_status = Kleingarten_Tasks::get_all_available_status();
+		/*
+		echo '<pre>';
+		echo var_dump( $all_available_status );
+		echo '</pre>';
+		*/
 		foreach ( $all_available_status as $available_status ) {
 
             // Print a list header:

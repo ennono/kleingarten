@@ -44,8 +44,14 @@ class Kleingarten_Post_Types {
 		add_action( 'kleingarten_project_add_form_fields', array( $this, 'add_color_selection_to_project_taxonomy_for_new_projects' ) );
 		add_action( 'kleingarten_project_edit_form_fields', array( $this, 'add_color_selection_to_project_taxonomy_for_existing_projects' ) );
 
+		add_action( 'kleingarten_status_add_form_fields', array( $this, 'add_order_value_to_status_taxonomy_for_new_status' ) );
+		add_action( 'kleingarten_status_edit_form_fields', array( $this, 'add_order_value_to_status_taxonomy_for_existing_status' ) );
+
 		add_action( 'created_kleingarten_project', array( $this, 'save_project_color' ) );
 		add_action( 'edited_kleingarten_project', array( $this, 'save_project_color' ) );
+
+		add_action( 'created_kleingarten_status', array( $this, 'save_status_order' ) );
+		add_action( 'edited_kleingarten_status', array( $this, 'save_status_order' ) );
 
 		add_action( 'init',
 			array( $this, 'register_status_taxonomy' ) );
@@ -370,7 +376,7 @@ class Kleingarten_Post_Types {
 		);
 
 		$args   = array(
-			'public'            => false,
+			'public'            => true,
 			'hierarchical'      => false,
 			'labels'            => $labels,
 			//'show_ui'           => false,
@@ -391,13 +397,15 @@ class Kleingarten_Post_Types {
 	 */
 	public function create_default_status() {
 
+        $default_terms = array( 'todo', 'next', 'waiting', 'done' );
+
 		// Check if term description exists and delete the term if not.
         // Non existing terms will be re-created including description
         // in the next step. This is important for updated Kleingarten
 		// installations.
 		$all_available_status = Kleingarten_Tasks::get_all_available_status();
 		foreach ( $all_available_status as $j => $available_status ) {
-			if ( empty( $available_status->description ) ) {
+			if ( empty( $available_status->description ) && in_array( $available_status->slug, $default_terms ) ) {
 				wp_delete_term( $available_status->term_id, 'kleingarten_status' );
 			}
 		}
@@ -413,7 +421,7 @@ class Kleingarten_Post_Types {
             // ... an set its order:
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
-					'kleingarten_project_order', 1 );
+					'kleingarten_status_order', 10 );
 			}
 		}
 
@@ -425,7 +433,7 @@ class Kleingarten_Post_Types {
 			$term_data = wp_insert_term( __( 'Next', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
-					'kleingarten_project_order', 2 );
+					'kleingarten_status_order', 20 );
 			}
 		}
 
@@ -437,7 +445,7 @@ class Kleingarten_Post_Types {
 			$term_data = wp_insert_term( __( 'Waiting', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
-					'kleingarten_project_order', 3 );
+					'kleingarten_status_order', 30 );
 			}
 		}
 
@@ -449,7 +457,7 @@ class Kleingarten_Post_Types {
 			$term_data = wp_insert_term( __( 'Done', 'kleingarten' ), 'kleingarten_status', $args );
 			if ( ! is_wp_error( $term_data ) ) {
 				update_term_meta( $term_data['term_id'],
-					'kleingarten_project_order', 4 );
+					'kleingarten_status_order', 40 );
 			}
 		}
 
@@ -503,28 +511,114 @@ class Kleingarten_Post_Types {
 	}
 
 	/**
-     * Saves a given project color. To be used as callback for project colors
-     * being saved.
-     *
+	 * Builds HTML of a color selection. To be used as a callback for project
+	 * terms being created.
+	 *
+	 * @param $term
+	 *
+	 * @return void
+	 */
+	public function add_order_value_to_status_taxonomy_for_new_status( $term ) {
+
+		wp_nonce_field( 'save_kleingarten_status', 'save_kleingarten_status_nonce' );
+
+		?>
+        <div class="form-field kleingarten-project-color-wrap">
+            <label for="kleingarten-status-order"><?php esc_html_e( 'Order', 'kleingarten' ); ?></label>
+            <input type="number" name="kleingarten-status-order" value="" />
+            <p id="description-description"><?php esc_html_e( 'Position at which the status is to be displayed in the overview.', 'kleingarten' ); ?></p>
+        </div>
+
+		<?php
+	}
+
+	/**
+	 * Builds HTML of a color selection. To be used as a callback for project
+	 * terms being edited.
+	 *
+	 * @param $term
+	 *
+	 * @return void
+	 */
+	public function add_order_value_to_status_taxonomy_for_existing_status( $term ) {
+
+		wp_nonce_field( 'save_kleingarten_status', 'save_kleingarten_status_nonce' );
+
+		$current_position = get_term_meta( $term->term_id, 'kleingarten_status_order', true );
+
+		?>
+        <tr class="form-field form-required term-name-wrap">
+            <th scope="row"><label for="kleingarten-status-order"><?php esc_html_e( 'Order', 'kleingarten' ); ?></label></th>
+            <td><input type="number" name="kleingarten-status-order" value="<?php echo esc_attr( $current_position ); ?>" />
+                <p id="description-description"><?php esc_html_e( 'Position at which the status is to be displayed in the overview.', 'kleingarten' ); ?></p>
+            </td>
+        </tr>
+
+		<?php
+	}
+
+	/**
+	 * Saves a given project color. To be used as callback for project colors
+	 * being saved.
+	 *
 	 * @param $term_id
 	 *
 	 * @return void
 	 */
 	public function save_project_color( $term_id ) {
 
-	    if ( ! isset ( $_POST['save_kleingarten_project_nonce'] )
-	         || ! wp_verify_nonce( sanitize_key( wp_unslash ( $_POST['save_kleingarten_project_nonce'] ) ),
-			    'save_kleingarten_project' )
-	    ) {
-		    return;
-	    } elseif ( isset( $_POST['kleingarten-project-color'] )) {
+		if ( ! isset ( $_POST['save_kleingarten_project_nonce'] )
+		     || ! wp_verify_nonce( sanitize_key( wp_unslash ( $_POST['save_kleingarten_project_nonce'] ) ),
+				'save_kleingarten_project' )
+		) {
+			return;
+		} elseif ( isset( $_POST['kleingarten-project-color'] )) {
 
-            $project = new Kleingarten_Project( $term_id );
-            $project->set_color( sanitize_text_field( wp_unslash( $_POST['kleingarten-project-color'] ) ) );
+			$project = new Kleingarten_Project( $term_id );
+			$project->set_color( sanitize_text_field( wp_unslash( $_POST['kleingarten-project-color'] ) ) );
 
-	    }
+		}
 
-    }
+	}
+
+	/**
+	 * Saves a given status position/order. To be used as callback for status positions
+	 * being saved.
+	 *
+	 * @param $term_id
+	 *
+	 * @return void
+	 */
+	public function save_status_order( $term_id ) {
+
+		if ( ! isset ( $_POST['save_kleingarten_status_nonce'] )
+		     || ! wp_verify_nonce( sanitize_key( wp_unslash ( $_POST['save_kleingarten_status_nonce'] ) ),
+				'save_kleingarten_status' )
+		) {
+			return;
+		} elseif ( isset( $_POST['kleingarten-status-order'] )) {
+
+			update_term_meta( $term_id, 'kleingarten_status_order', absint( $_POST['kleingarten-status-order'] ) );
+
+		}
+
+	}
+
+	/**
+     * Sets a default status order value. To be used as callback on saving new
+     * status. Without default value the custom turn will not show up.
+	 *
+	 * @param $term_id
+	 *
+	 * @return void
+	 */
+    /*
+	public function save_default_status_order_value( $term_id ) {
+
+		update_term_meta( $term_id, 'kleingarten_status_order', 99 );
+
+	}
+    */
 
 	/**
 	 * Callback to customize columns for meter post type in admin area.

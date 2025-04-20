@@ -32,8 +32,8 @@ class Kleingarten_Tasks {
 
 		return get_terms( array(
 			'orderby' => 'meta_value',
-			'meta_key' => 'kleingarten_project_order',
-			'order' => 'ASC',
+			'meta_key' => 'kleingarten_status_order',
+			//'order' => 'ASC',
 			'taxonomy' => 'kleingarten_status',
 			'hide_empty' => false,
 		) );

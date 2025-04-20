@@ -774,6 +774,8 @@ class Kleingarten {
 		// and query string comes directly from $wp_query and therefore is
 		// considered safe.
 		$row = $wpdb->get_row( $wp_query->request );
+		//$query = $wp_query->request;
+		//$row = $wpdb->get_row( $wpdb->prepare( '%s', $query ) );
 
 		$statuses = array( 'private', 'inherit' );
 
