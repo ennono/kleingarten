@@ -452,6 +452,19 @@ class Kleingarten_Admin_API {
 				         . '</p>';
 				break;
 
+			case 'show_status_in_admin_menu':
+				$checked = '';
+				if ( $data && 'on' === $data ) {
+					$checked = 'checked="checked"';
+				}
+				$html .= '<input id="' . esc_attr( $field['id'] )
+				         . '" type="checkbox" name="' . esc_attr( $option_name )
+				         . '" ' . $checked . '/>'
+				         . '<p class="description">'
+				         . esc_html( $field['description'] )
+				         . '</p>';
+				break;
+
 		}
 
 		if ( ! $echo ) {

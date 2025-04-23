@@ -249,16 +249,25 @@ class Kleingarten_Settings {
 			),
 		);
 
-		/*
 		$settings['kleingarten-tasks'] = array(
 			'title'       => esc_html( __( 'Tasks', 'kleingarten' ) ),
 			'description' => esc_html( __( 'Set up how you want to organize your tasks.',
 				'kleingarten' ) ),
 			'fields'      => array(
-				//...
+				array(
+					'id'          => 'show_status_in_admin_menu',
+					'label'       => esc_html( __( 'Allow custom status.', 'kleingarten' ,
+						'kleingarten' ) ),
+					'description' => esc_html( __( 'Shows status in admin menu to allow custom status.',
+						'kleingarten' ) ),
+					'default'     => 'on',
+					'callback'    => array(
+						$this,
+						'show_status_in_admin_menu_callback'
+					),
+				),
 			),
 		);
-		*/
 
 		$settings['kleingarten-nofifications'] = array(
 			'title'       => esc_html( __( 'Nofifications', 'kleingarten' ) ),
@@ -1018,6 +1027,25 @@ class Kleingarten_Settings {
 	 *
 	 */
 	public function show_footer_credits_callback( $input ) {
+
+		if ( $input != '' && $input != 'on' ) {
+			return '';
+		}
+
+		return $input;
+
+	}
+
+	/**
+	 * Sanitize "Show credits in footer option" setting
+	 *
+	 * @param $input int Setting input to sanitize.
+	 *
+	 * @return int Sanitized setting.
+	 * @since 1.1.1
+	 *
+	 */
+	public function show_status_in_admin_menu_callback( $input ) {
 
 		if ( $input != '' && $input != 'on' ) {
 			return '';

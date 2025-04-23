@@ -1,12 +1,12 @@
 <?php
 /**
  * Plugin Name: Kleingarten
- * Version: 1.2.0
+ * Version: 1.2.1
  * Plugin URI: https://www.wp-kleingarten.de/
  * Description: Make your website the digital home for your allotment garden association.
  * Author: Timo Fricke
  * Requires at least: 4.0
- * Tested up to: 6.7
+ * Tested up to: 6.8
  * License: GPLv2
  *
  * Text Domain: kleingarten
@@ -52,7 +52,7 @@ require_once 'includes/lib/class-kleingarten-project.php';
  */
 function kleingarten() {
 
-	$instance = Kleingarten::instance( __FILE__, '1.1.8' );
+	$instance = Kleingarten::instance( __FILE__, '1.2.1' );
 
 	if ( is_null( $instance->settings ) ) {
 		$instance->settings = Kleingarten_Settings::instance( $instance );

@@ -30,14 +30,6 @@
     -moz-columns: 3;
 }
 
-@media only screen and (min-width: 1681px) {
-    .kleingarten-tasks-kanban-wrapper {
-        width: 100%;
-        display: flex;
-        justify-content: flex-start;
-    }
-}
-
 .kleingarten-tasks-kanban-list-wrapper {
     margin-top: 20px;
     margin-right: 20px;

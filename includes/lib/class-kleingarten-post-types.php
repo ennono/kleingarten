@@ -299,7 +299,7 @@ class Kleingarten_Post_Types {
 			'description'         => __( 'Task Description',
 				'kleingarten' ),
 			'public'              => true,
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'exclude_from_search' => true,
 			'show_ui'             => true,
 			'show_in_menu'        => true,
@@ -343,6 +343,7 @@ class Kleingarten_Post_Types {
 		$args   = array(
 			'public'                => true,
 			'publicly_queryable'    => false,
+			'show_in_nav_menus'     => false,
 			'hierarchical'          => false,
 			'labels'                => $labels,
 			'show_ui'               => true,
@@ -362,7 +363,7 @@ class Kleingarten_Post_Types {
 	public function register_status_taxonomy() {
 
 		$labels = array(
-			'name'              => _x( 'Statuses', 'taxonomy general name', 'kleingarten' ),
+			'name'              => _x( 'Status', 'taxonomy general name', 'kleingarten' ),
 			'singular_name'     => _x( 'Status', 'taxonomy singular name', 'kleingarten' ),
 			'search_items'      => __( 'Search Status', 'kleingarten' ),
 			'all_items'         => __( 'All Statuses', 'kleingarten' ),
@@ -376,15 +377,21 @@ class Kleingarten_Post_Types {
 		);
 
 		$args   = array(
-			'public'            => true,
-			'hierarchical'      => false,
-			'labels'            => $labels,
+			'public'                => true,
+			'publicly_queryable'    => false,
+            'show_in_nav_menus'     => false,
+			'hierarchical'          => false,
+			'labels'                => $labels,
 			//'show_ui'           => false,
-			//'show_in_menu'      => false,
+			'show_in_menu' => false,
 			//'show_admin_column' => false,
-			'query_var'         => true,
-			'rewrite'           => [ 'slug' => __( 'kleingarten-status', 'kleingarten' ) ],
+			'query_var'             => true,
+			'rewrite'               => [ 'slug' => __( 'kleingarten-status', 'kleingarten' ) ],
 		);
+
+        if ( get_option( 'kleingarten_show_status_in_admin_menu' ) == 'on' ) {
+            $args['show_in_menu'] = true;
+        }
 
 		register_taxonomy( 'kleingarten_status', [ 'kleingarten_task' ], $args );
 	}
