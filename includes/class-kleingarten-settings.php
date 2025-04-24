@@ -256,8 +256,7 @@ class Kleingarten_Settings {
 			'fields'      => array(
 				array(
 					'id'          => 'show_status_in_admin_menu',
-					'label'       => esc_html( __( 'Allow custom status.', 'kleingarten' ,
-						'kleingarten' ) ),
+					'label'       => esc_html( __( 'Allow custom status', 'kleingarten' ) ),
 					'description' => esc_html( __( 'Shows status in admin menu to allow custom status.',
 						'kleingarten' ) ),
 					'default'     => 'on',

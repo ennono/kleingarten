@@ -7,17 +7,13 @@ Stable tag: 1.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Kleingarten turns your website into a valuable digital gardening tool.
+Build a better website for your allotment gardening club! Say goodbye to your boring website. With Kleingarten, the WordPress plugin for allotment gardeners, you can build a better website that serves the association and its members.
 
 == Description ==
 
-Maintaining an allotment garden association is becoming more and more complex. At the same time, associations lack streamlined processes and modern resources.
+Many allotment garden associations have a website. And many of these websites offer practically nothing to the members of the association, because they contain little more than a friendly ‘Welcome’ and perhaps a list of available plots.
 
-As a committed allotment gardener, you sacrifice a lot of free time for the association. Your commitment requires a great deal of expertise, is too seldom appreciated and little thanked.
-
-What if you could enjoy your free time in your garden instead of sacrificing it to the association's bureaucracy?
-
-With Kleingarten, you can turn your WordPress website into a valuable digital gardening tool.
+With Kleingarten you build a website that really adds value to your association and its members.
 
 == Installation ==
 
@@ -45,8 +41,7 @@ This plugin extends WordPress with useful functions for allotment garden associa
 == Changelog ==
 
 = 1.2.1 =
-* UNDER CONSTRUCTION! DO NOT USE IN PRODUCTIVE ENVIRONMENT!
-* Now it is possible to add custom task status.
+* Now it is possible to add custom task status. See settings to activate custom status for tasks.
 * Fixed: "Tested up to" in kleingarten.php still 6.7 instead of 6.8.
 * Fixed: Updated instance to 1.2.1 instead of still 1.1.8.
 * Minor bugfixes.
