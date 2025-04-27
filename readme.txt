@@ -42,6 +42,8 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 = 1.2.2 =
 * UNDER CONSTRUCTION! DON'T USE IN PRODUCTIVE ENVIRONMENT!
+*
+* ATTENTION: Removed headers from membership shortcodes. Please add headlines and descriptions on your own!
 * Fixed: Missing punctuation in login shortcode.
 * Fixed: Meter reading date not saved correctly.
 * Minor bugfixes.

@@ -246,12 +246,20 @@ class Kleingarten_Shortcodes {
 				$gardener = new Kleingarten_Gardener( get_current_user_id() );
 				$plot = new Kleingarten_Plot( $gardener->plot );
 
+                /*
 				?>
 
                 <h2 class="kleingarten-member-profile-section"><?php echo esc_html( __( 'Your Member Profile',
 						'kleingarten' ) ); ?></h2>
                 <p><?php echo esc_html( __( 'The following data is stored under your user account on this website.',
 						'kleingarten' ) ); ?></p>
+
+                <?php
+                */
+
+                ?>
+
+                <div class="kleingarten-member-profile-section">
                 <table>
                     <tr>
                         <th>
@@ -332,6 +340,7 @@ class Kleingarten_Shortcodes {
                     </tr><?php
 					?>
                 </table>
+                </div>
 				<?php
 				break;
 
@@ -362,13 +371,16 @@ class Kleingarten_Shortcodes {
 
 			ob_start();
 
+            /*
 			?>
             <h2 class="kleingarten-member-profile-settings-section"><?php echo esc_html( __( 'Settings',
 					'kleingarten' ) ); ?></h2>
             <p><?php echo esc_html( __( 'Your member profile contains these settings.',
 					'kleingarten' ) ); ?></p>
 			<?php
+            */
 			?>
+            <div class="kleingarten-member-profile-section">
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
                   method="post">
                 <input type="hidden" name="action"
@@ -416,6 +428,7 @@ class Kleingarten_Shortcodes {
                        value="<?php echo esc_html( __( 'Save Settings',
 					       'kleingarten' ) ); ?>">
             </form>
+            </div>
 			<?php
 
 			$html .= ob_get_clean();
@@ -1300,10 +1313,12 @@ class Kleingarten_Shortcodes {
 
 			echo '<div class="kleingarten-member-profile-section">';
 
+            /*
 			?>
             <h2><?php echo esc_html( __( 'Exclusive Posts',
 					'kleingarten' ) ); ?></h2>
 			<?php
+            */
 
 			if ( $private_posts->have_posts() ) {
 
@@ -1578,11 +1593,15 @@ class Kleingarten_Shortcodes {
 
                 <div class="kleingarten-my-plot-section">
 
+                    <?php
+                    /*
+                    ?>
                     <h2><?php echo esc_html( __( 'Your Plot',
 							'kleingarten' ) ); ?></h2>
                     <p><?php esc_html_e( 'This plot is assigned to you.',
 							'kleingarten' ); ?></p>
 					<?php
+                    */
 
 					// If there were any errors on trying to save new reading...
 					if ( is_wp_error( $save_reading_result ) ) {
