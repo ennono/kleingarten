@@ -161,7 +161,7 @@ class Kleingarten_Shortcodes {
 					echo '<p>' . esc_html( __( 'Logged in as', 'kleingarten' ) )
 					     . ' <a href="'
 					     . esc_url( get_permalink( $user_profile_page_id ) )
-					     . '">' . esc_html( $user->user_login ) . '</a>';
+					     . '">' . esc_html( $user->user_login ) . '</a>.';
 				}
 				echo '&nbsp;<a href="'
 				     . esc_url( wp_logout_url( add_query_arg( $args,
@@ -1800,7 +1800,7 @@ class Kleingarten_Shortcodes {
 
 				// Add the the reading (Method will return a proper WP_Error
 				// object on failure.):
-				return $meter->add_reading( $reading_value, $reading_date,
+				return $meter->add_reading( $reading_value, strtotime( $reading_date ),
 					$user_id );
 
 			}

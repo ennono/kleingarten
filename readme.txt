@@ -40,6 +40,12 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
+= 1.2.2 =
+* UNDER CONSTRUCTION! DON'T USE IN PRODUCTIVE ENVIRONMENT!
+* Fixed: Missing punctuation in login shortcode.
+* Fixed: Meter reading date not saved correctly.
+* Minor bugfixes.
+
 = 1.2.1 =
 * Now it is possible to add custom task status. See settings to activate custom status for tasks.
 * Fixed: "Tested up to" in kleingarten.php still 6.7 instead of 6.8.
