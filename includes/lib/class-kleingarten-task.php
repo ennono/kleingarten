@@ -76,7 +76,7 @@ class Kleingarten_Task {
 	/**
 	 * Returns the task status slug.
 	 *
-	 * @return array
+	 * @return array|false
 	 */
 	public function get_status() {
 
@@ -95,6 +95,8 @@ class Kleingarten_Task {
 		if ( ! is_wp_error( $terms ) && ! $terms == false ) {
 			return $terms[0];
 		}
+
+		return false;
 
 	}
 
