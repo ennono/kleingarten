@@ -44,6 +44,7 @@ This plugin extends WordPress with useful functions for allotment garden associa
 * UNDER CONSTRUCTION! DON'T USE IN PRODUCTIVE ENVIRONMENT!
 *
 * ATTENTION: Removed headers from membership shortcodes. Please add headlines and descriptions on your own!
+* Added new shortcode [kleingarten_private_content], 
 * Fixed: Missing punctuation in login shortcode.
 * Fixed: Meter reading date not saved correctly.
 * Minor bugfixes.

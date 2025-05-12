@@ -48,6 +48,7 @@ class Kleingarten_Shortcodes {
 			array( $this, 'kleingarten_private_posts_callback' ) );
 		add_shortcode( 'kleingarten_submit_meter_reading_form',
 			array( $this, 'kleingarten_submit_meter_reading_form_callback' ) );
+        add_shortcode( 'kleingarten_private_content', array( $this, 'kleingarten_private_content_callback' ) );
 
 		add_action( 'wp_login_failed', array( $this, 'handle_failed_login' ) );
 
@@ -1313,18 +1314,13 @@ class Kleingarten_Shortcodes {
 
 			echo '<div class="kleingarten-member-profile-section">';
 
-            /*
-			?>
-            <h2><?php echo esc_html( __( 'Exclusive Posts',
-					'kleingarten' ) ); ?></h2>
-			<?php
-            */
-
 			if ( $private_posts->have_posts() ) {
 
+                /*
 				?>
                 <p><?php echo esc_html( __( 'You can read these posts exclusively as a registered member.',
 					'kleingarten' ) ); ?></p><?php
+                */
 
 				echo '<ul>';
 
@@ -1838,6 +1834,20 @@ class Kleingarten_Shortcodes {
 
 			return $errors;
 		}
+
+	}
+
+	function kleingarten_private_content_callback ($attr, $content = null) {
+
+		extract(shortcode_atts(array(
+			'refusal_output' => __( 'For members only.', 'kleingarten' ),
+		), $attr));
+
+		if ( current_user_can( 'read_private_posts' ) && ! is_null( $content ) && ! is_feed() ) {
+            return $content;
+		}
+
+		return ( $refusal_output );
 
 	}
 
