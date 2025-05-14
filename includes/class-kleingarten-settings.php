@@ -683,22 +683,36 @@ class Kleingarten_Settings {
 			$c = 0;
 			foreach ( $this->settings as $section => $data ) {
 
-				// Set tab class.
-				$class = 'nav-tab';
-				if ( ! isset( $_GET['tab'] ) ) { //phpcs:ignore
-					if ( 0 === $c ) {
-						$class .= ' nav-tab-active';
+				// Nonce check to meet WP Plugin Check requirements...
+				if ( isset ( $_GET['settings_nonce'] )
+				     || wp_verify_nonce( sanitize_key( wp_unslash ( $_GET['settings_nonce'] ) ),
+						'kleingarten_settings_nonce_action' )
+				) {
+
+					// ... then set tab class.
+					$class = 'nav-tab';
+					if ( ! isset( $_GET['tab'] ) ) { //phpcs:ignore
+						if ( 0 === $c ) {
+							$class .= ' nav-tab-active';
+						}
+					} else {
+						if ( isset( $_GET['tab'] )
+						     && $section == $_GET['tab']
+						) { //phpcs:ignore
+							$class .= ' nav-tab-active';
+						}
 					}
-				} else {
-					if ( isset( $_GET['tab'] )
-					     && $section == $_GET['tab']
-					) { //phpcs:ignore
-						$class .= ' nav-tab-active';
-					}
+
 				}
 
+
 				// Set tab link.
-				$tab_link = add_query_arg( array( 'tab' => $section ) );
+				$settings_nonce = wp_create_nonce( 'kleingarten_settings_nonce_action' );
+				$tab_link = add_query_arg( array(
+								'tab' => $section,
+								'settings_nonce' => $settings_nonce,
+					)
+				);
 				if ( isset( $_GET['settings-updated'] ) ) { //phpcs:ignore
 					$tab_link = remove_query_arg( 'settings-updated',
 						$tab_link );
@@ -728,6 +742,7 @@ class Kleingarten_Settings {
 		$html .= ob_get_clean();
 
 		$html .= '<p class="submit">' . "\n";
+		//$html .= wp_nonce_field( 'kleingarten_settings_nonce_action', 'kleingarten_settings_nonce', false, false );
 		$html .= '<input type="hidden" name="tab" value="' . esc_attr( $tab )
 		         . '" />' . "\n";
 		$html .= '<input name="Submit" type="submit" class="button-primary" value="'
