@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Kleingarten
- * Version: 1.2.2
+ * Version: 1.3.0
  * Plugin URI: https://www.wp-kleingarten.de/
  * Description: Build a better website for your allotment gardening club.
  * Author: Timo Fricke
@@ -24,7 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Load plugin class files.
 require_once 'includes/class-kleingarten.php';
 require_once 'includes/class-kleingarten-settings.php';
-require_once 'includes/class-kleingarten-tools.php';
 require_once 'includes/class-kleingarten-admin-pages.php';
 
 // Load plugin libraries.
@@ -52,14 +51,10 @@ require_once 'includes/lib/class-kleingarten-project.php';
  */
 function kleingarten() {
 
-	$instance = Kleingarten::instance( __FILE__, '1.2.2' );
+	$instance = Kleingarten::instance( __FILE__, '1.3.0' );
 
 	if ( is_null( $instance->settings ) ) {
 		$instance->settings = Kleingarten_Settings::instance( $instance );
-	}
-
-	if ( is_null( $instance->tools ) ) {
-		$instance->tools = Kleingarten_Tools::instance( $instance );
 	}
 
 	if ( is_null( $instance->admin_pages ) ) {
@@ -70,7 +65,6 @@ function kleingarten() {
 }
 
 kleingarten();
-//echo var_dump( kleingarten() );
 kleingarten()->add_userfields();
 kleingarten()->add_user_roles();
 kleingarten()->add_post_types();

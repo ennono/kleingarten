@@ -3,7 +3,7 @@ Contributors: frickemedia
 Tags: kleingarten, schrebergarten, garten, allotment gardening
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 1.2.2
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,6 +39,12 @@ This plugin extends WordPress with useful functions for allotment garden associa
 - Automatic notifications about new content
 
 == Changelog ==
+
+= 1.3.0 =
+* UNDER CONSTRUCTION!
+*
+* ATTENTION: Moved tools to a separate plugin to make Kleingarten more lightweight.
+* Minor bugfixes.
 
 = 1.2.2 =
 * ATTENTION: Removed headers from membership shortcodes. Please add headlines and descriptions on your own!

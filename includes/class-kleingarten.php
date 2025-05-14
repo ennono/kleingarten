@@ -40,15 +40,6 @@ class Kleingarten {
 	public $settings = null;
 
 	/**
-	 * Tools class object
-	 *
-	 * @var     object
-	 * @access  public
-	 * @since   1.1.2
-	 */
-	public $tools = null;
-
-	/**
 	 * Admin pages class object
 	 *
 	 * @var     object
