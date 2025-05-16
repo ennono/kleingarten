@@ -753,7 +753,7 @@ class Kleingarten {
 	}
 
 	/**
-	 * Prevent 404 for private hosts. Redirect to login page instead.
+	 * Prevent 404 for private posts. Redirect to login page instead.
 	 *
 	 * @since   1.1.1
 	 */

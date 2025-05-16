@@ -214,10 +214,26 @@ class Kleingarten_Shortcodes {
 	 */
 	public function handle_user_authentification( $user, $username, $password
 	) {
+
+        /*
 		if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
 		     && ! strpos( $_SERVER['HTTP_REFERER'], 'wp-admin' )
 		     && ! strpos( $_SERVER['HTTP_REFERER'], 'wp-login.php' ) ) {
 			$referrer = $_SERVER['HTTP_REFERER'];
+			foreach ( $user->errors as $key => $error ) {
+				if ( in_array( $key,
+					array( 'empty_password', 'empty_username' ) ) ) {
+					unset( $user->errors[ $key ] );
+					$user->errors[ 'custom_' . $key ] = $error;
+				}
+			}
+		}
+        */
+
+		if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
+		     && ! strpos( sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'wp-admin' )
+		     && ! strpos( sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'wp-login.php' ) ) {
+			$referrer = sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) );
 			foreach ( $user->errors as $key => $error ) {
 				if ( in_array( $key,
 					array( 'empty_password', 'empty_username' ) ) ) {
