@@ -1285,10 +1285,22 @@ class Kleingarten_Shortcodes {
 
 			global $wpdb;
 
-			// Get IDs from all published private posts. No need to get everything from DB.
-			$private_posts
-				= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'private'",
-				'post' ), ARRAY_A );
+			$cache_key = 'kleingarten_private_post_ids';
+			$cache_group = 'kleingarten';
+
+			// Attempt to get cached data:
+			$private_posts = wp_cache_get( $cache_key, $cache_group );
+
+			if ( false === $private_posts ) {
+
+				// Get IDs from all published private posts. No need to get everything from DB.
+				$private_posts
+					= $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_title FROM {$wpdb->posts} WHERE post_type = %s and post_status = 'private'",
+					'post' ), ARRAY_A );
+
+				// Store data in cache
+				wp_cache_set( $cache_key, $private_posts, $cache_group, 60 ); // Cache for 1 minute
+			}
 
 			ob_start();
 

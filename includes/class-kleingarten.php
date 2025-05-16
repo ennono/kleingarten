@@ -761,12 +761,23 @@ class Kleingarten {
 
 		global $wp_query, $wpdb;
 
-		// Escaping by $wpdb->prepare unnecessary. There ist nothing to replace
-		// and query string comes directly from $wp_query and therefore is
-		// considered safe.
-		$row = $wpdb->get_row( $wp_query->request );
-		//$query = $wp_query->request;
-		//$row = $wpdb->get_row( $wpdb->prepare( '%s', $query ) );
+		$cache_key = 'kleingarten_current_request';
+		$cache_group = 'kleingarten';
+
+		// Attempt to get cached data:
+		$row = wp_cache_get( $cache_key, $cache_group );
+
+		if ( false === $row ) {
+
+			// Escaping by $wpdb->prepare unnecessary. There ist nothing to replace
+			// and query string comes directly from $wp_query and therefore is
+			// considered safe.
+			$row = $wpdb->get_row( $wp_query->request );
+
+			// Store data in cache
+			wp_cache_set( $cache_key, $row, $cache_group, 30 ); // Cache for 1 minute
+		}
+
 
 		$statuses = array( 'private', 'inherit' );
 

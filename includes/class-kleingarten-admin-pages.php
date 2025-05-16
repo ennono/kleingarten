@@ -214,7 +214,7 @@ class Kleingarten_Admin_Pages {
 			// Set the task status...
 			$task = new Kleingarten_Task( absint( $_POST['task_ID'] ) );
 			$old_status =  $task->get_status();
-			$task->set_status( $_POST['new_status'] );
+			$task->set_status( sanitize_text_field( wp_unslash( $_POST['new_status'] ) ) );
 			$new_status = $task->get_status();
 
 		}
