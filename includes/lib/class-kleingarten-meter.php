@@ -216,10 +216,22 @@ class Kleingarten_Meter {
 
 		$token_data = array();
 
-		// Read all the tokens from the database:
-		global $wpdb;
-		$available_tokens_meta_ids
-			= $wpdb->get_col( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = 'kleingarten_meter_reading_submission_token'" );
+		$cache_key = 'kleingarten_available_tokens_meta_ids';
+		$cache_group = 'kleingarten';
+
+		// Attempt to get cached data:
+		$available_tokens_meta_ids = wp_cache_get( $cache_key, $cache_group );
+
+		if ( false === $available_tokens_meta_ids ) {
+
+			// Read all the tokens from the database:
+			global $wpdb;
+			$available_tokens_meta_ids
+				= $wpdb->get_col( "SELECT meta_id FROM $wpdb->postmeta WHERE meta_key = 'kleingarten_meter_reading_submission_token'" );
+
+			// Store data in cache
+			wp_cache_set( $cache_key, $available_tokens_meta_ids, $cache_group, 10 ); // Cache for 10 seconds
+		}
 
 		// If we found tokens in the database...
 		if ( is_array( $available_tokens_meta_ids )
