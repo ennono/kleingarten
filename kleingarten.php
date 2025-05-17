@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Kleingarten
- * Version: 1.3.0
+ * Version: 1.3.1
  * Plugin URI: https://www.wp-kleingarten.de/
  * Description: Build a better website for your allotment gardening club.
  * Author: Timo Fricke
@@ -12,27 +12,13 @@
  * Text Domain: kleingarten
  * Domain Path: /lang/
  *
- * @package Kleingarte
+ * @package Kleingarten
  * @author  Timo Fricke
  * @since   1.0.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
-}
-
-if (!function_exists('write_log')) {
-
-	function write_log($log) {
-		if (true === WP_DEBUG) {
-			if (is_array($log) || is_object($log)) {
-				error_log(print_r($log, true));
-			} else {
-				error_log($log);
-			}
-		}
-	}
-
 }
 
 // Load plugin class files.
@@ -65,7 +51,7 @@ require_once 'includes/lib/class-kleingarten-project.php';
  */
 function kleingarten() {
 
-	$instance = Kleingarten::instance( __FILE__, '1.3.0' );
+	$instance = Kleingarten::instance( __FILE__, '1.3.1' );
 
 	if ( is_null( $instance->settings ) ) {
 		$instance->settings = Kleingarten_Settings::instance( $instance );

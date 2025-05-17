@@ -369,7 +369,7 @@ class Kleingarten {
 			)
 		);
 
-		wp_enqueue_script( $this->_token . '-admin-color-picker', esc_url( $this->assets_url ) . 'js/' . 'colorpicker.min.js', array( 'wp-color-picker' ), false, true );
+		wp_enqueue_script( $this->_token . '-admin-color-picker', esc_url( $this->assets_url ) . 'js/' . 'colorpicker.min.js', array( 'wp-color-picker' ), $this->_version, true  );
 
 	}
 
@@ -773,6 +773,7 @@ class Kleingarten {
 			// and query string comes directly from $wp_query and therefore is
 			// considered safe.
 			$row = $wpdb->get_row( $wp_query->request );
+
 
 			// Store data in cache
 			wp_cache_set( $cache_key, $row, $cache_group, 30 ); // Cache for 1 minute

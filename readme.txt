@@ -3,17 +3,15 @@ Contributors: frickemedia
 Tags: kleingarten, schrebergarten, garten, allotment gardening
 Requires at least: 4.0
 Tested up to: 6.8
-Stable tag: 1.3.0
+Stable tag: 1.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Build a better website for your allotment gardening club! Say goodbye to your boring website. With Kleingarten, the WordPress plugin for allotment gardeners, you can build a better website that serves the association and its members.
+Build a better website for your allotment gardening club!
 
 == Description ==
 
-Many allotment garden associations have a website. And many of these websites offer practically nothing to the members of the association, because they contain little more than a friendly ‘Welcome’ and perhaps a list of available plots.
-
-With Kleingarten you build a website that really adds value to your association and its members.
+Many allotment garden associations have a website. And many of these websites offer practically nothing to the members of the association, because they contain little more than a friendly Welcome. With Kleingarten you build a website that really adds value to your association and its members.
 
 == Installation ==
 
@@ -25,8 +23,8 @@ Installing "Kleingarten" can be done either by searching for "Kleingarten" via t
 
 == Screenshots ==
 
-1. Submit meter readings online.
-2. Adapt Kleingarten to fit your club.
+1. Build a better website for your gardening friends...
+2. ... and manage it comfortably.
 
 == Frequently Asked Questions ==
 
@@ -43,6 +41,7 @@ This plugin extends WordPress with useful functions for allotment garden associa
 = 1.3.1 =
 * UNDER CONSTRUCTION!
 *
+* Added addional security measures to login form shortcode.
 * Added caching here and there to increase performance.
 * Minor bugfixes.
 
