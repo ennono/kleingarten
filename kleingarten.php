@@ -21,6 +21,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+if (!function_exists('write_log')) {
+
+	function write_log($log) {
+		if (true === WP_DEBUG) {
+			if (is_array($log) || is_object($log)) {
+				error_log(print_r($log, true));
+			} else {
+				error_log($log);
+			}
+		}
+	}
+
+}
+
 // Load plugin class files.
 require_once 'includes/class-kleingarten.php';
 require_once 'includes/class-kleingarten-settings.php';

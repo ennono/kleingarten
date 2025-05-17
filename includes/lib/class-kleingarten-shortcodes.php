@@ -95,26 +95,36 @@ class Kleingarten_Shortcodes {
 			$atts
 		);
 
-		$user = get_user_by( 'ID', get_current_user_id() );
-
 		ob_start();
 		switch ( is_user_logged_in() ) {
 
 			case false:
-				if ( isset ( $_GET ["login"] )
-				     && $_GET ["login"] == 'failed' ) {
-					?><p><?php echo esc_html( __( 'Sorry, login failed.',
-						'kleingarten' ) ); ?></p><?php
+				if ( isset ( $_GET['kleingarten_failed_login_nonce'] )
+				     && wp_verify_nonce( sanitize_key( wp_unslash ( $_GET['kleingarten_failed_login_nonce'] ) ),
+						'kleingarten_failed_login_nonce_action' )
+				) {
+					if ( isset ( $_GET ["login"] )
+					     && $_GET ["login"] == 'failed' ) {
+						?><p><?php echo esc_html( __( 'Sorry, login failed.',
+							'kleingarten' ) ); ?></p><?php
+					}
+					if ( isset ( $_GET ["loggedout"] )
+					     && $_GET ["loggedout"] == '1' ) {
+						?>
+                        <p><?php echo esc_html( __( 'You have been logged out. See you soon!',
+							'kleingarten' ) ); ?></p><?php
+					}
 				}
-				if ( isset ( $_GET ["loggedout"] )
-				     && $_GET ["loggedout"] == '1' ) {
-					?>
-                    <p><?php echo esc_html( __( 'You have been logged out. See you soon!',
-						'kleingarten' ) ); ?></p><?php
-				}
+
+                /*
+                $nonce = wp_create_nonce( 'kleingarten_login_form_nonce_action' );
+				$redirect_url = add_query_arg( 'kleingarten_login_form_nonce', $nonce, $atts['redirect_to'] );
+                */
+
 				?>
+
                 <form name="loginform" id="loginform"
-                      action="<?php echo esc_attr( wp_login_url() ); ?>"
+                      action="<?php echo esc_url( wp_login_url() ); ?>"
                       method="post">
                     <p>
                         <label for="user_login"><?php echo esc_html( __( 'Username',
@@ -138,8 +148,9 @@ class Kleingarten_Shortcodes {
                     <p><input id="wp-submit" type="submit" value="Login"
                               name="wp-submit"></p>
                     <input type="hidden"
-                           value="<?php echo esc_attr( $atts['redirect_to'] ); ?>"
+                           value="<?php echo esc_attr( $atts['redirect_to'] ); /* echo esc_attr( $redirect_url ); */ ?>"
                            name="redirect_to">
+                    <?php wp_nonce_field( 'kleingarten_login_form_nonce_action', 'kleingarten_login_form_nonce' ); ?>
                 </form>
 				<?php
 				if ( $atts['register_page'] != '' ) {
@@ -152,6 +163,7 @@ class Kleingarten_Shortcodes {
 				break;
 
 			case true:
+				$user = get_user_by( 'ID', get_current_user_id() );
 				$user_profile_page_id = get_option( 'kleingarten_login_page' );
 				$args                 = array( 'loggedout' => '1' );
 				if ( $user_profile_page_id == 0 ) {
@@ -183,12 +195,13 @@ class Kleingarten_Shortcodes {
 	 */
 	public function handle_failed_login() {
 
-
 		if ( isset( $_SERVER['HTTP_REFERER'] ) ) {
+
+			$nonce = wp_create_nonce( 'kleingarten_failed_login_nonce_action' );
 
 			$referer = sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) );
 
-			// If there's a valid referrer, and it's not the default log-in screen
+			// If there's a valid referrer, and it's not the default log-in screen:
 			if ( ! empty( $referer ) && ! str_contains( $referer, 'wp-login' )
 			     && ! str_contains( $referer, 'wp-admin' )
 			) {
@@ -196,12 +209,12 @@ class Kleingarten_Shortcodes {
 					$referer );    // To prevent multiple failed parameteres in URL in case of multiple failed login attempts
 				$referer = str_replace( '?loggedout=1', '',
 					$referer );
-				wp_redirect( $referer
-				             . '?login=failed' );  // let's append some information (login=failed) to the URL for the theme to use
+				$referer = add_query_arg( 'login', 'failed', $referer );
+				$referer = add_query_arg( 'kleingarten_failed_login_nonce', $nonce, $referer );
+				wp_redirect( $referer );
 				exit;
 			}
 		}
-
 
 	}
 
@@ -215,35 +228,44 @@ class Kleingarten_Shortcodes {
 	public function handle_user_authentification( $user, $username, $password
 	) {
 
-        /*
-		if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
-		     && ! strpos( $_SERVER['HTTP_REFERER'], 'wp-admin' )
-		     && ! strpos( $_SERVER['HTTP_REFERER'], 'wp-login.php' ) ) {
-			$referrer = $_SERVER['HTTP_REFERER'];
-			foreach ( $user->errors as $key => $error ) {
-				if ( in_array( $key,
-					array( 'empty_password', 'empty_username' ) ) ) {
-					unset( $user->errors[ $key ] );
-					$user->errors[ 'custom_' . $key ] = $error;
-				}
-			}
-		}
-        */
-
-		if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
-		     && ! strpos( sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'wp-admin' )
-		     && ! strpos( sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ), 'wp-login.php' ) ) {
-			$referrer = sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) );
-			foreach ( $user->errors as $key => $error ) {
-				if ( in_array( $key,
-					array( 'empty_password', 'empty_username' ) ) ) {
-					unset( $user->errors[ $key ] );
-					$user->errors[ 'custom_' . $key ] = $error;
-				}
-			}
+		if ( empty( $_POST ) ) {
+			// Request not posted, so do nothing:
+			return;
 		}
 
-		return $user;
+		if ( isset( $_POST['kleingarten_login_form_nonce'] ) ) {
+			$nonce = sanitize_key( wp_unslash( $_POST['kleingarten_login_form_nonce'] ) );
+		} else {
+			$nonce = false;
+		}
+		if ( $user || ( $nonce && wp_verify_nonce( $nonce, 'kleingarten_login_form_nonce_action' ) ) ) {
+
+			if ( is_wp_error( $user ) && isset( $_SERVER['HTTP_REFERER'] )
+			     && ! strpos( sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ),
+					'wp-admin' )
+			     && ! strpos( sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) ),
+					'wp-login.php' ) ) {
+
+				$referrer
+					= sanitize_url( wp_unslash( $_SERVER['HTTP_REFERER'] ) );
+				foreach ( $user->errors as $key => $error ) {
+
+					if ( in_array( $key,
+						array( 'empty_password', 'empty_username' ) ) ) {
+						unset( $user->errors[ $key ] );
+						$user->errors[ 'custom_' . $key ] = $error;
+					}
+
+				}
+
+			}
+
+			return $user;
+
+		}
+
+        return false;
+
 	}
 
 	/**

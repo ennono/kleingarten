@@ -40,9 +40,13 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
-= 1.3.0 =
+= 1.3.1 =
 * UNDER CONSTRUCTION!
 *
+* Added caching here and there to increase performance.
+* Minor bugfixes.
+
+= 1.3.0 =
 * ATTENTION: Moved tools to a separate plugin to make Kleingarten more lightweight.
 * Minor bugfixes.
 
