@@ -552,8 +552,6 @@ class Kleingarten {
 	 */
 	public function hide_admin_dashboard() {
 
-        write_log( $_SERVER['PHP_SELF'] );
-
 		if ( is_admin() && ! current_user_can( 'administrator' )    // Calling admin page but being no admin?
 		     && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )     // Not doing AJAX stuff?
              && ! str_contains( $_SERVER['PHP_SELF'], 'admin-post.php' )     // Not just using admin-post.php for form processing?
@@ -573,7 +571,6 @@ class Kleingarten {
 	 * @return  void
 	 * @since   1.0.0
 	 */
-//	public function send_new_post_nofification ($post_ID, $post, $update) {
 	public function send_new_post_nofification( $new_status, $old_status, $post
 	) {
 

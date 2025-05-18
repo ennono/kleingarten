@@ -85,6 +85,19 @@ class Kleingarten_Admin_API {
 				         . $this->check_unavaliable_positions() . '</p>';
 				break;
 
+			case 'available_membership_status':
+				$html .= '<textarea id="' . esc_attr( $field['id'] )
+				         . '" rows="10" cols="60" name="'
+				         . esc_attr( $option_name ) . '" placeholder="'
+				         . esc_attr( $field['placeholder'] ) . '">'
+				         . esc_html( $data )
+				         . '</textarea><br/><p class="description">'
+				         . esc_html__( 'List all membership status here that you want to be available. One position per line.',
+						'kleingarten' ) . '<br>'
+				         . $this->check_unavaliable_positions() . '</p>';
+				break;
+
+
 			case 'login_page':
 				$current_login_page = get_option( 'kleingarten_login_page' );
 				$html               .= '<select name="'

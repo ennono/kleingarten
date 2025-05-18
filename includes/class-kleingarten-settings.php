@@ -180,6 +180,19 @@ class Kleingarten_Settings {
 				'kleingarten' ),
 			'fields'      => array(
 				array(
+					'id'          => 'available_membership_status',
+					'label'       => __( 'Available membership status',
+						'kleingarten' ),
+					'description' => __( 'Define which membership status are available for gardeners.',
+						'kleingarten' ),
+					'default'     => '',
+					'placeholder' => '',
+					'callback'    => array(
+						$this,
+						'available_membership_status_callback'
+					),
+				),
+				array(
 					'id'          => 'login_page',
 					'label'       => __( 'Login Page', 'kleingarten' ),
 					'description' => __( 'Page with login shortcode.',
@@ -680,30 +693,34 @@ class Kleingarten_Settings {
 
 			$html .= '<h2 class="nav-tab-wrapper">' . "\n";
 
+
+
+
+			// Nonce check to meet WP Plugin Check requirements...
+			if ( isset( $_GET['tab'] ) && isset ( $_GET['settings_nonce'] )
+			     && wp_verify_nonce( sanitize_key( wp_unslash ( $_GET['settings_nonce'] ) ),
+					'kleingarten_settings_nonce_action' )
+			) {
+				$current_tab = sanitize_text_field( wp_unslash( $_GET['tab'] ) );
+			}
+
 			$c = 0;
 			foreach ( $this->settings as $section => $data ) {
 
-				// Nonce check to meet WP Plugin Check requirements...
-				if ( isset ( $_GET['settings_nonce'] )
-				     || wp_verify_nonce( sanitize_key( wp_unslash ( $_GET['settings_nonce'] ) ),
-						'kleingarten_settings_nonce_action' )
-				) {
-
-					// ... then set tab class.
-					$class = 'nav-tab';
-					if ( ! isset( $_GET['tab'] ) ) { //phpcs:ignore
+				// Set tab class:
+				$class = 'nav-tab';
+					if ( ! isset( $current_tab ) ) {
 						if ( 0 === $c ) {
 							$class .= ' nav-tab-active';
 						}
 					} else {
-						if ( isset( $_GET['tab'] )
-						     && $section == $_GET['tab']
-						) { //phpcs:ignore
+						if ( isset( $current_tab )
+						     && $section == $current_tab
+						) {
 							$class .= ' nav-tab-active';
 						}
 					}
 
-				}
 
 
 				// Set tab link.
@@ -1085,6 +1102,15 @@ class Kleingarten_Settings {
 	 */
 	public function anti_spam_response_sanitize_callback( $input ) {
 		return sanitize_text_field( $input );
+	}
+
+	/**
+	 * Sanitize "Available membership status" option callback
+	 *
+	 * @return mixed
+	 */
+	public function available_membership_status_callback( $input ) {
+		return sanitize_textarea_field( $input );
 	}
 
 }

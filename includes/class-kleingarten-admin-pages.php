@@ -106,7 +106,6 @@ class Kleingarten_Admin_Pages {
 			echo '<span class="kleingarten-kanban-project-list-label">';
 			esc_html_e( 'Projects', 'kleingarten' );
 			echo ':</span>';
-			//echo '<li class="kleingarten-tasks-kanban-project-list-item-label">' . __( 'Projects', 'kleingarten' ) . '</li>';
 			foreach ( $projects as $project ) {
 				$project_obj = new Kleingarten_Project( $project->term_id );
 				$color = $project_obj->get_color();
@@ -120,11 +119,6 @@ class Kleingarten_Admin_Pages {
         // Build a list for every available status:
 		echo    '<div class="kleingarten-tasks-kanban-wrapper">';
 		$all_available_status = Kleingarten_Tasks::get_all_available_status();
-		/*
-		echo '<pre>';
-		echo var_dump( $all_available_status );
-		echo '</pre>';
-		*/
 		foreach ( $all_available_status as $available_status ) {
 
             // Print a list header:
