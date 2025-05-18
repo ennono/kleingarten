@@ -544,7 +544,7 @@ class Kleingarten {
 	}
 
 	/**
-	 * Hide admin dashboard from gardeners
+	 * Hide admin dashboard from gardeners.
 	 *
 	 * @access  public
 	 * @return  void
@@ -552,9 +552,14 @@ class Kleingarten {
 	 */
 	public function hide_admin_dashboard() {
 
-		if ( is_admin() && ! current_user_can( 'administrator' )
-		     && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+        write_log( $_SERVER['PHP_SELF'] );
+
+		if ( is_admin() && ! current_user_can( 'administrator' )    // Calling admin page but being no admin?
+		     && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )     // Not doing AJAX stuff?
+             && ! str_contains( $_SERVER['PHP_SELF'], 'admin-post.php' )     // Not just using admin-post.php for form processing?
 		) {
+
+            // Then redirect to homepage. /wp-admin is not the right place for you.
 			wp_safe_redirect( home_url() );
 			exit;
 		}

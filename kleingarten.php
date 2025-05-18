@@ -43,6 +43,11 @@ require_once 'includes/lib/class-kleingarten-task.php';
 require_once 'includes/lib/class-kleingarten-tasks.php';
 require_once 'includes/lib/class-kleingarten-project.php';
 
+function write_log( $message )
+{
+	error_log(print_r($message, true));
+}
+
 /**
  * Returns the main instance of Kleingarten to prevent the need to use globals.
  *

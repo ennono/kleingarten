@@ -23,8 +23,7 @@ Installing "Kleingarten" can be done either by searching for "Kleingarten" via t
 
 == Screenshots ==
 
-1. Build a better website for your gardening friends...
-2. ... and manage it comfortably.
+1. Build a better website for your gardening friends.
 
 == Frequently Asked Questions ==
 
@@ -38,10 +37,13 @@ This plugin extends WordPress with useful functions for allotment garden associa
 
 == Changelog ==
 
-= 1.3.1 =
-* UNDER CONSTRUCTION!
+= 1.*.* =
 *
-* Added addional security measures to login form shortcode.
+* FIXED: Bug preventing gardeners from saving their profile settings.
+* Minor bugfixes.
+
+= 1.3.1 =
+* Added security measures to login form shortcode.
 * Added caching here and there to increase performance.
 * Minor bugfixes.
 

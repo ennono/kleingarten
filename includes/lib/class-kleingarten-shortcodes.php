@@ -410,15 +410,7 @@ class Kleingarten_Shortcodes {
 
 			ob_start();
 
-            /*
-			?>
-            <h2 class="kleingarten-member-profile-settings-section"><?php echo esc_html( __( 'Settings',
-					'kleingarten' ) ); ?></h2>
-            <p><?php echo esc_html( __( 'Your member profile contains these settings.',
-					'kleingarten' ) ); ?></p>
-			<?php
-            */
-			?>
+Ad			?>
             <div class="kleingarten-member-profile-section">
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
                   method="post">
@@ -427,7 +419,6 @@ class Kleingarten_Shortcodes {
                 <p>
                     <label for="send-email-notifications" class="checkbox">
 						<?php
-						//if ( $send_email_notifications == 1 ) {
 						if ( $gardener->receives_notification_mails() ) {
 							?>
                             <input
