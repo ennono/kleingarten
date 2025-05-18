@@ -410,7 +410,7 @@ class Kleingarten_Shortcodes {
 
 			ob_start();
 
-Ad			?>
+			?>
             <div class="kleingarten-member-profile-section">
             <form action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
                   method="post">
