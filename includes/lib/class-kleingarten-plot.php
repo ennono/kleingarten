@@ -172,13 +172,16 @@ class Kleingarten_Plot {
 		// Extract meter assignments:
 		if ( is_array( $post_meta ) && $post_meta ) {
 			foreach ( $post_meta as $j => $single_post_meta ) {
-
 				if ( $single_post_meta['meta_key']
 				     == 'kleingarten_meter_assignment' ) {
 					if ( ! $return_meta_IDs ) {
-						$assigned_meters[] = $single_post_meta['meta_value'];
+						if ( ! in_array( $single_post_meta['meta_value'], $assigned_meters ) ) {
+							$assigned_meters[] = $single_post_meta['meta_value'];
+						}
 					} else {
-						$assigned_meters[] = $single_post_meta['meta_id'];
+						if ( ! in_array( $single_post_meta['meta_value'], $assigned_meters ) ) {
+							$assigned_meters[] = $single_post_meta['meta_value'];
+						}
 					}
 				}
 
