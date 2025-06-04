@@ -130,7 +130,7 @@ class Kleingarten_Settings {
 					'description' => __( 'Available postitions in the club. One position per line.',
 						'kleingarten' ),
 					'default'     => '',
-					'placeholder' => __( "e.g. chairman\r\ntreasurer\r\nsecretary\r\n...",
+					'placeholder' => __( "e.g.\r\nchairman\r\ntreasurer\r\nsecretary\r\n...",
 						'kleingarten' ),
 					'callback'    => array(
 						$this,
@@ -145,6 +145,19 @@ class Kleingarten_Settings {
 			'description' => __( 'Configure plots and supply meters.',
 				'kleingarten' ),
 			'fields'      => array(
+				array(
+					'id'          => 'available_meters',
+					'label'       => __( 'Available types of meters',
+						'kleingarten' ),
+					'description' => __( 'Define which types of meters are available.',
+						'kleingarten' ),
+					'default'     => '',
+					'placeholder' => '',
+					'callback'    => array(
+						$this,
+						'available_meters_callback'
+					),
+				),
 				array(
 					'id'          => 'units_available_for_meters',
 					'label'       => __( 'Available meter types / units',
@@ -186,7 +199,8 @@ class Kleingarten_Settings {
 					'description' => __( 'Define which membership status are available for gardeners.',
 						'kleingarten' ),
 					'default'     => '',
-					'placeholder' => '',
+					'placeholder' => __( "e.g.\r\nActive\r\nPassive\r\nCanceled\r\n...",
+						'kleingarten' ),
 					'callback'    => array(
 						$this,
 						'available_membership_status_callback'
@@ -1031,8 +1045,14 @@ class Kleingarten_Settings {
 	 * @return string Sanitized setting.
 	 */
 	public function units_available_for_meters_callback( $input ) {
-
 		return sanitize_textarea_field( $input );
+	}
+
+	/**
+	 * Sanitize "Available meters" setting
+	 */
+	public function available_meters_callback_callback( $input ) {
+		return $input;
 	}
 
 	/**

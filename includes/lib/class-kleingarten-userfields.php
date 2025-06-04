@@ -16,6 +16,8 @@ class Kleingarten_Userfields {
 
 	private $plots;
 
+    private $available_membership_status;
+
 	/**
 	 * Userfields constructor.
 	 *
@@ -23,6 +25,9 @@ class Kleingarten_Userfields {
 	public function __construct() {
 
 		$this->plots = new Kleingarten_Plots();
+
+		$this->available_membership_status = Kleingarten_Gardeners::get_available_membership_status();
+
 
 		// Add fields to user profile page
 		add_action( 'show_user_profile',
@@ -64,11 +69,64 @@ class Kleingarten_Userfields {
         <table class="form-table">
             <tr>
                 <th>
+                    <label for="membership_status"><?php echo esc_html( __( 'Membership Status',
+				            'kleingarten' ) ); ?></label>
+                </th>
+                <td>
+                    <?php
+
+                        if ( count( $this->available_membership_status ) > 0 ) {
+
+	                        ?><select name="membership_status" id="membership_status"><?php
+
+                            if ( ! empty( $gardener->membership_status ) ) {
+                                echo '<option value="'
+                                     . esc_attr( $gardener->membership_status )
+                                     . '">'
+                                     . esc_html( $gardener->membership_status )
+                                     . '</option>';
+                            } else {
+                                echo '<option value="">'
+                                     . esc_html( __( 'Undefined',
+                                        'kleingarten' ) ) . '</option>';
+                            }
+
+                            foreach (
+                                $this->available_membership_status as
+                                $available_membership_status
+                            ) {
+
+                                if ( $available_membership_status != $gardener->membership_status ) {
+	                                echo '<option value="'
+	                                     . esc_attr( $available_membership_status )
+	                                     . '">'
+	                                     . esc_html( $available_membership_status )
+	                                     . '</option>';
+                                }
+
+                            }
+
+                            ?></select><?php
+
+                        } else {
+	                        echo '<p><em>'
+	                             . esc_html__( 'There are no membership status defined yet.',
+			                        'kleingarten' ) . '</em></p>';
+                        }
+
+                    ?>
+
+                </td>
+            </tr>
+            <tr>
+                <th>
                     <label for="plot"><?php echo esc_html( __( 'Garden No.',
-							'kleingarten' ) ); ?></label></th>
+							'kleingarten' ) ); ?></label>
+                </th>
                 <td>
                     <select name="plot" id="plot">
-						<?php
+                    <?php
+
 						if ( $gardener->plot != 0 ) {
 							echo '<option value="' . esc_attr( $gardener->plot )
 							     . '">'
@@ -78,6 +136,7 @@ class Kleingarten_Userfields {
 							echo '<option value="">' . esc_html( __( 'None',
 									'kleingarten' ) ) . '</option>';
 						}
+
 						foreach ( $this->plots->get_plot_IDs() as $plot_ID ) {
 							$plot = new Kleingarten_Plot( $plot_ID );
 							if ( ! $plot->is_assigned_to_user( $user->ID ) ) {
@@ -87,11 +146,13 @@ class Kleingarten_Userfields {
 								     . '</option>';
 							}
 						}
+
 						if ( $gardener->has_assigned_plot() ) {
 							echo '<option value="">' . esc_html__( 'None',
 									'kleingarten' ) . '</option>';
 						}
-						?>
+
+					?>
                     </select>
                     <span class="description"><?php echo esc_html( __( 'The number of the allotment plot.',
 							'kleingarten' ) ); ?></span>
@@ -257,6 +318,10 @@ class Kleingarten_Userfields {
 			$gardener->set_notification_mail_receival();
 		} else {
 			$gardener->unset_notification_mail_receival();
+		}
+
+		if ( isset( $_POST['membership_status'] ) ) {
+			$gardener->set_membership_status( sanitize_text_field( wp_unslash( $_POST['membership_status'] ) ) );
 		}
 
 	}

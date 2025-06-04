@@ -336,35 +336,17 @@ class Kleingarten_Shortcodes {
 							<?php echo esc_html( $gardener->last_name ); ?>
                         </td>
                     </tr>
-					<?php
-					?>
                     <tr>
-                        <th><?php echo esc_html( __( 'Positions',
-								'kleingarten' ) ) ?></th>
+                        <th><?php echo esc_html( __( 'Membership Status',
+				                'kleingarten' ) ) ?></th>
                         <td><?php
-							if ( is_array( $gardener->positions ) ) {
-
-								foreach (
-									$gardener->positions as $i => $position
-								) {
-									echo esc_html( $position );
-									if ( count( $gardener->positions ) > 1
-									     && $i < count( $gardener->positions )
-									             - 1
-									) {
-										echo ', ';
-									}
-								}
-
-							} else {
-								echo esc_html( __( 'You do not have any positions in this club.',
-									'kleingarten' ) );
-							}
-							?></td>
-                    </tr><?php
-					?>
-					<?php
-					?>
+			                if ( empty( $gardener->membership_status ) ) {
+				                esc_html_e( 'Undefined', 'kleingarten'  );
+			                } else {
+				                echo esc_html( $gardener->membership_status );
+			                }
+			                ?></td>
+                    </tr>
                     <tr>
                         <th><?php echo esc_html( __( 'Plot',
 								'kleingarten' ) ) ?></th>
@@ -376,8 +358,31 @@ class Kleingarten_Shortcodes {
 									'kleingarten' ) );
 							}
 							?></td>
-                    </tr><?php
-					?>
+                    </tr>
+                    <tr>
+                        <th><?php echo esc_html( __( 'Positions',
+				                'kleingarten' ) ) ?></th>
+                        <td><?php
+			                if ( is_array( $gardener->positions ) ) {
+
+				                foreach (
+					                $gardener->positions as $i => $position
+				                ) {
+					                echo esc_html( $position );
+					                if ( count( $gardener->positions ) > 1
+					                     && $i < count( $gardener->positions )
+					                             - 1
+					                ) {
+						                echo ', ';
+					                }
+				                }
+
+			                } else {
+				                echo esc_html( __( 'You do not have any positions in this club.',
+					                'kleingarten' ) );
+			                }
+			                ?></td>
+                    </tr>
                 </table>
                 </div>
 				<?php

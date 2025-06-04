@@ -93,8 +93,7 @@ class Kleingarten_Admin_API {
 				         . esc_html( $data )
 				         . '</textarea><br/><p class="description">'
 				         . esc_html__( 'List all membership status here that you want to be available. One position per line.',
-						'kleingarten' ) . '<br>'
-				         . $this->check_unavaliable_positions() . '</p>';
+						'kleingarten' ) . '</p>';
 				break;
 
 
@@ -427,6 +426,28 @@ class Kleingarten_Admin_API {
 					         . '</textarea><br/><p class="description">'
 					         . esc_html( $field['description'] ) . '</p>';
 				}
+				break;
+
+			case 'available_meters':
+				$html .= '<table class="kleingarten-admin-available-meters" id="zaehlerTabelle">'
+					. '<thead>'
+					.   '<tr>'
+					.       '<th>' . esc_html( __( 'Type', 'kleingarten' ) ) . '</th>'
+                    .       '<th>' . esc_html( __( 'Unit', 'kleingarten' ) ) . '</th>'
+        			. 		'<th>' . esc_html( __( 'Price per Unit', 'kleingarten' ) ) . '</th>'
+                    .       '<th>' . esc_html( __( 'Action', 'kleingarten' ) ) . '</th>'
+                    .   '</tr>'
+                    . '</thead>'
+                    . '<tbody>'
+				    .   '<tr>'
+				    .       '<td><input type="text" name="typ[]" placeholder="' . esc_attr( __( 'e.g. Water', 'kleingarten' ) ) .'" required></td>'
+				    .       '<td><input type="text" name="einheit[]" placeholder="' . esc_attr( __( 'e.g. l', 'kleingarten' ) ) .'" required></td>'
+				    .       '<td><input type="text" name="preis[]" placeholder="' . esc_attr( __( 'e.g. 2.45', 'kleingarten' ) ) .'" required></td>'
+				    .       '<td><button class="button button-secondary removeRow" type="button"">' . esc_html( __( 'Remove', 'kleingarten' ) ) . '</button></td>'
+				    .   '</tr>'
+					. '</tbody>'
+					. '</table>'
+					. '<button class="button button-secondary" id="addRow" type="button">+ ' . esc_html( __( 'Add Row', 'kleingarten' ) ) . '</button>';
 				break;
 
 			case 'units_available_for_meters':

@@ -554,7 +554,8 @@ class Kleingarten {
 
 		if ( is_admin() && ! current_user_can( 'administrator' )    // Calling admin page but being no admin?
 		     && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX )     // Not doing AJAX stuff?
-             && ! str_contains( $_SERVER['PHP_SELF'], 'admin-post.php' )     // Not just using admin-post.php for form processing?
+             && isset( $_SERVER['PHP_SELF'] )
+             && ! str_contains( sanitize_urL( wp_unslash( $_SERVER['PHP_SELF'] ) ), 'admin-post.php' )     // Not just using admin-post.php for form processing?
 		) {
 
             // Then redirect to homepage. /wp-admin is not the right place for you.

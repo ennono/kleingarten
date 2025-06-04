@@ -52,6 +52,12 @@ class Kleingarten_Gardener {
 	 */
 	public $plot;
 	/**
+	 * Memberschip status
+	 *
+	 * @var
+	 */
+	public $membership_status;
+	/**
 	 * List of positions
 	 *
 	 * @var
@@ -99,6 +105,8 @@ class Kleingarten_Gardener {
 			if ( empty( $this->plot ) ) {
 				$this->plot = 0;
 			}
+
+			$this->membership_status = $this->get_membership_status();
 
 			// Get the positions or save an empty list if there are none:
 			$this->positions = get_the_author_meta( 'positions', $user_ID );
@@ -312,6 +320,14 @@ class Kleingarten_Gardener {
 	 */
 	public function get_user_id() {
 		return $this->user_ID;
+	}
+
+	public function set_membership_status( $status ) {
+		return update_user_meta( $this->user_ID, 'membership_status', sanitize_text_field( $status ) );
+	}
+
+	private function get_membership_status() {
+		return get_user_meta( $this->user_ID, 'membership_status', true );
 	}
 
 }

@@ -66,4 +66,17 @@ class Kleingarten_Gardeners {
 
 	}
 
+	public static function get_available_membership_status() {
+
+		$available_membership = explode( "\r\n",
+			get_option( 'kleingarten_available_membership_status' ) );
+
+		if ( count( $available_membership ) == 1 && $available_membership[0] == '' ) {
+			return array();
+		}
+
+		return $available_membership;
+
+	}
+
 }

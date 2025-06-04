@@ -90,3 +90,31 @@ jQuery(document).ready(function ($) {
     });
 
 });
+
+function addRow() {
+    const tbody = document.querySelector('#zaehlerTabelle tbody');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><input type="text" name="typ[]" placeholder="z. B. Wasser" required></td>
+      <td><input type="text" name="einheit[]" placeholder="z. B. m³" required></td>
+      <td><input type="number" name="preis[]" step="0.01" placeholder="z. B. 1.75" required></td>
+      <td><button type="button" onclick="removeRow(this)">Entfernen</button></td>
+    `;
+    tbody.appendChild(row);
+}
+
+function removeRow(button) {
+    const row = button.closest('tr');
+    const tbody = row.parentNode;
+    if (tbody.rows.length > 1) {
+        row.remove();
+    } else {
+        alert("Mindestens ein Zähler muss vorhanden sein.");
+    }
+}
+
+document.getElementById('zaehlerForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    alert('Formular wurde abgeschickt!');
+    // Hier kann man Daten weiterverarbeiten oder senden.
+});
