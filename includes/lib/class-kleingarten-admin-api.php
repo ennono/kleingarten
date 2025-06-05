@@ -429,25 +429,42 @@ class Kleingarten_Admin_API {
 				break;
 
 			case 'available_meters':
-				$html .= '<table class="kleingarten-admin-available-meters" id="zaehlerTabelle">'
-					. '<thead>'
-					.   '<tr>'
-					.       '<th>' . esc_html( __( 'Type', 'kleingarten' ) ) . '</th>'
-                    .       '<th>' . esc_html( __( 'Unit', 'kleingarten' ) ) . '</th>'
-        			. 		'<th>' . esc_html( __( 'Price per Unit', 'kleingarten' ) ) . '</th>'
-                    .       '<th>' . esc_html( __( 'Action', 'kleingarten' ) ) . '</th>'
-                    .   '</tr>'
-                    . '</thead>'
-                    . '<tbody>'
-				    .   '<tr>'
-				    .       '<td><input type="text" name="typ[]" placeholder="' . esc_attr( __( 'e.g. Water', 'kleingarten' ) ) .'" required></td>'
-				    .       '<td><input type="text" name="einheit[]" placeholder="' . esc_attr( __( 'e.g. l', 'kleingarten' ) ) .'" required></td>'
-				    .       '<td><input type="text" name="preis[]" placeholder="' . esc_attr( __( 'e.g. 2.45', 'kleingarten' ) ) .'" required></td>'
-				    .       '<td><button class="button button-secondary removeRow" type="button"">' . esc_html( __( 'Remove', 'kleingarten' ) ) . '</button></td>'
-				    .   '</tr>'
-					. '</tbody>'
-					. '</table>'
-					. '<button class="button button-secondary" id="addRow" type="button">+ ' . esc_html( __( 'Add Row', 'kleingarten' ) ) . '</button>';
+				//$html .= '<pre>' . print_r( $data, true ) . '</pre>';
+				if ( is_array( $data ) ) {
+					$html .= '<table class="kleingarten-admin-available-meters" id="kleingarten-dynamic-form-table" data-field-id="' . esc_attr( $field['id'] ) . '" data-option-name="' . esc_attr( $option_name ) . '" data-initial-count="' . absint( count( $data ) ) . '">';
+				} else {
+					$html .= '<table class="kleingarten-admin-available-meters" id="kleingarten-dynamic-form-table" data-field-id="' . esc_attr( $field['id'] ) . '" data-option-name="' . esc_attr( $option_name ) . '" data-initial-count="0">';
+				}
+				$html .= 	'<thead>'
+				         .   '<tr>'
+				         .       '<th>' . esc_html( __( 'Type', 'kleingarten' ) ) . '</th>'
+				         .       '<th>' . esc_html( __( 'Unit', 'kleingarten' ) ) . '</th>'
+				         . 		'<th>' . esc_html( __( 'Price per Unit', 'kleingarten' ) ) . '</th>'
+				         .       '<th>' . esc_html( __( 'Action', 'kleingarten' ) ) . '</th>'
+				         .   '</tr>'
+				         . '</thead>'
+				         . '<tbody>';
+				$k = 0;
+				if ( is_array( $data ) && ! empty( $data ) ) {
+					foreach( $data as $j => $available_meter ) {
+						$html .= '<tr>'
+						         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr( __( 'e.g. Water', 'kleingarten' ) ) .'" value="' . $available_meter['type'] . '" required></td>'
+						         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr( __( 'e.g. l', 'kleingarten' ) ) .'" value="' . $available_meter['unit'] . '" required></td>'
+						         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="number" step="0.01" name="' . esc_attr( $option_name ) . '[' . $k . '][price]" placeholder="' . esc_attr( __( 'e.g. 2.45', 'kleingarten' ) ) .'" value="' . $available_meter['price'] . '" required></td>'
+						         .       '<td><button class="button button-secondary" id="kleingarten-dynamic-form-table-removeRow" type="button"">' . esc_html( __( 'Remove', 'kleingarten' ) ) . '</button></td>'
+						         .   '</tr>';
+						$k++;
+					}
+				}
+				$html .= '<tr>'
+				         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr( __( 'e.g. Water', 'kleingarten' ) ) .'" ></td>'
+				         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr( __( 'e.g. l', 'kleingarten' ) ) .'" ></td>'
+				         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="number" step="0.01" name="' . esc_attr( $option_name ) . '[' . $k . '][price]" placeholder="' . esc_attr( __( 'e.g. 2.45', 'kleingarten' ) ) .'" ></td>'
+				         .       '<td><button class="button button-secondary" id="kleingarten-dynamic-form-table-removeRow" type="button">' . esc_html( __( 'Remove', 'kleingarten' ) ) . '</button></td>'
+				         .   '</tr>'
+				         . '</tbody>'
+				         . '</table>'
+				         . '<button class="button button-secondary" id="kleingarten-dynamic-form-table-addRow" type="button">+ ' . esc_html( __( 'Add Row', 'kleingarten' ) ) . '</button>';
 				break;
 
 			case 'units_available_for_meters':

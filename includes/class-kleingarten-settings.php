@@ -1051,8 +1051,36 @@ class Kleingarten_Settings {
 	/**
 	 * Sanitize "Available meters" setting
 	 */
-	public function available_meters_callback_callback( $input ) {
-		return $input;
+	public function available_meters_callback( $input ) {
+
+		//if ( is_array( $input ) ) {
+			foreach ( $input as $i => $meter ) {
+
+				if ( empty( $meter['type'] ) ) {
+					unset( $input[ $i ] );
+				} else {
+					$input[$i]['type'] = sanitize_text_field( $meter['type'] );
+				}
+
+				if ( empty( $meter['unit'] ) ) {
+					unset( $input[ $i ] );
+				} else {
+					$input[$i]['unit'] = sanitize_text_field( $meter['unit'] );
+				}
+
+
+				if ( empty( $meter['price'] ) ) {
+					unset( $input[ $i ] );
+				} else {
+					$input[$i]['price'] = number_format( abs( floatval( $meter['price'] ) ), 2 );
+				}
+
+			}
+
+			return $input;
+		//}
+
+		//return $input;
 	}
 
 	/**
