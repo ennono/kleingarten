@@ -146,16 +146,16 @@ class Kleingarten_Settings {
 				'kleingarten' ),
 			'fields'      => array(
 				array(
-					'id'          => 'available_meters',
-					'label'       => __( 'Available types of meters',
+					'id'          => 'plot_cost_items',
+					'label'       => __( 'Flat rate cost items',
 						'kleingarten' ),
-					'description' => __( 'Define which types of meters are available.',
+					'description' => __( 'Define cost items for plots.',
 						'kleingarten' ),
 					'default'     => '',
 					'placeholder' => '',
 					'callback'    => array(
 						$this,
-						'available_meters_callback'
+						'cost_items_callback'
 					),
 				),
 				array(
@@ -192,6 +192,19 @@ class Kleingarten_Settings {
 			'description' => __( 'Control how the plugin handles user accounts.',
 				'kleingarten' ),
 			'fields'      => array(
+				array(
+					'id'          => 'membership_cost_items',
+					'label'       => __( 'Flat rate cost items',
+						'kleingarten' ),
+					'description' => __( 'Define cost items for memberships.',
+						'kleingarten' ),
+					'default'     => '',
+					'placeholder' => '',
+					'callback'    => array(
+						$this,
+						'cost_items_callback'
+					),
+				),
 				array(
 					'id'          => 'available_membership_status',
 					'label'       => __( 'Available membership status',
@@ -1051,36 +1064,34 @@ class Kleingarten_Settings {
 	/**
 	 * Sanitize "Available meters" setting
 	 */
-	public function available_meters_callback( $input ) {
+	public function cost_items_callback( $input ) {
 
-		//if ( is_array( $input ) ) {
-			foreach ( $input as $i => $meter ) {
+		foreach ( $input as $i => $meter ) {
 
-				if ( empty( $meter['type'] ) ) {
-					unset( $input[ $i ] );
-				} else {
-					$input[$i]['type'] = sanitize_text_field( $meter['type'] );
+			if ( empty( $meter['type'] ) || empty( $meter['unit'] || empty( $meter['amount'] ) || empty( $meter['assignment'] ) ) ) {
+				unset( $input[ $i ] );
+			} else {
+
+				$input[$i]['type'] = sanitize_text_field( $meter['type'] );
+				if ( empty( $input[$i]['type'] ) ) {
+					$input[$i]['type'] = __( 'Invalid type', 'kleingarten' );
 				}
 
-				if ( empty( $meter['unit'] ) ) {
-					unset( $input[ $i ] );
-				} else {
-					$input[$i]['unit'] = sanitize_text_field( $meter['unit'] );
+				$input[$i]['unit'] = sanitize_text_field( $meter['unit'] );
+				if ( empty( $input[$i]['unit'] ) ) {
+					$input[$i]['unit'] = __( 'Invalid unit', 'kleingarten' );
 				}
 
-
-				if ( empty( $meter['price'] ) ) {
-					unset( $input[ $i ] );
-				} else {
-					$input[$i]['price'] = number_format( abs( floatval( $meter['price'] ) ), 2 );
+				$input[$i]['amount'] = number_format( abs( floatval( $meter['amount'] ) ), 2 );
+				if ( $meter['assignment'] === 'all-plots' || $meter['assignment'] === 'all-gardeners' || $meter['assignment'] === 'individual-plots' || $meter['assignment'] === 'individual-gardeners' ) {
+					$input[$i]['assignment'] = $meter['assignment'];
 				}
-
 			}
 
-			return $input;
-		//}
+		}
 
-		//return $input;
+		return $input;
+
 	}
 
 	/**

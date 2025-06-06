@@ -367,10 +367,14 @@ class Kleingarten {
 				'trans_status'     => esc_html( __( 'Status', 'kleingarten' ) ),
 				'trans_action'     => esc_html( __( 'Action', 'kleingarten' ) ),
 				'trans_remove'     => esc_html( __( 'Remove', 'kleingarten' ) ),
-				'trans_eg_water'    => esc_html( __( 'e.g. Water', 'e.g. Water' ) ),
+				'trans_eg_water'    => esc_html( __( 'e.g. Water', 'kleingarten' ) ),
 				'trans_eg_l'    => esc_html( __( 'e.g. l', 'kleingarten' ) ),
 				'trans_eg_245'    => esc_html( __( 'e.g. 2.45', 'kleingarten' ) ),
 				'trans_eg_at_least_one_row' => esc_html( __( 'There must be at least one row.', 'kleingarten' ) ),
+				'trans_all_plots'    => esc_html( __( 'All Plots', 'kleingarten' ) ),
+				'trans_individual_plots'    => esc_html( __( 'Individual Plots', 'kleingarten' ) ),
+				'trans_all_gardeners'    => esc_html( __( 'All mardeners', 'kleingarten' ) ),
+				'trans_individual_gardeners'    => esc_html( __( 'Individual members', 'kleingarten' ) ),
 			)
 		);
 

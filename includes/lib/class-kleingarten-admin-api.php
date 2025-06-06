@@ -428,43 +428,30 @@ class Kleingarten_Admin_API {
 				}
 				break;
 
-			case 'available_meters':
+			case 'plot_cost_items':
 				//$html .= '<pre>' . print_r( $data, true ) . '</pre>';
-				if ( is_array( $data ) ) {
-					$html .= '<table class="kleingarten-admin-available-meters" id="kleingarten-dynamic-form-table" data-field-id="' . esc_attr( $field['id'] ) . '" data-option-name="' . esc_attr( $option_name ) . '" data-initial-count="' . absint( count( $data ) ) . '">';
-				} else {
-					$html .= '<table class="kleingarten-admin-available-meters" id="kleingarten-dynamic-form-table" data-field-id="' . esc_attr( $field['id'] ) . '" data-option-name="' . esc_attr( $option_name ) . '" data-initial-count="0">';
-				}
-				$html .= 	'<thead>'
-				         .   '<tr>'
-				         .       '<th>' . esc_html( __( 'Type', 'kleingarten' ) ) . '</th>'
-				         .       '<th>' . esc_html( __( 'Unit', 'kleingarten' ) ) . '</th>'
-				         . 		'<th>' . esc_html( __( 'Price per Unit', 'kleingarten' ) ) . '</th>'
-				         .       '<th>' . esc_html( __( 'Action', 'kleingarten' ) ) . '</th>'
-				         .   '</tr>'
-				         . '</thead>'
-				         . '<tbody>';
-				$k = 0;
-				if ( is_array( $data ) && ! empty( $data ) ) {
-					foreach( $data as $j => $available_meter ) {
-						$html .= '<tr>'
-						         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr( __( 'e.g. Water', 'kleingarten' ) ) .'" value="' . $available_meter['type'] . '" required></td>'
-						         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr( __( 'e.g. l', 'kleingarten' ) ) .'" value="' . $available_meter['unit'] . '" required></td>'
-						         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="number" step="0.01" name="' . esc_attr( $option_name ) . '[' . $k . '][price]" placeholder="' . esc_attr( __( 'e.g. 2.45', 'kleingarten' ) ) .'" value="' . $available_meter['price'] . '" required></td>'
-						         .       '<td><button class="button button-secondary" id="kleingarten-dynamic-form-table-removeRow" type="button"">' . esc_html( __( 'Remove', 'kleingarten' ) ) . '</button></td>'
-						         .   '</tr>';
-						$k++;
-					}
-				}
-				$html .= '<tr>'
-				         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr( __( 'e.g. Water', 'kleingarten' ) ) .'" ></td>'
-				         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="text" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr( __( 'e.g. l', 'kleingarten' ) ) .'" ></td>'
-				         .       '<td><input id="' . esc_attr( $field['id'] ) . '" type="number" step="0.01" name="' . esc_attr( $option_name ) . '[' . $k . '][price]" placeholder="' . esc_attr( __( 'e.g. 2.45', 'kleingarten' ) ) .'" ></td>'
-				         .       '<td><button class="button button-secondary" id="kleingarten-dynamic-form-table-removeRow" type="button">' . esc_html( __( 'Remove', 'kleingarten' ) ) . '</button></td>'
-				         .   '</tr>'
-				         . '</tbody>'
-				         . '</table>'
-				         . '<button class="button button-secondary" id="kleingarten-dynamic-form-table-addRow" type="button">+ ' . esc_html( __( 'Add Row', 'kleingarten' ) ) . '</button>';
+				$html .= $this->render_flat_rate_cost_items(
+					$data,
+					$field,
+					$option_name,
+					[
+						'default'   => [ 'value' => 'all-plots', 'label' => __( 'All plots', 'kleingarten' ) ],
+						'alternate' => [ 'value' => 'individual-plots', 'label' => __( 'Individual plots', 'kleingarten' ) ],
+					]
+				);
+				break;
+
+			case 'membership_cost_items':
+				//$html .= '<pre>' . print_r( $data, true ) . '</pre>';
+				$html .= $this->render_flat_rate_cost_items(
+					$data,
+					$field,
+					$option_name,
+					[
+						'default'   => [ 'value' => 'all-plots', 'label' => __( 'All members', 'kleingarten' ) ],
+						'alternate' => [ 'value' => 'individual-plots', 'label' => __( 'Individual members', 'kleingarten' ) ],
+					]
+				);
 				break;
 
 			case 'units_available_for_meters':
@@ -622,6 +609,116 @@ class Kleingarten_Admin_API {
 			return false;
 		}
 
+	}
+
+	/**
+	 * Returns the HTML for dynamically editable flat rate cost entries.
+	 *
+	 * @param array  $data        The existing entries.
+	 * @param array  $field       Field data with at least 'id' and 'description' keys.
+	 * @param string $option_name Option name used in input field names.
+	 * @param array  $assignments Optional: Values and labels for the assignment dropdown.
+	 * @return string Generated HTML output.
+	 */
+	/**
+	 * Renders the HTML for dynamically editable flat rate cost entries.
+	 *
+	 * @param array  $data        Existing entries.
+	 * @param array  $field       Field data (requires at least 'id' and 'description').
+	 * @param string $option_name Option name used in input field names.
+	 * @param array  $assignments Optional: Array of assignment options with 'value' and 'label' keys.
+	 * @return string Rendered HTML.
+	 */
+	public function render_flat_rate_cost_items( $data, $field, $option_name, $assignments = [] ): string {
+
+		// Default assignment options (can be overridden via parameter)
+		$assignments = wp_parse_args( $assignments, [
+			'default'   => [ 'value' => 'all-plots',        'label' => __( 'All plots', 'kleingarten' ) ],
+			'alternate' => [ 'value' => 'individual-plots', 'label' => __( 'Individual plots', 'kleingarten' ) ],
+		]);
+
+		$html = '';
+		$initial_count = is_array( $data ) ? absint( count( $data ) ) : 0;
+
+		// Table header and configuration data
+		$html .= '<table class="kleingarten-admin-flat-rate-cost-items" id="kleingarten-dynamic-form-table"'
+		         . ' data-field-id="' . esc_attr( $field['id'] ) . '"'
+		         . ' data-option-name="' . esc_attr( $option_name ) . '"'
+		         . ' data-initial-count="' . $initial_count . '"'
+		         . ' data-assignments-default-value="' . $assignments['default']['value'] . '"'
+		         . ' data-assignments-alternate-value="' . $assignments['alternate']['value'] . '"'
+		         . ' data-assignments-default-label="' . $assignments['default']['label'] . '"'
+		         . ' data-assignments-alternate-label="' . $assignments['alternate']['label'] . '">';
+
+		$html .= '<thead><tr>'
+		         .      '<th>' . esc_html__( 'Type', 'kleingarten' ) . '</th>'
+		         .      '<th>' . esc_html__( 'Unit', 'kleingarten' ) . '</th>'
+		         .      '<th>' . esc_html__( 'Amount', 'kleingarten' ) . '</th>'
+		         .      '<th>' . esc_html__( 'Assignment', 'kleingarten' ) . '</th>'
+		         .      '<th>' . esc_html__( 'Action', 'kleingarten' ) . '</th>'
+		         .  '</tr></thead><tbody>';
+
+		$k = 0;
+
+		// Existing rows
+		if ( is_array( $data ) && ! empty( $data ) ) {
+			foreach ( $data as $available_meter ) {
+				if ( ! is_array( $available_meter ) ) {
+					continue; // Skip invalid entry
+				}
+
+				$type       = $available_meter['type'] ?? '';
+				$unit       = $available_meter['unit'] ?? '';
+				$amount     = $this->sanitize_float( $available_meter['amount'] ?? 0 );
+				$assignment = $available_meter['assignment'] ?? '';
+
+				$html .= '<tr>'
+				         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr__( 'e.g. Water', 'kleingarten' ) . '" value="' . esc_attr( $type ) . '" required></td>'
+				         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr__( 'e.g. l', 'kleingarten' ) . '" value="' . esc_attr( $unit ) . '" required></td>'
+				         .      '<td><input type="number" step="0.01" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][amount]" placeholder="' . esc_attr__( 'e.g. 2.45', 'kleingarten' ) . '" value="' . esc_attr( $amount ) . '" required></td>'
+				         .      '<td><select id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][assignment]">';
+
+				foreach ( $assignments as $item ) {
+					$html .= '<option value="' . esc_attr( $item['value'] ) . '" ' . selected( $assignment, $item['value'], false ) . '>'
+					         . esc_html( $item['label'] ) . '</option>';
+				}
+
+				$html .=    '</select></td>'
+				            .      '<td><button class="button button-secondary" type="button" id="kleingarten-dynamic-form-table-removeRow">'
+				            .           esc_html__( 'Remove', 'kleingarten' )
+				            .      '</button></td>'
+				            .  '</tr>';
+
+				$k++;
+			}
+		}
+
+		// Empty row for new entry input
+		$html .= '<tr>'
+		         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr__( 'e.g. Water', 'kleingarten' ) . '"></td>'
+		         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr__( 'e.g. l', 'kleingarten' ) . '"></td>'
+		         .      '<td><input type="number" step="0.01" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][amount]" placeholder="' . esc_attr__( 'e.g. 2.45', 'kleingarten' ) . '"></td>'
+		         .      '<td><select>';
+
+		foreach ( $assignments as $item ) {
+			$html .= '<option value="' . esc_attr( $item['value'] ) . '">' . esc_html( $item['label'] ) . '</option>';
+		}
+
+		$html .=    '</select></td>'
+		            .      '<td><button class="button button-secondary" type="button" id="kleingarten-dynamic-form-table-removeRow">'
+		            .           esc_html__( 'Remove', 'kleingarten' )
+		            .      '</button></td>'
+		            .  '</tr>';
+
+		$html .= '</tbody></table>';
+		$html .= '<button class="button button-secondary" id="kleingarten-dynamic-form-table-addRow" type="button">+ ' . esc_html__( 'Add Item', 'kleingarten' ) . '</button>';
+		$html .= '<p class="description">' . esc_html( $field['description'] ?? '' ) . '</p>';
+
+		return $html;
+	}
+
+	private function sanitize_float( $value, int $precision = 2 ): float {
+		return round( abs( floatval( $value ) ), $precision );
 	}
 
 }

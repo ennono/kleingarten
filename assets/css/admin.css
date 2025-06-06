@@ -68,14 +68,13 @@
 .kleingarten-tasks-kanban-list-item-status-list-item::before {
     content: '>> ';
 }
-
-.kleingarten-admin-available-meters {
+.kleingarten-admin-flat-rate-cost-items {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 1rem;
 }
 
-.kleingarten-admin-available-meters th, .kleingarten-admin-available-meters td {
+.kleingarten-admin-flat-rate-cost-items th, .kleingarten-admin-flat-rate-cost-items td {
     border: 1px solid #c3c4c7;
     padding: 0.5rem;
     text-align: left;
