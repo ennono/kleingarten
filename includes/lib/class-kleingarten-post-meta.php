@@ -23,7 +23,8 @@ class Kleingarten_Post_Meta {
 
 		add_action( 'add_meta_boxes', array( $this, 'add_likes_meta_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meter_readings_meta_box' ) );
-		add_action( 'add_meta_boxes', array( $this, 'add_meter_unit_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_meter_unit_meta_box' ) );      // OLD STUFF
+		add_action( 'add_meta_boxes', array( $this, 'add_meter_type_meta_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_plot_assignment_meta_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meter_assignment_meta_box' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_meter_reading_submission_token_meta_box' ) );
@@ -104,7 +105,7 @@ class Kleingarten_Post_Meta {
 	}
 
     /**
-	 * Add plot assignment meta box to meters.
+	 * OLD STUFF: Add meter unit/type meta box to meters.
 	 *
 	 * @return void
 	 * @since 1.1.0
@@ -115,6 +116,22 @@ class Kleingarten_Post_Meta {
 
 		add_meta_box( 'kleingarten_meter_unit_meta_box', __( 'Meter Unit', 'kleingarten' ),
 			array( $this, 'render_meter_unit_meta_box_content' ), $post_type,
+			'side');
+
+	}
+
+    /**
+	 * Add meter type meta box to meters.
+	 *
+	 * @return void
+	 * @since 1.1.0
+	 */
+	public function add_meter_type_meta_box() {
+
+		$post_type = 'kleingarten_meter';
+
+		add_meta_box( 'kleingarten_meter_type_meta_box', __( 'Meter Type', 'kleingarten' ),
+			array( $this, 'render_meter_type_meta_box_content' ), $post_type,
 			'side');
 
 	}
@@ -467,7 +484,7 @@ class Kleingarten_Post_Meta {
 	}
 
      /**
-	* Build meter unit meta box content.
+	* OLD STUFF: Build meter unit meta box content.
 	*
     * @param $post
     *
@@ -500,6 +517,66 @@ class Kleingarten_Post_Meta {
             } else {
                 foreach ( $available_units as $unit ) {
                     echo '<option value="' . esc_attr( $unit ) . '">' . esc_html( $unit ) . '</option>';
+                }
+            }
+
+            ?></select><?php
+
+            if ( isset ( $current_unit ) && $current_unit != '' ) {
+                echo '<input type="hidden" name="meter_unit" value="' . esc_attr( $current_unit ) . '">';
+                echo '<p>' . esc_html__( 'The unit cannot be changed. Please create a new meter if you need something else.', 'kleingarten' ) . '</p>';
+            } else {
+                echo '<p>' . esc_html__( 'This selection will be disabled as soon as meter was published. You cannot change the meters unit later.', 'kleingarten' ) . '</p>';
+            }
+
+            wp_nonce_field( 'save_kleingarten_meter_unit', 'kleingarten_meter_unit_nonce' );
+
+            ?></div><?php
+
+        }
+
+        return true;
+	}
+
+         /**
+	* Build meter unit meta box content.
+	*
+    * @param $post
+    *
+    * @return true Altered Post
+    * @since 1.1.0
+    */
+	public function render_meter_type_meta_box_content( $post ) {
+
+        /*
+        $available_types = explode( "\r\n",
+			get_option( 'kleingarten_units_available_for_meters' ) );
+        */
+        $available_types = get_option( 'kleingarten_meter_types' );
+
+        if ( ! is_array( $available_types ) ) {
+            esc_html_e( 'Something went wrong here.', 'kleingarten' );
+        } elseif ( empty( $available_types ) ) {
+            esc_html_e( 'There are no units defined yet. Go to settings to define some.', 'kleingarten' );
+        } else {
+
+            //$current_unit = get_post_meta( $post->ID, 'kleingarten_meter_unit', true );
+            $meter = new Kleingarten_Meter( $post->ID );
+            $current_unit = $meter->get_unit();
+
+            $disabled = false;
+            if ( isset ( $current_unit ) && $current_unit != '' ) {
+                $disabled = true;
+            }
+
+            ?><div class="custom-field-panel"><?php
+            ?><select name="meter_unit" <?php disabled( $disabled ); ?>><?php
+
+            if ( isset ( $current_unit ) && $current_unit != '' ) {
+                echo '<option value="' . esc_attr( $current_unit ) . '">'.esc_attr( $current_unit ) . '</option>';
+            } else {
+                foreach ( $available_types as $type ) {
+                    echo '<option value="' . esc_attr( $type['type'] ) . '">' . esc_html( $type['type'] ) . '</option>';
                 }
             }
 

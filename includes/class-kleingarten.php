@@ -375,6 +375,9 @@ class Kleingarten {
 				'trans_individual_plots'    => esc_html( __( 'Individual Plots', 'kleingarten' ) ),
 				'trans_all_gardeners'    => esc_html( __( 'All mardeners', 'kleingarten' ) ),
 				'trans_individual_gardeners'    => esc_html( __( 'Individual members', 'kleingarten' ) ),
+				'trans_eg_m3' => esc_html( __( 'e.g. m3', 'kleingarten' ) ),
+				'trans_eg_150' => esc_html( __( 'e.g. 150', 'kleingarten' ) ),
+				'trans_eg_123456' => esc_html( __( 'e.g. 123456', 'kleingarten' ) ),
 			)
 		);
 

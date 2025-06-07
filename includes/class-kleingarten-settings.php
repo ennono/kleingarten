@@ -173,6 +173,20 @@ class Kleingarten_Settings {
 					),
 				),
 				array(
+					'id'          => 'meter_types',
+					'label'       => __( 'Available meter types',
+						'kleingarten' ),
+					'description' => __( 'Define which types of supply meters shall be available.',
+						'kleingarten' ),
+					'default'     => '',
+					'placeholder' => __( "e.g. kWh\r\nm3\r\n...",
+						'kleingarten' ),
+					'callback'    => array(
+						$this,
+						'meter_types_callback'
+					),
+				),
+				array(
 					'id'          => 'meter_reading_submission_token_time_to_live',
 					'label'       => __( 'Token Time-To-Live', 'kleingarten' ),
 					'description' => __( 'How many days should a token be usable?',
@@ -1068,9 +1082,14 @@ class Kleingarten_Settings {
 
 		foreach ( $input as $i => $meter ) {
 
-			if ( empty( $meter['type'] ) || empty( $meter['unit'] || empty( $meter['amount'] ) || empty( $meter['assignment'] ) ) ) {
+			if ( empty( $meter['type'] ) && empty( $meter['unit'] ) && empty( $meter['amount'] ) && empty( $meter['assignment'] ) ) {
 				unset( $input[ $i ] );
 			} else {
+
+				if ( ! $meter['ID'] ) {
+					$cost_items_ID = $this->kleingarten_generate_incrementing_id( 'cost_items_ID_counter' );
+					$input[ $i ]['ID'] = $cost_items_ID;
+				}
 
 				$input[$i]['type'] = sanitize_text_field( $meter['type'] );
 				if ( empty( $input[$i]['type'] ) ) {
@@ -1078,9 +1097,12 @@ class Kleingarten_Settings {
 				}
 
 				$input[$i]['unit'] = sanitize_text_field( $meter['unit'] );
+				// Unit should be allowed to be empty. So let's comment this out:
+				/*
 				if ( empty( $input[$i]['unit'] ) ) {
 					$input[$i]['unit'] = __( 'Invalid unit', 'kleingarten' );
 				}
+				*/
 
 				$input[$i]['amount'] = number_format( abs( floatval( $meter['amount'] ) ), 2 );
 				if ( $meter['assignment'] === 'all-plots' || $meter['assignment'] === 'all-gardeners' || $meter['assignment'] === 'individual-plots' || $meter['assignment'] === 'individual-gardeners' ) {
@@ -1170,6 +1192,77 @@ class Kleingarten_Settings {
 	 */
 	public function available_membership_status_callback( $input ) {
 		return sanitize_textarea_field( $input );
+	}
+
+	public function meter_types_callback( $input ) {
+
+		foreach ( $input as $i => $meter ) {
+
+			// Do not allow empty Type, Unit or Price:
+			if (
+				empty( $meter['type'] ) &&
+				empty( $meter['unit'] ) &&
+				empty( $meter['price'] )
+			) {
+				unset( $input[ $i ] );
+			} else {
+
+				if ( ! $meter['ID'] ) {
+					$meter_type_ID = $this->kleingarten_generate_incrementing_id( 'meter_type_ID_counter' );
+					$input[ $i ]['ID'] = $meter_type_ID;
+				}
+
+				// Sanitize and validate meter type:
+				$input[ $i ]['type'] = sanitize_text_field( $meter['type'] );
+				if ( empty( $input[ $i ]['type'] ) ) {
+					$input[ $i ]['type'] = __( 'Invalid type', 'kleingarten' );
+				}
+
+				// Sanitize and validate meter unit:
+				$input[ $i ]['unit'] = sanitize_text_field( $meter['unit'] );
+				/*
+				// Unit shout be allowed to be empty. So, commented out.
+				if ( empty( $input[ $i ]['unit'] ) ) {
+					$input[ $i ]['unit'] = __( 'Invalid unit', 'kleingarten' );
+				}
+				*/
+
+				// Sanitize and validate meter price:
+				$input[ $i ]['price'] = number_format( abs( floatval( $meter['price'] ) ), 2, '.', '' );
+
+				/*
+				$input[ $i ]['meter_no'] = sanitize_text_field( $meter['meter_no'] );
+				if ( empty( $input[ $i ]['meter_no'] ) ) {
+					$input[ $i ]['meter_no'] = __( 'Invalid meter number', 'kleingarten' );
+				}
+				*/
+
+			}
+
+		}
+
+		return $input;
+	}
+
+	/**
+	 * Generates an incrementing unique ID using a persistent WordPress option.
+	 *
+	 * @param string $prefix Optional prefix for the ID (e.g. 'row', 'field').
+	 * @param string $option_name Optional custom option name to store the counter.
+	 * @return string A unique ID like 'row-1', 'row-2', etc.
+	 */
+	private function kleingarten_generate_incrementing_id( $counter_name = 'kleingarten-general-id-counter' ) {
+
+		// Try to get current count from database:
+		$counter = get_option( $counter_name, 0 );
+		$counter++;
+
+		// Update the counter in the database:
+		update_option( $counter_name, $counter );
+
+		// Return the next ID:
+		return $counter;
+
 	}
 
 }

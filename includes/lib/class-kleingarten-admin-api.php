@@ -465,6 +465,10 @@ class Kleingarten_Admin_API {
 				         . '</p>';
 				break;
 
+			case 'meter_types':
+				$html .= $this->render_meter_type_items( $data, $field, $option_name );
+				break;
+
 			case 'meter_reading_submission_token_time_to_live':
 				$html .= '<input type="number" name="'
 				         . esc_attr( $option_name ) . '" '
@@ -641,7 +645,7 @@ class Kleingarten_Admin_API {
 		$initial_count = is_array( $data ) ? absint( count( $data ) ) : 0;
 
 		// Table header and configuration data
-		$html .= '<table class="kleingarten-admin-flat-rate-cost-items" id="kleingarten-dynamic-form-table"'
+		$html .= '<table class="kleingarten-dynamic-form-table" id="kleingarten-dynamic-form-table"'
 		         . ' data-field-id="' . esc_attr( $field['id'] ) . '"'
 		         . ' data-option-name="' . esc_attr( $option_name ) . '"'
 		         . ' data-initial-count="' . $initial_count . '"'
@@ -667,14 +671,16 @@ class Kleingarten_Admin_API {
 					continue; // Skip invalid entry
 				}
 
+				$cost_item_ID = $available_meter['ID'] ?? '';
 				$type       = $available_meter['type'] ?? '';
 				$unit       = $available_meter['unit'] ?? '';
 				$amount     = $this->sanitize_float( $available_meter['amount'] ?? 0 );
 				$assignment = $available_meter['assignment'] ?? '';
 
 				$html .= '<tr>'
-				         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr__( 'e.g. Water', 'kleingarten' ) . '" value="' . esc_attr( $type ) . '" required></td>'
-				         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr__( 'e.g. l', 'kleingarten' ) . '" value="' . esc_attr( $unit ) . '" required></td>'
+				         .      '<input type="hidden" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][ID]" value="' . esc_attr( $cost_item_ID ) . '">'
+				         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr__( 'e.g. Water', 'kleingarten' ) . '" value="' . esc_attr( $type ) . '" required><br><small><em>ID: ' . $cost_item_ID . '</em></small></td>'
+				         .      '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr__( 'e.g. l', 'kleingarten' ) . '" value="' . esc_attr( $unit ) . '"></td>'
 				         .      '<td><input type="number" step="0.01" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][amount]" placeholder="' . esc_attr__( 'e.g. 2.45', 'kleingarten' ) . '" value="' . esc_attr( $amount ) . '" required></td>'
 				         .      '<td><select id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][assignment]">';
 
@@ -716,6 +722,73 @@ class Kleingarten_Admin_API {
 
 		return $html;
 	}
+
+	public function render_meter_type_items( $data, $field, $option_name ): string {
+
+		$html = '';
+		$initial_count = is_array( $data ) ? absint( count( $data ) ) : 0;
+
+		// Table header and configuration data
+		$html .= '<pre>';
+		//$html .= print_r( $data, true );
+		$html .= '</pre>';
+		$html .= '<table class="kleingarten-dynamic-form-table" id="kleingarten-meter-form-table"'
+		         . ' data-field-id="' . esc_attr( $field['id'] ) . '"'
+		         . ' data-option-name="' . esc_attr( $option_name ) . '"'
+		         . ' data-initial-count="' . $initial_count . '">';
+
+		$html .= '<thead><tr>'
+		         .      '<th>' . esc_html( __( 'Type', 'kleingarten' ) ) . '</th>'
+		         .      '<th>' . esc_html( __( 'Unit', 'kleingarten' ) ) . '</th>'
+		         .      '<th>' . esc_html( __( 'Price per Unit', 'kleingarten' ) ) . '</th>'
+		         .      '<th>' . esc_html( __( 'Action', 'kleingarten' ) ) . '</th>'
+		         .  '</tr></thead><tbody>';
+
+		$k = 0;
+
+		// Existing rows
+		if ( is_array( $data ) && ! empty( $data ) ) {
+			foreach ( $data as $meter ) {
+				if ( ! is_array( $meter ) ) {
+					continue; // Skip invalid entry
+				}
+
+				$meter_type_ID  = $meter['ID'] ?? '';
+				$type           = $meter['type'] ?? '';
+				$unit           = $meter['unit'] ?? '';
+				$price          = $this->sanitize_float( $meter['price'] ?? 0 );
+
+				$html .= '<tr>'
+				         . '<input type="hidden" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][ID]" value="' . esc_attr( $meter_type_ID ) . '">'
+				         . '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr__( 'e.g. Water', 'kleingarten' ) . '" value="' . esc_attr( $type ) . '" required>&nbsp;<small><em>ID: ' . $meter_type_ID . '</em></small></td>'
+				         . '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr__( 'e.g. m³', 'kleingarten' ) . '" value="' . esc_attr( $unit ) . '" required></td>'
+				         . '<td><input type="number" step="0.01" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][price]" placeholder="' . esc_attr__( 'e.g. 1.50', 'kleingarten' ) . '" value="' . esc_attr( $price ) . '" required></td>'
+				         . '<td><button class="button button-secondary" type="button" id="kleingarten-meter-form-table-removeRow">'
+				         .      esc_html__( 'Remove', 'kleingarten' )
+				         . '</button></td>'
+				         . '</tr>';
+
+				$k++;
+			}
+		}
+
+		// Empty row for new entry input
+		$html .= '<tr>'
+		         . '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][type]" placeholder="' . esc_attr__( 'e.g. Water', 'kleingarten' ) . '"></td>'
+		         . '<td><input type="text" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][unit]" placeholder="' . esc_attr__( 'e.g. m³', 'kleingarten' ) . '"></td>'
+		         . '<td><input type="number" step="0.01" id="' . esc_attr( $field['id'] ) . '" name="' . esc_attr( $option_name ) . '[' . $k . '][price]" placeholder="' . esc_attr__( 'e.g. 1.50', 'kleingarten' ) . '"></td>'
+		         . '<td><button class="button button-secondary" type="button" id="kleingarten-meter-form-table-removeRow">'
+		         .      esc_html__( 'Remove', 'kleingarten' )
+		         . '</button></td>'
+		         . '</tr>';
+
+		$html .= '</tbody></table>';
+		$html .= '<button class="button button-secondary" id="kleingarten-meter-form-table-addRow" type="button">+ ' . esc_html__( 'Add Meter Type', 'kleingarten' ) . '</button>';
+		$html .= '<p class="description">' . esc_html( $field['description'] ?? '' ) . '</p>';
+
+		return $html;
+	}
+
 
 	private function sanitize_float( $value, int $precision = 2 ): float {
 		return round( abs( floatval( $value ) ), $precision );
